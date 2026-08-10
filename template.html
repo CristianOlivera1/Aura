@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Perfect — Build Stunning Websites in Minutes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          pixelify: ['"Pixelify Sans"', 'sans-serif'],
+          display: ['"Space Grotesk"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        colors: {
+          bg: 'var(--bg)',
+          fg: 'var(--fg)',
+          muted: 'var(--muted)',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root{
+    --bg: #050505;
+    --fg: #f5f5f5;
+    --muted: #3a3a3a;
+    --muted-fg: #8a8a8a;
+  }
+  html.light{
+    --bg: #fafafa;
+    --fg: #0a0a0a;
+    --muted: #dcdcdc;
+    --muted-fg: #6b6b6b;
+  }
+  *{ border-color: var(--muted); }
+  body{
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .text-muted-foreground{ color: var(--muted-fg); }
+  .border-muted{ border-color: var(--muted); }
+  .bg-bg{ background-color: var(--bg); }
+
+  /* corner sparkle stars */
+  .corners{ position: relative; }
+  .corners::before, .corners::after,
+  .corners > .c-tl, .corners > .c-tr, .corners > .c-bl, .corners > .c-br{
+    content:'';
+  }
+  .cstar{
+    position:absolute; width:14px; height:14px; color: var(--muted);
+    pointer-events:none; z-index:20;
+  }
+  .cstar svg{ width:100%; height:100%; fill:currentColor; }
+  .cstar.tl{ top:-7px; left:-7px; }
+  .cstar.tr{ top:-7px; right:-7px; }
+  .cstar.bl{ bottom:-7px; left:-7px; }
+  .cstar.br{ bottom:-7px; right:-7px; }
+
+  /* dotted diagonal rail pattern */
+  .rail{
+    background-image: repeating-linear-gradient(315deg, var(--muted) 0, var(--muted) 1px, transparent 0, transparent 8px);
+    background-size: 8px 8px;
+  }
+
+  /* grid dot background for hero */
+  .dot-grid{
+    background-image: radial-gradient(circle, var(--muted) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  }
+
+  /* blinking caret */
+  .caret{ display:inline-block; width:2px; background: currentColor; margin-left:2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* dashed control */
+  .dashed-btn{ border: 1px dashed var(--muted); }
+
+  /* faint watermark */
+  .watermark{ opacity: .05; filter: blur(0.5px); }
+
+  /* gradient card */
+  .gradient-11{
+    background:
+      radial-gradient(120% 120% at 20% 20%, #ff6a3d 0%, transparent 55%),
+      radial-gradient(120% 120% at 80% 30%, #ff2d78 0%, transparent 55%),
+      radial-gradient(140% 140% at 50% 100%, #7c3aed 0%, transparent 60%),
+      #0a0a0a;
+  }
+
+  .text-reveal{
+    background: linear-gradient(90deg, var(--muted-fg) 0%, var(--muted-fg) 45%, var(--fg) 50%, var(--muted-fg) 55%, var(--muted-fg) 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: sweep 3.5s linear infinite;
+  }
+  @keyframes sweep{ from{ background-position: 200% 0; } to{ background-position: -50% 0; } }
+
+  .intersect-grid{
+    background-image:
+      linear-gradient(var(--muted) 1px, transparent 1px),
+      linear-gradient(90deg, var(--muted) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .tilt-card{ transition: transform .25s ease; transform-style: preserve-3d; }
+
+  ::selection{ background: var(--fg); color: var(--bg); }
+</style>
+</head>
+<body class="min-h-screen antialiased">
+
+<!-- corner star icon template used via JS -->
+<template id="star-tpl">
+  <svg viewBox="0 0 16 16"><path d="M8 0 L9.3 6.7 L16 8 L9.3 9.3 L8 16 L6.7 9.3 L0 8 L6.7 6.7 Z"/></svg>
+</template>
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-50 bg-bg/90 backdrop-blur border-b border-muted">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-16">
+    <a href="#" class="flex items-center gap-2">
+      <svg viewBox="0 0 32 32" class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z"/>
+        <path d="M16 2 L16 16 L28 9"/>
+        <path d="M16 16 L16 30 L4 23"/>
+      </svg>
+      <span class="font-pixelify text-2xl sm:text-3xl">Pixel Perfect</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <a href="https://github.com" target="_blank" class="dashed-btn flex items-center gap-2 px-3 h-9 text-sm hover:bg-fg/5 transition-colors">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        <span id="star-count" class="font-mono">648</span>
+      </a>
+      <a href="#" class="hidden sm:flex dashed-btn items-center justify-center w-9 h-9 hover:bg-fg/5 transition-colors" title="Playground">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>
+      </a>
+      <a href="#" class="hidden sm:flex dashed-btn items-center justify-center w-9 h-9 hover:bg-fg/5 transition-colors" title="Tutorial">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+      </a>
+      <button id="theme-toggle" class="dashed-btn flex items-center justify-center w-9 h-9 hover:bg-fg/5 transition-colors">
+        <svg id="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative border-b border-muted overflow-hidden">
+  <div class="absolute inset-0 dot-grid"></div>
+  <svg viewBox="0 0 32 32" class="watermark absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px]" fill="none" stroke="currentColor" stroke-width="0.6">
+    <path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z"/>
+    <path d="M16 2 L16 16 L28 9"/>
+    <path d="M16 16 L16 30 L4 23"/>
+  </svg>
+
+  <div class="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 py-28 sm:py-36 max-w-4xl mx-auto">
+    <h1 class="font-display font-medium text-4xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight">
+      Build Stunning<br>Websites in minutes
+    </h1>
+    <p class="mt-5 text-sm sm:text-lg text-muted-foreground max-w-xl">
+      A pixel-perfect React component library for modern web apps. And
+      <span class="inline-flex items-center bg-fg/5 border border-muted px-1.5 py-0.5 font-mono text-fg">
+        <span id="typewriter"></span><span class="caret h-4"></span>
+      </span>
+    </p>
+    <div class="flex flex-wrap justify-center gap-3 mt-9">
+      <a href="#components" class="bg-fg text-bg px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity">Browse Components</a>
+      <a href="https://github.com" target="_blank" class="dashed-btn px-5 py-2.5 text-sm font-medium flex items-center gap-2 hover:bg-fg/5 transition-colors">
+        Star On Github
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPONENTS ============ -->
+<section id="components">
+  <div class="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-muted">
+    <div class="flex gap-2 text-muted-foreground/40">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+    </div>
+    <span class="text-xs tracking-widest text-muted-foreground/50">COMPONENTS</span>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-muted">
+
+    <!-- 1: pixel credits button -->
+    <div class="corners relative aspect-square border border-muted flex items-center justify-center p-6 overflow-hidden">
+      <button class="bg-fg text-bg px-5 py-2 text-sm font-medium">Pixel Credits</button>
+      <svg class="absolute w-16 h-16 text-muted-foreground/60 -rotate-12" style="left:58%; top:32%;" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M50 6 C40 20, 25 30, 8 40" stroke-linecap="round"/>
+        <path d="M8 40 L18 38 M8 40 L12 30" stroke-linecap="round"/>
+      </svg>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs">Pixel Credits Button</p>
+        <p class="text-[10px] text-muted-foreground">A soft keycap-style button for Pixel Credits.</p>
+      </div>
+    </div>
+
+    <!-- 2: svg asset -->
+    <div class="corners relative aspect-square border border-muted flex items-center justify-center p-6 overflow-hidden">
+      <svg viewBox="0 0 200 160" class="w-3/4 h-3/4" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M100 10 L180 45 L180 115 L100 150 L20 115 L20 45 Z"/>
+        <path d="M100 10 L100 80 L180 45"/>
+        <path d="M100 80 L100 150 L20 115"/>
+        <path d="M20 45 L100 80 L180 45"/>
+      </svg>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs">Svg Asset 6</p>
+        <p class="text-[10px] text-muted-foreground">Animated SVG asset.</p>
+      </div>
+    </div>
+
+    <!-- 3: motion trail -->
+    <div class="corners relative aspect-square border border-muted flex items-center justify-center p-6 overflow-hidden" id="tilt-card">
+      <div class="tilt-card w-2/3 h-2/3 border border-muted-foreground/40 bg-fg/5 flex items-center justify-center text-muted-foreground text-xs">
+        move cursor
+      </div>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs">Motion Trail · Perspective</p>
+        <p class="text-[10px] text-muted-foreground">Images tilt in 3D and shift in depth based on cursor's distance from center. (GSAP)</p>
+      </div>
+    </div>
+
+    <!-- 4: intersection grid -->
+    <div class="corners relative aspect-square border border-muted flex items-center justify-center p-6 overflow-hidden">
+      <div class="absolute inset-0 intersect-grid opacity-40"></div>
+      <div class="absolute w-40 h-40 border border-dashed border-muted-foreground/40 rounded-full"></div>
+      <div class="absolute left-0 right-0 top-1/2 h-px bg-muted-foreground/30"></div>
+      <div class="absolute top-0 bottom-0 left-1/2 w-px bg-muted-foreground/30"></div>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs">Intersection Grid</p>
+        <p class="text-[10px] text-muted-foreground">SVG border and intersection grid pattern.</p>
+      </div>
+    </div>
+
+    <!-- 5: gradient -->
+    <div class="corners relative aspect-square border border-muted overflow-hidden">
+      <div class="absolute inset-0 gradient-11"></div>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs text-white">Gradient 11</p>
+        <p class="text-[10px] text-white/70">Fiery aurora radial glow</p>
+      </div>
+    </div>
+
+    <!-- 6: text reveal -->
+    <div class="corners relative aspect-square border border-muted flex items-center justify-center p-6 overflow-hidden">
+      <span class="text-reveal text-2xl font-display font-semibold">Reveal Me</span>
+      <div class="absolute left-3 bottom-3 leading-tight">
+        <p class="text-xs">Text Reveal 2</p>
+        <p class="text-[10px] text-muted-foreground">Text reveal animation variant.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-muted">
+  <div class="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-muted">
+    <div class="flex gap-2 text-muted-foreground/40">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+    </div>
+    <span class="text-xs tracking-widest text-muted-foreground/50">FOOTER</span>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-[320px_1fr]">
+    <div class="border-b md:border-b-0 md:border-r border-muted">
+      <div class="p-4">
+        <div class="flex items-center gap-2 font-pixelify text-2xl">
+          <svg viewBox="0 0 32 32" class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z"/>
+            <path d="M16 2 L16 16 L28 9"/>
+            <path d="M16 16 L16 30 L4 23"/>
+          </svg>
+          Pixel Perfect
+        </div>
+        <p class="text-xs text-muted-foreground mt-3">Build beautiful, responsive interfaces in minutes.<br>A pixel-perfect React component library for modern web apps.</p>
+      </div>
+      <div class="border-t border-muted p-4 flex flex-col gap-2">
+        <div class="text-xs flex gap-1">STAR ON GITHUB [<span class="font-mono" id="star-count-2">648</span>]</div>
+        <a href="https://github.com" target="_blank" class="dashed-btn w-full flex items-center justify-center gap-2 h-10 text-sm hover:bg-fg/5 transition-colors">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <span class="font-mono">648</span>
+        </a>
+      </div>
+    </div>
+    <div class="relative flex items-center justify-center text-muted-foreground/10 p-6 overflow-hidden">
+      <span class="font-pixelify text-[18vw] md:text-[9vw] leading-none whitespace-nowrap select-none">Pixel Perfect</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- corner stars ---------- */
+  const starTpl = document.getElementById('star-tpl').innerHTML;
+  document.querySelectorAll('.corners').forEach(el=>{
+    ['tl','tr','bl','br'].forEach(pos=>{
+      const span = document.createElement('span');
+      span.className = 'cstar ' + pos;
+      span.innerHTML = starTpl;
+      el.appendChild(span);
+    });
+  });
+
+  /* ---------- theme toggle ---------- */
+  const root = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  toggle.addEventListener('click', ()=>{
+    root.classList.toggle('light');
+    root.classList.toggle('dark');
+  });
+
+  /* ---------- HUD: cursor position, fps, angle ---------- */
+  const hero = document.querySelector('#components').previousElementSibling; // marquee
+  const heroSection = document.querySelector('section.relative.border-b.border-muted.overflow-hidden');
+  const hudX = document.getElementById('hud-x');
+  const hudY = document.getElementById('hud-y');
+  const hudV = document.getElementById('hud-v');
+  const hudA = document.getElementById('hud-a');
+  const hudTheta = document.getElementById('hud-theta');
+  const hudCell = document.getElementById('hud-cell');
+  let lastPos = null, lastTime = performance.now();
+
+  heroSection.addEventListener('mousemove', (e)=>{
+    const rect = heroSection.getBoundingClientRect();
+    const x = Math.round(e.clientX - rect.left);
+    const y = Math.round(e.clientY - rect.top);
+    hudX.textContent = x;
+    hudY.textContent = y;
+    hudCell.textContent = Math.floor(x/40) + ',' + Math.floor(y/40);
+
+    const now = performance.now();
+    if(lastPos){
+      const dx = x - lastPos.x, dy = y - lastPos.y;
+      const dt = Math.max(now - lastTime, 1);
+      const speed = Math.sqrt(dx*dx+dy*dy) / dt * 100;
+      hudV.textContent = speed.toFixed(1);
+      hudA.textContent = dy >= 0 ? '↓' : '↑';
+      let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      if(angle < 0) angle += 360;
+      hudTheta.textContent = angle.toFixed(1);
+    }
+    lastPos = {x,y};
+    lastTime = now;
+  });
+
+  /* fps/ms simulated flicker */
+  const hudFps = document.getElementById('hud-fps');
+  const hudMs = document.getElementById('hud-ms');
+  setInterval(()=>{
+    const fps = 55 + Math.round(Math.random()*10);
+    hudFps.textContent = fps;
+    hudMs.textContent = (1000/fps).toFixed(1);
+  }, 700);
+
+  /* ---------- typewriter ---------- */
+  const words = ["it's fast.", "it's free.", "it's open source.", "it's yours."];
+  const tw = document.getElementById('typewriter');
+  let wi = 0, ci = 0, deleting = false;
+  function typeLoop(){
+    const word = words[wi];
+    if(!deleting){
+      ci++;
+      tw.textContent = word.slice(0, ci);
+      if(ci === word.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      ci--;
+      tw.textContent = word.slice(0, ci);
+      if(ci === 0){ deleting = false; wi = (wi+1) % words.length; }
+    }
+    setTimeout(typeLoop, deleting ? 40 : 80);
+  }
+  typeLoop();
+
+  /* ---------- tilt card ---------- */
+  const tiltWrap = document.getElementById('tilt-card');
+  const tiltInner = tiltWrap.querySelector('.tilt-card');
+  tiltWrap.addEventListener('mousemove', (e)=>{
+    const r = tiltWrap.getBoundingClientRect();
+    const px = (e.clientX - r.left)/r.width - 0.5;
+    const py = (e.clientY - r.top)/r.height - 0.5;
+    tiltInner.style.transform = `rotateY(${px*18}deg) rotateX(${-py*18}deg)`;
+  });
+  tiltWrap.addEventListener('mouseleave', ()=>{
+    tiltInner.style.transform = 'rotateY(0) rotateX(0)';
+  });
+
+  const palette = ['#f97316','#ec4899','#8b5cf6','#06b6d4','#22c55e','#eab308','#ef4444','#6366f1','#14b8a6'];
+  const check = '<svg viewBox="0 0 24 24" class="inline-block w-4 h-4 ml-1 text-blue-500" fill="currentColor"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-4-3.818-4-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486a4.7 4.7 0 0 0-.032.514c0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484z"/></svg>';
+  document.querySelectorAll('.corners').forEach(el=>{
+    if(el.querySelector('.cstar')) return;
+    ['tl','tr','bl','br'].forEach(pos=>{
+      const span = document.createElement('span');
+      span.className = 'cstar ' + pos;
+      span.innerHTML = starTpl;
+      el.appendChild(span);
+    });
+  });
+</script>
+</body>
+</html>
