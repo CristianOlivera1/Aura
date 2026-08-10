@@ -1,26 +1,247 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-muted-fg: var(--muted-fg);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+}
+
+/* runtime palette — swapped by the theme toggle, untouched by gradient previews */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #100e0b;
+  --surface: #17150f;
+  --fg: #f5f1e6;
+  --muted: #2c2a22;
+  --muted-fg: #c7c3b9;
+  --accent: #e7b33d;
+  --accent-fg: #100e0b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html.light {
+  --bg: #faf8f2;
+  --surface: #ffffff;
+  --fg: #14130f;
+  --muted: #e3ded0;
+  --muted-fg: #726f5f;
+  --accent: #a86a12;
+  --accent-fg: #faf8f2;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Frosted-glass surface: translucent theme background + blur + subtle edge.
+   Colors follow the CSS-variable palette, so it reads as dark glass in dark
+   mode and clear/white glass in light mode. Combine with `border border-muted`
+   for the frame. Reuse via the `glass` class. */
+@utility glass {
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-fg) 12%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--color-fg) 6%, transparent);
+}
+
+/* Glass with accent glow on hover */
+@utility glass-glow {
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-fg) 12%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--color-fg) 6%, transparent),
+    0 0 0 0 transparent;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+button{
+  cursor: pointer;
+}
+
+/* ── Scroll reveal animations ── */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Elements start hidden; `is-visible` triggers the animation */
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays via CSS custom property set by JS */
+.reveal.is-visible {
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* ── Fullscreen preview ── */
+
+@keyframes fullscreen-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fullscreen-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+/* ── Toast ── */
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+/* ── Theme toggle icon animation ── */
+
+@keyframes spin-in {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.theme-icon-enter {
+  animation: spin-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* registration marks framing each swatch, like crop marks on a colour proof */
+.marks {
+  position: relative;
+}
+
+.corner-mark {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  font-size: 11px;
+  color: var(--color-muted);
+  pointer-events: none;
+  z-index: 10;
+  transition: color 0.2s ease;
+}
+
+.corner-mark.tl {
+  top: -5.5px;
+  left: -5.5px;
+}
+
+.corner-mark.tr {
+  top: -5.5px;
+  right: -5.5px;
+}
+
+.corner-mark.bl {
+  bottom: -5.5px;
+  left: -5.5px;
+}
+
+.corner-mark.br {
+  bottom: -5.5px;
+  right: -5.5px;
+}
+
+.marks:hover .corner-mark,
+.marks.is-active .corner-mark {
+  color: var(--color-accent);
+}
+
+.mood-tab {
+  border-bottom: 2px solid transparent;
+  color: var(--color-muted-fg);
+}
+
+.mood-tab.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-fg);
+}
+
+.card-hidden {
+  display: none;
+}
+
+.swatch-overlay {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.swatch:hover .swatch-overlay {
+  opacity: 1;
 }
