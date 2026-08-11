@@ -22,7 +22,14 @@ function scaleBlur(blur: number): { mobile: number; desktop: number } {
   return { mobile: 90, desktop: 130 };
 }
 
+/** The actual body background colors from the CSS palette.
+ *  These are the colors blend modes composite against. */
+function bodyBg(dark: boolean): string {
+  return dark ? "#100e0b" : "#faf8f2";
+}
+
 export function generateAIPrompt(g: Gradient, layers: Layer[]): string {
+  const bg = bodyBg(g.dark);
   const hasBlend = usesBlendModes(layers);
 
   const layerDescriptions = layers
@@ -48,7 +55,7 @@ These layers use CSS \`mix-blend-mode\` (${[...new Set(layers.map((l) => l.blend
 Blend modes composite against whatever is **behind** the element — the page/body background.
 
 **DO NOT** set \`background-color\` on the gradient container itself. Instead:
-1. Set \`background-color: ${g.base}\` on the **\`<body>\`** or **page wrapper**.
+1. Set \`background-color: ${bg}\` on the **\`<body>\`** or **page wrapper**.
 2. The gradient container must be **transparent** (no background).
 3. The layers will blend against the body background to create the atmospheric effect.
 
@@ -66,12 +73,12 @@ If you put the base color on the container, the blend modes will composite again
     .join("\n\n");
 
   const bodyCSS = hasBlend
-    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${g.base};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here — blend modes need to see through to body */\n}`
-    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${g.base};\n}`;
+    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here — blend modes need to see through to body */\n}`
+    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${bg};\n}`;
 
   const reactBg = hasBlend
     ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        /* NO backgroundColor — blend modes composite against body/page bg */\n      }}\n    >`
-    : `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        backgroundColor: "${g.base}",\n      }}\n    >`;
+    : `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        backgroundColor: "${bg}",\n      }}\n    >`;
 
   const reactLayers = layers
     .map(
@@ -83,7 +90,7 @@ If you put the base color on the container, the blend modes will composite again
     .join("\n");
 
   const bodyNote = hasBlend
-    ? `\n\n> **Remember:** Set \`body { background-color: ${g.base}; }\` in your global CSS. The component container must NOT have its own background-color.`
+    ? `\n\n> **Remember:** Set \`body { background-color: ${bg}; }\` in your global CSS. The component container must NOT have its own background-color.`
     : "";
 
   return `## Aura Gradient: "${g.name}"
@@ -91,7 +98,7 @@ If you put the base color on the container, the blend modes will composite again
 ### Visual Description
 A ${g.mood} atmospheric gradient background${hasBlend ? " using layered CSS blend modes" : ""}.
 Category: **${g.category}**. Theme: **${g.dark ? "dark" : "light"}**.
-The composition uses ${layers.length} layer${layers.length > 1 ? "s" : ""} over a ${g.dark ? "dark" : "light"} base color (\`${g.base}\`):
+The composition uses ${layers.length} layer${layers.length > 1 ? "s" : ""} over a ${g.dark ? "dark" : "light"} base color (\`${bg}\`):
 
 ${layerDescriptions}
 ${g.grain ? "\nA **grain texture overlay** (SVG feTurbulence noise) is applied on top for an analog film feel." : ""}
@@ -101,7 +108,7 @@ ${blendNote}
 - Each layer is an absolutely-positioned div with its own \`mix-blend-mode\` and optional \`filter: blur()\`.
 - Use \`transform: translateZ(0)\` or \`will-change: transform\` on blur layers for GPU acceleration.
 - All decorative layers should have \`pointer-events: none\` and \`aria-hidden="true"\`.
-- The parent container needs \`position: relative\` and \`overflow: hidden\`.${hasBlend ? `\n- **The base color (${g.base}) must be on the body/page, NOT on the container.**` : ""}
+- The parent container needs \`position: relative\` and \`overflow: hidden\`.${hasBlend ? `\n- **The base color (${bg}) must be on the body/page, NOT on the container.**` : ""}
 
 ### CSS Code
 

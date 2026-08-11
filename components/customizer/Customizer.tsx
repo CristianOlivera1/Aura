@@ -138,12 +138,12 @@ export function Customizer() {
     >
       {/* ══ Left: Live Preview ══ */}
       <div
-        className="relative flex-1 overflow-hidden transition-colors duration-300"
+        className="relative flex-1 overflow-hidden bg-bg transition-colors duration-300"
         data-customizer-preview
-        style={{ backgroundColor: effectiveBase }}
       >
-        {/* NO extra base div — blend modes must composite directly against
-            the container's own background, same as body bg on the main page */}
+        {/* Background comes from bg-bg = var(--color-bg) — the same CSS variable
+            as the body. This ensures blend modes composite identically to
+            AuraBackground which also has NO own background. */}
 
         {/* Dynamic layers */}
         {effectiveLayers.map((layer, i) => (

@@ -70,8 +70,11 @@ export function GradientCard({ gradient, index }: Props) {
           }`}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Dark base — blend modes need a dark backdrop to produce vibrant colors */}
-        <div className="absolute inset-0 bg-[#0c0a08]" />
+        {/* Base — same body bg color AuraBackground composites against */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: gradient.dark ? "#100e0b" : "#faf8f2" }}
+        />
 
         {/* Dynamic layers */}
         {gradient.layers.map((layer, i) => (
