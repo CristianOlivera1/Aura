@@ -74,7 +74,7 @@ export function GradientsSection() {
       </div>
 
       <div className="mx-auto max-w-7xl w-full px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-muted">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {visible.map((g, i) => (
             <GradientCard key={g.id} gradient={g} index={i} />
           ))}

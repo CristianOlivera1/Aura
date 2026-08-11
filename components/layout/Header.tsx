@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GitHubBadge } from "@/components/ui/GitHubBadge";
@@ -22,9 +23,23 @@ export function Logo({ size = "md" }: { size?: "md" | "sm" }) {
 
 export function Header() {
   const { isDark, toggleTheme } = useGradients();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-muted glass">
+    <header
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? "glass border-b border-muted"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div className="mx-auto max-w-7xl w-full px-6 h-16 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-2.5">
           <Logo />

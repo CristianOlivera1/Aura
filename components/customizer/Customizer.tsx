@@ -22,7 +22,6 @@ export function Customizer() {
     goNext,
     goPrev,
     effectiveLayers,
-    effectiveBase,
     effectiveGrain,
     dispatchCustom,
   } = useGradients();
@@ -111,17 +110,9 @@ export function Customizer() {
     dispatchCustom({
       type: "RESET",
       layers: active.layers,
-      base: active.base,
       grain: active.grain ?? false,
     });
   }, [active, dispatchCustom]);
-
-  const handleBaseChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatchCustom({ type: "SET_BASE", base: e.target.value });
-    },
-    [dispatchCustom],
-  );
 
   const handleGrainToggle = useCallback(() => {
     dispatchCustom({ type: "SET_GRAIN", grain: !effectiveGrain });
@@ -138,7 +129,7 @@ export function Customizer() {
     >
       {/* ══ Left: Live Preview ══ */}
       <div
-        className="relative flex-1 overflow-hidden bg-bg transition-colors duration-300"
+        className="relative flex-1 overflow-hidden bg-[#0c0a08]"
         data-customizer-preview
       >
         {/* Background comes from bg-bg = var(--color-bg) — the same CSS variable
@@ -232,26 +223,12 @@ export function Customizer() {
         </div>
 
         {/* Scrollable controls */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5 scrollbar-thin">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto px-5 py-4 space-y-5 custom-scrollbar">
           {/* Global controls */}
           <div className="flex flex-col gap-3">
             <span className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
               Global
             </span>
-
-            {/* Base color */}
-            <div className="flex items-center gap-3">
-              <label className="text-[11px] text-white/60 w-16 shrink-0">Base</label>
-              <div className="relative flex items-center gap-2 flex-1">
-                <input
-                  type="color"
-                  value={effectiveBase}
-                  onChange={handleBaseChange}
-                  className="w-8 h-8 rounded cursor-pointer border border-white/20"
-                />
-                <span className="text-[11px] text-white/50 font-mono">{effectiveBase}</span>
-              </div>
-            </div>
 
             {/* Grain toggle */}
             <div className="flex items-center gap-3">
@@ -285,7 +262,9 @@ export function Customizer() {
           <div className="h-px bg-white/10" />
 
           {/* Export */}
-          <ExportPanel />
+          <div className="flex-1 min-h-0 flex flex-col">
+            <ExportPanel />
+          </div>
         </div>
 
         {/* Keyboard hints */}

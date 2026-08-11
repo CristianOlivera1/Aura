@@ -46,7 +46,7 @@ export function ExportPanel() {
   if (!active) return null;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-1 min-h-0">
       <span className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
         Export
       </span>
@@ -70,7 +70,7 @@ export function ExportPanel() {
       </div>
 
       {/* Syntax-highlighted code preview */}
-      <div className="relative bg-black/40 border border-white/10 rounded-lg overflow-hidden">
+      <div className="relative flex-1 min-h-0 bg-black/40 border border-white/10 rounded-lg overflow-hidden">
         <CodeBlock code={code} language={FORMAT_LANGS[format]} />
         <button
           onClick={() => handleCopy(code, format.toUpperCase())}

@@ -149,6 +149,77 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(ellipse 95% 105% at 50% -34%, rgba(0,0,0,0.15) 0%, rgb(30,32,35) 42%, rgb(55,82,135) 74%, rgb(150,126,228) 92%, rgb(246,108,198) 100%)", blendMode: "soft-light", blur: 36 },
     ],
   },
+  {
+    id: "warm-ash",
+    name: "Warm Ash",
+    category: "aura",
+    mood: "warm",
+    desc: "Warm greige tones, understated and airy",
+    dark: false,
+    text: "#4a4238",
+    base: "#f7f5f0",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(214,204,190,0.12) 28%, rgb(255,255,255) 18%, rgb(196,181,160) 68%, rgb(168,148,122) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(214,204,190,0.22) 34%, rgb(255,255,255) 66%, rgb(196,181,160) 82%, rgb(168,148,122) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "golden-hour",
+    name: "Golden Hour",
+    category: "aura",
+    mood: "warm",
+    desc: "Amber melting into burnt sienna",
+    dark: true,
+    text: "#5c2e0a",
+    base: "#faf8f2",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.12) 28%, rgb(255,255,255) 18%, rgb(255,138,61) 68%, rgb(183,77,0) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.22) 34%, rgb(255,255,255) 66%, rgb(255,138,61) 82%, rgb(183,77,0) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "rose-gold",
+    name: "Rose Gold",
+    category: "aura",
+    mood: "warm",
+    desc: "Blush pink dissolving into antique copper",
+    dark: true,
+    text: "#6e2e2a",
+    base: "#faf2f2",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,178,0.12) 28%, rgb(255,255,255) 18%, rgb(255,145,140) 68%, rgb(200,120,115) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,178,0.22) 34%, rgb(255,255,255) 66%, rgb(255,145,140) 82%, rgb(200,120,115) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "sunset-boulevard",
+    name: "Sunset Boulevard",
+    category: "aura",
+    mood: "warm",
+    desc: "Coral haze fading into honeyed amber",
+    dark: true,
+    text: "#6e2a1a",
+    base: "#faf6f2",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,107,107,0.12) 28%, rgb(255,255,255) 18%, rgb(255,170,100) 68%, rgb(255,200,80) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,107,107,0.22) 34%, rgb(255,255,255) 66%, rgb(255,170,100) 82%, rgb(255,200,80) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "champagne-fizz",
+    name: "Champagne Fizz",
+    category: "aura",
+    mood: "warm",
+    desc: "Pale gold bubbling into peach nectar",
+    dark: true,
+    text: "#5c3d1a",
+    base: "#faf8f2",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,230,180,0.12) 28%, rgb(255,255,255) 18%, rgb(255,200,140) 68%, rgb(230,170,100) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,230,180,0.22) 34%, rgb(255,255,255) 66%, rgb(255,200,140) 82%, rgb(230,170,100) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+
 
   /* ── MESH — Multi-point radial gradient compositions ── */
 
@@ -234,6 +305,39 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
+  {
+    id: "mesh-graphite",
+    name: "Graphite Mesh",
+    category: "mesh",
+    mood: "cool",
+    desc: "Monochrome graphite mesh with cool steel nodes",
+    dark: true,
+    text: "#d4d8dd",
+    base: "#0d0e10",
+    layers: [
+      { background: "radial-gradient(circle at 25% 30%, rgba(100,116,139,0.6) 0%, transparent 45%)", blendMode: "screen", blur: 70 },
+      { background: "radial-gradient(circle at 75% 25%, rgba(148,163,184,0.4) 0%, transparent 40%)", blendMode: "screen", blur: 80 },
+      { background: "radial-gradient(circle at 50% 75%, rgba(71,85,105,0.5) 0%, transparent 50%)", blendMode: "screen", blur: 90 },
+      { background: "radial-gradient(circle at 85% 70%, rgba(203,213,225,0.25) 0%, transparent 30%)", blendMode: "screen", blur: 55 },
+    ],
+  },
+  {
+    id: "mesh-citrine",
+    name: "Citrine Mesh",
+    category: "mesh",
+    mood: "warm",
+    desc: "Sunlit yellow-gold mesh with amber nodes",
+    dark: false,
+    text: "#5a4a10",
+    base: "#fffef0",
+    layers: [
+      { background: "radial-gradient(circle at 22% 28%, rgba(250,204,21,0.6) 0%, transparent 45%)", blendMode: "normal", blur: 70 },
+      { background: "radial-gradient(circle at 78% 32%, rgba(253,224,71,0.5) 0%, transparent 40%)", blendMode: "normal", blur: 80 },
+      { background: "radial-gradient(circle at 50% 78%, rgba(234,179,8,0.4) 0%, transparent 50%)", blendMode: "normal", blur: 85 },
+      { background: "radial-gradient(circle at 85% 75%, rgba(202,138,4,0.3) 0%, transparent 35%)", blendMode: "soft-light", blur: 55 },
+    ],
+  },
+
   /* ── NEBULA — Floating orbs / blobs ── */
 
   {
@@ -315,6 +419,21 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(ellipse 35% 40% at 55% 75%, rgba(253,164,175,0.4) 0%, transparent 50%)", blendMode: "normal", blur: 60 },
     ],
   },
+  {
+    id: "nebula-ashen",
+    name: "Ashen Nebula",
+    category: "nebula",
+    mood: "cool",
+    desc: "Dim charcoal orbs drifting through a gray void",
+    dark: true,
+    text: "#c9cdd3",
+    base: "#0a0a0b",
+    layers: [
+      { background: "radial-gradient(ellipse 42% 48% at 30% 40%, rgba(148,163,184,0.5) 0%, transparent 65%)", blendMode: "screen", blur: 55 },
+      { background: "radial-gradient(ellipse 35% 40% at 68% 55%, rgba(100,116,139,0.45) 0%, transparent 60%)", blendMode: "screen", blur: 60 },
+      { background: "radial-gradient(ellipse 25% 30% at 50% 80%, rgba(71,85,105,0.4) 0%, transparent 55%)", blendMode: "screen", blur: 45 },
+    ],
+  },
 
   /* ── PRISM — Conic / prismatic / rainbow effects ── */
 
@@ -372,6 +491,20 @@ export const GRADIENTS: Gradient[] = [
     layers: [
       { background: "conic-gradient(from 90deg at 50% 65%, #f59e0b, #ef4444, #f97316, #fbbf24, #f59e0b)", blendMode: "screen", blur: 80 },
       { background: "radial-gradient(circle at 50% 60%, rgba(251,191,36,0.4) 0%, transparent 45%)", blendMode: "screen", blur: 50 },
+    ],
+  },
+  {
+    id: "prism-steel-spectrum",
+    name: "Steel Spectrum",
+    category: "prism",
+    mood: "cool",
+    desc: "Muted steel-blue conic burst, quiet and industrial",
+    dark: true,
+    text: "#c3ccd6",
+    base: "#0b0c0e",
+    layers: [
+      { background: "conic-gradient(from 200deg at 50% 55%, #334155, #64748b, #94a3b8, #475569, #1e293b, #334155)", blendMode: "screen", blur: 70 },
+      { background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 50%)", blendMode: "multiply", blur: 20 },
     ],
   },
 
@@ -437,7 +570,21 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 55% 45%, rgba(52,211,153,0.25) 0%, transparent 50%)", blendMode: "screen", blur: 45 },
     ],
   },
-
+  {
+    id: "grain-concrete",
+    name: "Concrete Grain",
+    category: "grain",
+    mood: "cool",
+    desc: "Cool concrete gray with fine analog texture",
+    dark: false,
+    text: "#3f3f46",
+    base: "#f4f4f5",
+    grain: true,
+    layers: [
+      { background: "linear-gradient(150deg, #e4e4e7 0%, #d4d4d8 40%, #a1a1aa 70%, #71717a 100%)", blendMode: "normal", blur: 0 },
+      { background: "radial-gradient(circle at 50% 40%, rgba(113,113,122,0.2) 0%, transparent 55%)", blendMode: "soft-light", blur: 30 },
+    ],
+  },
   /* ── GLASS — Frosted refraction backgrounds ── */
 
   {
@@ -502,6 +649,23 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 40% 30%, rgba(16,185,129,0.5) 0%, transparent 40%)", blendMode: "screen", blur: 55 },
       { background: "radial-gradient(circle at 60% 70%, rgba(52,211,153,0.35) 0%, transparent 35%)", blendMode: "screen", blur: 50 },
       { background: "linear-gradient(45deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.02) 100%)", blendMode: "overlay", blur: 10 },
+    ],
+  },
+
+  {
+    id: "glass-smoked",
+    name: "Smoked Glass",
+    category: "glass",
+    mood: "cool",
+    desc: "Dark smoked glass with graphite refractions",
+    dark: true,
+    text: "#d4d4d8",
+    base: "#0c0c0d",
+    layers: [
+      { background: "linear-gradient(135deg, rgba(15,15,17,0.95) 0%, rgba(39,39,42,0.8) 50%, rgba(63,63,70,0.55) 100%)", blendMode: "normal", blur: 0 },
+      { background: "radial-gradient(circle at 30% 35%, rgba(113,113,122,0.35) 0%, transparent 40%)", blendMode: "screen", blur: 50 },
+      { background: "radial-gradient(circle at 72% 65%, rgba(161,161,170,0.25) 0%, transparent 35%)", blendMode: "screen", blur: 60 },
+      { background: "linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.03) 100%)", blendMode: "overlay", blur: 10 },
     ],
   },
 
@@ -587,6 +751,22 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(ellipse 40% 35% at 50% 70%, rgba(254,215,170,0.5) 0%, transparent 50%)", blendMode: "normal", blur: 55 },
     ],
   },
+  {
+    id: "flux-graphite",
+    name: "Graphite Flow",
+    category: "flux",
+    mood: "cool",
+    desc: "Slow graphite and slate blobs in dark space",
+    dark: true,
+    text: "#d0d4d9",
+    base: "#0a0a0b",
+    layers: [
+      { background: "radial-gradient(ellipse 55% 45% at 35% 50%, rgba(100,116,139,0.6) 0%, transparent 60%)", blendMode: "screen", blur: 45 },
+      { background: "radial-gradient(ellipse 40% 50% at 68% 38%, rgba(148,163,184,0.5) 0%, transparent 55%)", blendMode: "screen", blur: 50 },
+      { background: "radial-gradient(ellipse 30% 35% at 30% 72%, rgba(71,85,105,0.45) 0%, transparent 50%)", blendMode: "screen", blur: 40 },
+      { background: "radial-gradient(ellipse 22% 25% at 78% 75%, rgba(203,213,225,0.3) 0%, transparent 45%)", blendMode: "screen", blur: 35 },
+    ],
+  },
 
   /* ── LATTICE — Geometric patterns with gradient overlays ── */
 
@@ -663,6 +843,21 @@ export const GRADIENTS: Gradient[] = [
       { background: "linear-gradient(rgba(14,165,233,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(14,165,233,0.08) 1px, transparent 1px)", blendMode: "normal", blur: 0, opacity: 1, backgroundSize: "40px 40px" },
       { background: "radial-gradient(circle at 50% 50%, rgba(56,189,248,0.25) 0%, transparent 50%)", blendMode: "normal", blur: 60 },
       { background: "radial-gradient(circle at 30% 70%, rgba(99,102,241,0.15) 0%, transparent 40%)", blendMode: "normal", blur: 50 },
+    ],
+  },
+  {
+    id: "lattice-mono-grid",
+    name: "Mono Grid",
+    category: "lattice",
+    mood: "cool",
+    desc: "Minimal grayscale grid with soft steel glow",
+    dark: true,
+    text: "#c7ccd1",
+    base: "#0b0b0c",
+    layers: [
+      { background: "linear-gradient(rgba(148,163,184,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.1) 1px, transparent 1px)", blendMode: "normal", blur: 0, opacity: 1, backgroundSize: "50px 50px" },
+      { background: "radial-gradient(circle at 50% 50%, rgba(148,163,184,0.3) 0%, transparent 50%)", blendMode: "screen", blur: 80 },
+      { background: "radial-gradient(circle at 25% 75%, rgba(203,213,225,0.2) 0%, transparent 40%)", blendMode: "screen", blur: 60 },
     ],
   },
 

@@ -16,26 +16,24 @@ import { GRADIENTS, type Gradient, type Layer } from "@/lib/gradients";
 
 interface CustomState {
   layers: Layer[];
-  base: string;
   grain: boolean;
   history: Layer[][];
 }
 
 type CustomAction =
-  | { type: "INIT"; layers: Layer[]; base: string; grain: boolean }
+  | { type: "INIT"; layers: Layer[]; grain: boolean }
   | { type: "UPDATE_LAYER"; index: number; layer: Layer }
   | { type: "ADD_LAYER"; layer: Layer }
   | { type: "REMOVE_LAYER"; index: number }
   | { type: "REORDER"; from: number; to: number }
-  | { type: "SET_BASE"; base: string }
   | { type: "SET_GRAIN"; grain: boolean }
   | { type: "UNDO" }
-  | { type: "RESET"; layers: Layer[]; base: string; grain: boolean };
+  | { type: "RESET"; layers: Layer[]; grain: boolean };
 
 function customReducer(state: CustomState, action: CustomAction): CustomState {
   switch (action.type) {
     case "INIT":
-      return { layers: action.layers, base: action.base, grain: action.grain, history: [] };
+      return { layers: action.layers, grain: action.grain, history: [] };
 
     case "UPDATE_LAYER": {
       const layers = [...state.layers];
@@ -58,8 +56,6 @@ function customReducer(state: CustomState, action: CustomAction): CustomState {
       layers.splice(action.to, 0, moved);
       return { ...state, layers, history: [...state.history, state.layers] };
     }
-    case "SET_BASE":
-      return { ...state, base: action.base };
     case "SET_GRAIN":
       return { ...state, grain: action.grain };
     case "UNDO": {
@@ -69,7 +65,7 @@ function customReducer(state: CustomState, action: CustomAction): CustomState {
       return { ...state, layers: prev, history };
     }
     case "RESET":
-      return { layers: action.layers, base: action.base, grain: action.grain, history: [] };
+      return { layers: action.layers, grain: action.grain, history: [] };
   }
 }
 
@@ -93,7 +89,6 @@ interface GradientContextValue {
   custom: CustomState;
   dispatchCustom: React.Dispatch<CustomAction>;
   effectiveLayers: Layer[];
-  effectiveBase: string;
   effectiveGrain: boolean;
 }
 
@@ -113,7 +108,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   /* ── Customizer reducer ── */
   const [custom, dispatchCustom] = useReducer(customReducer, {
     layers: active?.layers ?? [],
-    base: active?.base ?? "#0c0a08",
     grain: active?.grain ?? false,
     history: [],
   });
@@ -124,14 +118,12 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       dispatchCustom({
         type: "INIT",
         layers: active.layers,
-        base: active.base,
         grain: active.grain ?? false,
       });
     }
   }, [active]);
 
   const effectiveLayers = custom.layers;
-  const effectiveBase = custom.base;
   const effectiveGrain = custom.grain;
 
   // Compute effective theme
@@ -192,10 +184,9 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       custom,
       dispatchCustom,
       effectiveLayers,
-      effectiveBase,
       effectiveGrain,
     }),
-    [active, effectiveLight, fullscreen, toast, showToast, clearToast, themeOverride, goNext, goPrev, custom, effectiveLayers, effectiveBase, effectiveGrain],
+    [active, effectiveLight, fullscreen, toast, showToast, clearToast, themeOverride, goNext, goPrev, custom, effectiveLayers, effectiveGrain],
   );
 
   return (

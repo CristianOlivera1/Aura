@@ -259,28 +259,11 @@ button{
   }
 }
 
-/* ── Scrollbar for customizer ── */
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
-}
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-
 /* ── Clase Custom Scrollbar Minimalista ── */
 .custom-scrollbar {
   /* Soporte para Firefox (Nivel de bloque) */
   scrollbar-width: thin;
-  scrollbar-color: var(--color-muted) transparent;
+  scrollbar-color: #9a9999 transparent;
   
   /* Asegura el scroll si el contenido desborda */
   overflow: auto; 

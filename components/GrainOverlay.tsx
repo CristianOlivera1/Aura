@@ -8,14 +8,14 @@ export function GrainOverlay({ className = "" }: { className?: string }) {
   return (
     <div
       className={`pointer-events-none ${className}`}
-      style={{ mixBlendMode: "overlay", opacity: 0.4 }}
+      style={{ mixBlendMode: "overlay", opacity: 0.55 }}
     >
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
         <filter id="grain-noise">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency="0.65"
-            numOctaves="3"
+            baseFrequency="0.8"
+            numOctaves="4"
             stitchTiles="stitch"
           />
           <feColorMatrix type="saturate" values="0" />
