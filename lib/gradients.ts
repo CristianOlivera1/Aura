@@ -61,7 +61,7 @@ export const GRADIENTS: Gradient[] = [
     desc: "Blue into orange, high key",
     dark: false,
     text: "#24406e",
-    base: "#faf8f2",
+    base: "#0c0a08",
     layers: [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.1) 30%, rgb(255,255,255) 20%, rgb(247,164,66) 70%, rgb(233,66,247) 100%)", blendMode: "hard-light", blur: 36 },
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.2) 35%, rgb(255,255,255) 70%, rgb(247,164,66) 80%, rgb(233,66,247) 100%)", blendMode: "soft-light", blur: 36 },
@@ -75,7 +75,7 @@ export const GRADIENTS: Gradient[] = [
     desc: "Coral into deep rose",
     dark: false,
     text: "#7a1f2e",
-    base: "#faf8f2",
+    base: "#0c0a08",
     layers: [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,106,61,0.12) 28%, rgb(255,255,255) 18%, rgb(255,201,77) 68%, rgb(255,61,119) 100%)", blendMode: "hard-light", blur: 36 },
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,106,61,0.22) 34%, rgb(255,255,255) 66%, rgb(255,201,77) 82%, rgb(255,61,119) 100%)", blendMode: "soft-light", blur: 36 },
@@ -89,7 +89,7 @@ export const GRADIENTS: Gradient[] = [
     desc: "Cyan into indigo",
     dark: false,
     text: "#1f3b6e",
-    base: "#faf8f2",
+    base: "#0c0a08",
     layers: [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,210,255,0.12) 28%, rgb(255,255,255) 18%, rgb(53,230,192) 68%, rgb(91,110,245) 100%)", blendMode: "hard-light", blur: 36 },
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,210,255,0.22) 34%, rgb(255,255,255) 66%, rgb(53,230,192) 82%, rgb(91,110,245) 100%)", blendMode: "soft-light", blur: 36 },
@@ -117,7 +117,7 @@ export const GRADIENTS: Gradient[] = [
     desc: "Magenta into blue",
     dark: false,
     text: "#5b1f6e",
-    base: "#faf8f2",
+    base: "#0c0a08",
     layers: [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.12) 28%, rgb(255,255,255) 18%, rgb(139,92,246) 68%, rgb(61,139,255) 100%)", blendMode: "hard-light", blur: 36 },
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.22) 34%, rgb(255,255,255) 66%, rgb(139,92,246) 82%, rgb(61,139,255) 100%)", blendMode: "soft-light", blur: 36 },
