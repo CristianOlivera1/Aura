@@ -128,14 +128,7 @@ export function Customizer() {
       }}
     >
       {/* ══ Left: Live Preview ══ */}
-      <div
-        className="relative flex-1 overflow-hidden bg-[#0c0a08]"
-        data-customizer-preview
-      >
-        {/* Background comes from bg-bg = var(--color-bg) — the same CSS variable
-            as the body. This ensures blend modes composite identically to
-            AuraBackground which also has NO own background. */}
-
+      <div className="relative flex-1 overflow-hidden bg-[#0c0a08]" data-customizer-preview>
         {/* Dynamic layers */}
         {effectiveLayers.map((layer, i) => (
           <div
@@ -185,37 +178,40 @@ export function Customizer() {
         {/* Gradient name overlay */}
         <div className="absolute bottom-6 left-6 z-20">
           <h2 className="text-xl font-semibold text-white">{active.name}</h2>
-          <p className="text-xs text-white/50 mt-0.5">{active.category} · {active.desc}</p>
+          <p className="text-xs text-white/50 mt-0.5">
+            {active.category} · {active.desc}
+          </p>
         </div>
       </div>
 
       {/* ══ Right: Control Panel ══ */}
-      <div className="w-[340px] bg-[#0e0e14]/95 backdrop-blur-xl border-l border-white/10 flex flex-col overflow-hidden">
-        {/* Panel header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+      {/* Aplicando los tonos oscuros de la imagen: #0a0a0a para el panel general y bordes sutiles white/5 */}
+      <div className="w-[370px] bg-[#0a0a0a] border-l border-white/5 flex flex-col overflow-hidden">
+        {/* Panel header - Fondo ligeramente contrastado */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-[#0d0d0d]">
           <div className="flex items-center gap-2">
             <Icon icon="lucide:sliders-horizontal" width={15} height={15} className="text-white/60" />
-            <span className="text-sm font-medium text-white">Customize</span>
+            <span className="text-[13px] font-medium text-white/90">Customize</span>
           </div>
           <div className="flex items-center gap-1.5">
             <button
               onClick={handleReset}
               title="Reset to original"
-              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/10"
+              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
             >
               <Icon icon="lucide:rotate-ccw" width={14} height={14} />
             </button>
             <button
               onClick={() => dispatchCustom({ type: "UNDO" })}
               title="Undo (Ctrl+Z)"
-              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/10"
+              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
             >
               <Icon icon="lucide:undo-2" width={14} height={14} />
             </button>
             <button
               onClick={toggleFullscreen}
               title="Close"
-              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/10"
+              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
             >
               <Icon icon="lucide:x" width={14} height={14} />
             </button>
@@ -223,60 +219,80 @@ export function Customizer() {
         </div>
 
         {/* Scrollable controls */}
-        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto px-5 py-4 space-y-5 custom-scrollbar">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto px-5 py-6 space-y-6 ui-styled-scrollbar">
+          {/* Scrollbar CSS sutil para igualar el aspecto técnico */}
+          <style>{`
+            .ui-styled-scrollbar::-webkit-scrollbar {
+              width: 8px;
+            }
+            .ui-styled-scrollbar::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .ui-styled-scrollbar::-webkit-scrollbar-thumb {
+              background: rgba(255, 255, 255, 0.08);
+              border-radius: 8px;
+            }
+            .ui-styled-scrollbar::-webkit-scrollbar-thumb:hover {
+              background: rgba(255, 255, 255, 0.15);
+            }
+          `}</style>
+
           {/* Global controls */}
-          <div className="flex flex-col gap-3">
-            <span className="text-[11px] uppercase tracking-wider text-white/50 font-medium">
+          <div className="flex flex-col gap-4">
+            {/* Títulos de sección con el tracking espaciado que se ve en la imagen (e.g. SWATCHES) */}
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold">
               Global
             </span>
 
             {/* Grain toggle */}
-            <div className="flex items-center gap-3">
-              <label className="text-[11px] text-white/60 w-16 shrink-0">Grain</label>
+            <div className="flex items-center justify-between">
+              <label className="text-[13px] text-white/60 font-medium">Grain Overlay</label>
               <button
                 onClick={handleGrainToggle}
-                className={`relative w-9 h-5 rounded-full transition-colors ${
-                  effectiveGrain ? "bg-violet-600" : "bg-white/15"
+                className={`relative w-9 h-5 rounded-full transition-colors border border-white/5 ${
+                  effectiveGrain ? "bg-[#333333]" : "bg-[#141414]"
                 }`}
               >
                 <div
-                  className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
-                    effectiveGrain ? "translate-x-4" : "translate-x-0.5"
+                  className={`absolute top-[1px] w-4 h-4 rounded-full shadow transition-transform ${
+                    effectiveGrain ? "translate-x-4 bg-white" : "translate-x-0.5 bg-white/40"
                   }`}
                 />
               </button>
             </div>
           </div>
 
-          <div className="h-px bg-white/10" />
+          <div className="h-px bg-white/5" />
 
-          {/* Layers */}
-          <LayerPanel
-            layers={effectiveLayers}
-            onUpdateLayer={handleUpdateLayer}
-            onRemoveLayer={handleRemoveLayer}
-            onAddLayer={handleAddLayer}
-            onReorder={handleReorder}
-          />
+          {/* Layers (Tu componente original se mantiene aquí) */}
+          <div className="flex flex-col gap-4">
+            <LayerPanel
+              layers={effectiveLayers}
+              onUpdateLayer={handleUpdateLayer}
+              onRemoveLayer={handleRemoveLayer}
+              onAddLayer={handleAddLayer}
+              onReorder={handleReorder}
+            />
+          </div>
 
-          <div className="h-px bg-white/10" />
+          <div className="h-px bg-white/5" />
 
-          {/* Export */}
-          <div className="flex-1 min-h-0 flex flex-col">
+          {/* Export (Tu componente original se mantiene aquí) */}
+          <div className="flex-1 min-h-0 flex flex-col gap-4 pb-4">
             <ExportPanel />
           </div>
         </div>
 
-        {/* Keyboard hints */}
-        <div className="px-5 py-3 border-t border-white/10 flex items-center gap-3 text-white/30 text-[10px]">
-          <span className="flex items-center gap-1">
-            <kbd className="px-1 py-0.5 bg-white/10 rounded text-[9px]">←→</kbd> nav
+        {/* Keyboard hints - Fondo contrastado sutil abajo */}
+        <div className="px-5 py-3 border-t border-white/5 bg-[#0d0d0d] flex items-center gap-4 text-white/40 text-[11px] font-medium tracking-wide">
+          <span className="flex items-center gap-1.5">
+            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">←→</kbd> nav
           </span>
-          <span className="flex items-center gap-1">
-            <kbd className="px-1 py-0.5 bg-white/10 rounded text-[9px]">⌘Z</kbd> undo
+          <span className="flex items-center gap-1.5">
+            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">⌘Z</kbd> undo
           </span>
-          <span className="flex items-center gap-1">
-            <kbd className="px-1 py-0.5 bg-white/10 rounded text-[9px]">esc</kbd> close
+          <span className="flex items-center gap-1.5">
+            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">esc</kbd> close
           </span>
         </div>
       </div>

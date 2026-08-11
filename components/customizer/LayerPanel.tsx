@@ -35,7 +35,7 @@ export function LayerPanel({ layers, onUpdateLayer, onRemoveLayer, onAddLayer, o
         </span>
         <button
           onClick={onAddLayer}
-          className="flex items-center gap-1 text-[10px] text-white/60 hover:text-white transition-colors px-2 py-1 rounded bg-white/5 hover:bg-white/10"
+          className="flex items-center gap-1 text-[12px] text-white/60 hover:text-white transition-colors px-2 py-1 rounded bg-white/5 hover:bg-white/10"
         >
           <Icon icon="lucide:plus" width={10} height={10} />
           Add
@@ -132,7 +132,7 @@ function LayerRow({
 
       {/* Blend mode */}
       <div className="flex items-center gap-2">
-        <label className="text-[10px] text-white/40 w-12 shrink-0">Blend</label>
+        <label className="text-[12px] text-white/40 w-12 shrink-0">Blend</label>
         <CustomSelect
           value={layer.blendMode}
           onChange={handleBlendChange}
@@ -143,7 +143,7 @@ function LayerRow({
 
       {/* Blur slider */}
       <div className="flex items-center gap-2">
-        <label className="text-[10px] text-white/40 w-12 shrink-0">Blur</label>
+        <label className="text-[12px] text-white/40 w-12 shrink-0">Blur</label>
         <input
           type="range"
           min={0}
@@ -152,12 +152,12 @@ function LayerRow({
           onChange={handleBlurChange}
           className="flex-1 accent-[var(--color-accent)] h-1"
         />
-        <span className="text-[10px] text-white/50 w-8 text-right font-mono">{layer.blur}px</span>
+        <span className="text-[12px] text-white/50 w-8 text-right font-mono">{layer.blur}px</span>
       </div>
 
       {/* Opacity slider */}
       <div className="flex items-center gap-2">
-        <label className="text-[10px] text-white/40 w-12 shrink-0">Opacity</label>
+        <label className="text-[12px] text-white/40 w-12 shrink-0">Opacity</label>
         <input
           type="range"
           min={0}
@@ -166,7 +166,7 @@ function LayerRow({
           onChange={handleOpacityChange}
           className="flex-1 accent-[var(--color-accent)] h-1"
         />
-        <span className="text-[10px] text-white/50 w-8 text-right font-mono">{Math.round((layer.opacity ?? 1) * 100)}%</span>
+        <span className="text-[12px] text-white/50 w-8 text-right font-mono">{Math.round((layer.opacity ?? 1) * 100)}%</span>
       </div>
     </div>
   );

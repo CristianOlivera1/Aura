@@ -57,7 +57,7 @@ export function ExportPanel() {
           <button
             key={f.id}
             onClick={() => setFormat(f.id)}
-            className={`flex items-center gap-1 px-2 py-1 text-[10px] rounded transition-all ${
+            className={`flex items-center gap-1 px-2 py-1 text-[12px] rounded transition-all ${
               format === f.id
                 ? "bg-white/15 text-white border border-white/20"
                 : "text-white/50 hover:text-white/80 border border-transparent"
@@ -70,11 +70,11 @@ export function ExportPanel() {
       </div>
 
       {/* Syntax-highlighted code preview */}
-      <div className="relative flex-1 min-h-0 bg-black/40 border border-white/10 rounded-lg overflow-hidden">
+      <div className="relative flex flex-1 min-h-0 bg-black/40 border border-white/10 rounded-lg overflow-hidden">
         <CodeBlock code={code} language={FORMAT_LANGS[format]} />
         <button
           onClick={() => handleCopy(code, format.toUpperCase())}
-          className="absolute top-2 right-2 flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white/70 hover:text-white text-[10px] px-2 py-1 rounded transition-all"
+          className="absolute top-2 right-2 flex items-center gap-1 bg-white/90 hover:bg-white/20 text-black hover:text-white text-[12px] px-2 py-1 rounded transition-all"
         >
           <Icon
             icon={copied === format.toUpperCase() ? "lucide:check" : "lucide:clipboard-copy"}

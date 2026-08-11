@@ -59,9 +59,9 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "vivid",
     desc: "Blue into orange, high key",
-    dark: true,
+    dark: false,
     text: "#24406e",
-    base: "#faf8f2",
+    base: "#0a0a0a",
     layers: [
       {
         background:
