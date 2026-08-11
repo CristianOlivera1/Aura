@@ -1,8 +1,9 @@
 "use client";
 
-import { CONIC_GRADIENT } from "@/lib/constants";
+import { CONIC_GRADIENT, GITHUB_URL } from "@/lib/constants";
 import { Logo } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
+import { GitHubBadge } from "@/components/ui/GitHubBadge";
 
 export function Footer() {
   return (
@@ -25,14 +26,15 @@ export function Footer() {
         <Button
           variant="glass"
           size="md"
-          href="https://github.com"
+          href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
           icon="lucide:github"
           className="mt-6"
         >
           Star on GitHub
-          <span className="text-lg text-muted-fg">· 648</span>
+          <span className="text-lg text-muted-fg">· </span>
+          <GitHubBadge className="text-lg text-muted-fg" />
         </Button>
       </div>
     </footer>

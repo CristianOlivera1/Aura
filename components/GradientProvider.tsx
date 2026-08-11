@@ -103,7 +103,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const [activeId, setActiveId] = useState<string | null>(GRADIENTS[0].id);
   const [fullscreen, setFullscreen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
-  const [themeOverride, setThemeOverride] = useState<"light" | "dark" | null>(null);
+  const [themeOverride, setThemeOverride] = useState<"light" | "dark" | null>("light");
 
   const active = useMemo(
     () => GRADIENTS.find((g) => g.id === activeId) ?? null,
@@ -142,7 +142,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       : true;
 
   useEffect(() => {
-    document.documentElement.classList.toggle("light", effectiveLight);
+    document.documentElement.classList.toggle("dark", !effectiveLight);
   }, [effectiveLight]);
 
   const showToast = useCallback((msg: string) => setToast(msg), []);

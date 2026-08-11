@@ -2,6 +2,8 @@
 
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
+import { GitHubBadge } from "@/components/ui/GitHubBadge";
+import { GITHUB_URL } from "@/lib/constants";
 
 const CONIC_GRADIENT =
   "conic-gradient(from 200deg, #008AFF, #F7A442, #E942F7, #008AFF)";
@@ -47,15 +49,14 @@ export function Header() {
           </button>
 
           <a
-            href="https://github.com"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="glass border border-muted flex items-center gap-2 h-9 px-3 text-sm hover:border-accent hover:text-accent transition-colors"
           >
             <Icon icon="lucide:github" width={15} height={15} />
-            <span className="text-sm">648</span>
+            <GitHubBadge className="text-sm" />
           </a>
-         
         </div>
       </div>
     </header>

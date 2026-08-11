@@ -14,16 +14,6 @@
 
 /* runtime palette — swapped by the theme toggle, untouched by gradient previews */
 :root {
-  --bg: #100e0b;
-  --surface: #17150f;
-  --fg: #f5f1e6;
-  --muted: #2c2a22;
-  --muted-fg: #c7c3b9;
-  --accent: #e7b33d;
-  --accent-fg: #100e0b;
-}
-
-html.light {
   --bg: #faf8f2;
   --surface: #ffffff;
   --fg: #14130f;
@@ -31,6 +21,16 @@ html.light {
   --muted-fg: #726f5f;
   --accent: #a86a12;
   --accent-fg: #faf8f2;
+}
+
+html.dark {
+  --bg: #100e0b;
+  --surface: #17150f;
+  --fg: #f5f1e6;
+  --muted: #2c2a22;
+  --muted-fg: #c7c3b9;
+  --accent: #e7b33d;
+  --accent-fg: #100e0b;
 }
 
 body {
