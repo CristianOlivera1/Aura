@@ -1,22 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@iconify/react";
 import { GradientCard } from "@/components/GradientCard";
 import { useGradients } from "@/components/GradientProvider";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { GRADIENTS, MOODS, type GradientMood } from "@/lib/gradients";
+import { GRADIENTS, CATEGORIES, type Category } from "@/lib/gradients";
 
-type MoodFilter = "all" | GradientMood;
+type CategoryFilter = "all" | Category;
 
 export function GradientsSection() {
   const { active, reset } = useGradients();
-  const [mood, setMood] = useState<MoodFilter>("all");
+  const [category, setCategory] = useState<CategoryFilter>("all");
 
   const visible =
-    mood === "all"
+    category === "all"
       ? GRADIENTS
-      : GRADIENTS.filter((g) => g.mood === mood);
+      : GRADIENTS.filter((g) => g.category === category);
 
   return (
     <section id="gradients">
@@ -29,7 +30,7 @@ export function GradientsSection() {
               <span className="w-2 h-2 rounded-full bg-muted" />
             </div>
             <Badge className="text-[11px] uppercase tracking-[0.3em] text-muted-fg px-2.5">
-              Gradients
+              {visible.length} Backgrounds
             </Badge>
           </div>
 
@@ -47,34 +48,33 @@ export function GradientsSection() {
               icon="lucide:rotate-ccw"
               iconSize={13}
             />
-            <Button
-              disabled
-              title="Animate — coming soon"
-              size="icon-sm"
-              className="text-muted-fg/40 cursor-not-allowed"
-              icon="lucide:play"
-              iconSize={13}
-            />
           </div>
         </div>
 
-        <div className="glass border border-muted inline-flex flex-wrap items-center gap-x-7 gap-y-2 px-4 py-2">
-          {MOODS.map((m) => (
-            <button
-              key={m}
-              onClick={() => setMood(m)}
-              className={`mood-tab text-lg uppercase tracking-widest pb-1.5 transition-colors ${
-                mood === m ? "is-active" : "hover:text-fg"
-              }`}
-            >
-              {m}
-            </button>
-          ))}
+        {/* Category tabs */}
+        <div className="glass border border-muted inline-flex flex-wrap items-center gap-x-1 gap-y-1 p-1 rounded-lg">
+          {CATEGORIES.map((cat) => {
+            const isActive = category === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setCategory(cat.id as CategoryFilter)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 rounded-md ${
+                  isActive
+                    ? "bg-accent text-accent-fg shadow-sm"
+                    : "text-muted-fg hover:text-fg hover:bg-muted/30"
+                }`}
+              >
+                <Icon icon={cat.icon} width={13} height={13} />
+                {cat.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl w-full px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-muted">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-muted">
           {visible.map((g, i) => (
             <GradientCard key={g.id} gradient={g} index={i} />
           ))}

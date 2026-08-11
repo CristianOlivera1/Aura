@@ -16,7 +16,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto max-w-7xl w-full px-6 py-24 sm:py-32 flex flex-col items-center text-center">
         <span
           ref={pillRef}
-          className="reveal glass inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow-lg transition-all duration-300 border border-muted text-muted-fg mb-8"
+          className="reveal glass inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-base shadow-lg transition-all duration-300 border border-muted text-muted-fg mb-8"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
@@ -48,7 +48,7 @@ export function Hero() {
         <div ref={ctaRef} className="reveal flex flex-wrap justify-center gap-3 mt-10">
           <a
             href="#gradients"
-            className="bg-accent text-accent-fg px-6 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity rounded-md"
+            className="bg-accent text-accent-fg px-6 py-2.5 text-base font-medium hover:opacity-90 transition-opacity rounded-md"
           >
             Browse gradients
           </a>
@@ -56,7 +56,7 @@ export function Hero() {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass border border-muted px-6 py-2.5 text-sm font-medium flex items-center gap-2 hover:border-accent hover:text-accent transition-colors rounded-md"
+            className="glass border border-muted px-6 py-2.5 text-base font-medium flex items-center gap-2 hover:border-accent hover:text-accent transition-colors rounded-md"
           >
             <Icon icon="lucide:github" width={15} height={15} />
             Star on GitHub
