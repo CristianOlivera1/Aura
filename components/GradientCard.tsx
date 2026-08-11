@@ -85,7 +85,7 @@ export function GradientCard({ gradient, index }: Props) {
               backgroundImage: layer.background,
               backgroundSize: layer.backgroundSize ?? "cover",
               mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
-              filter: layer.blur > 0 ? `blur(${layer.blur}px)` : undefined,
+              filter: layer.blur > 0 ? `blur(${Math.min(layer.blur, 24)}px)` : undefined,
               opacity: layer.opacity ?? 1,
             }}
           />

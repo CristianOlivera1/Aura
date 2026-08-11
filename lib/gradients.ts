@@ -63,8 +63,20 @@ export const GRADIENTS: Gradient[] = [
     text: "#24406e",
     base: "#faf8f2",
     layers: [
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.1) 30%, rgb(255,255,255) 20%, rgb(247,164,66) 70%, rgb(233,66,247) 100%)", blendMode: "hard-light", blur: 36 },
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.2) 35%, rgb(255,255,255) 70%, rgb(247,164,66) 80%, rgb(233,66,247) 100%)", blendMode: "soft-light", blur: 36 },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.1) 30%, rgb(255,255,255) 20%, rgb(247,164,66) 70%, rgb(233,66,247) 100%)",
+        blendMode: "hard-light",
+        blur: 70,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.2) 35%, rgb(255,255,255) 70%, rgb(247,164,66) 80%, rgb(233,66,247) 100%)",
+        blendMode: "soft-light",
+        blur: 70,
+        opacity: 1,
+      },
     ],
   },
   {
@@ -312,7 +324,7 @@ export const GRADIENTS: Gradient[] = [
     category: "prism",
     mood: "vivid",
     desc: "Full spectrum conic burst",
-    dark: false,
+    dark: true,
     text: "#3b1f6e",
     base: "#fafafa",
     layers: [
@@ -653,16 +665,22 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 30% 70%, rgba(99,102,241,0.15) 0%, transparent 40%)", blendMode: "normal", blur: 50 },
     ],
   },
-  
+
 ];
 
-/** Generate copyable CSS for a gradient */
+/** Generate copyable CSS for a gradient (fullscreen blur scale). */
 export function gradientToCSS(g: Gradient): string {
   const layersCSS = g.layers
-    .map((l, i) => `/* Layer ${i + 1} — ${l.blendMode} */\nbackground: ${l.background};\nmix-blend-mode: ${l.blendMode};\nfilter: blur(${l.blur}px);`)
+    .map((l, i) => {
+      const blurLine =
+        l.blur > 0
+          ? `\nfilter: blur(90px); /* use 130px on desktop */`
+          : "";
+      return `/* Layer ${i + 1} — ${l.blendMode} */\nbackground: ${l.background};\nmix-blend-mode: ${l.blendMode};${blurLine}`;
+    })
     .join("\n\n");
 
-  return `/* ${g.name} — Aura (${g.category}) */\n/* Base */\nbackground-color: ${g.base};\n\n${layersCSS}${g.grain ? "\n\n/* Grain: apply SVG feTurbulence noise overlay */" : ""}`;
+  return `/* ${g.name} — Aura (${g.category}) */\n/* Base — set on body/page for blend modes */\nbackground-color: ${g.base};\n\n${layersCSS}${g.grain ? "\n\n/* Grain: apply SVG feTurbulence noise overlay */" : ""}`;
 }
 
 export const MOODS: ("all" | GradientMood)[] = ["all", "warm", "cool", "vivid"];
