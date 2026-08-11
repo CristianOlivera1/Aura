@@ -3,7 +3,8 @@
 import { useCallback, useRef, type MouseEvent } from "react";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
-import { type Gradient } from "@/lib/gradients";
+import { GrainOverlay } from "@/components/GrainOverlay";
+import { type Gradient, CATEGORIES } from "@/lib/gradients";
 import { useReveal } from "@/hooks/useReveal";
 
 interface Props {
@@ -17,6 +18,8 @@ export function GradientCard({ gradient, index }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const revealRef = useReveal<HTMLDivElement>({ stagger: index % 3 });
+
+  const categoryMeta = CATEGORIES.find((c) => c.id === gradient.category);
 
   /* ── 3D tilt effect ── */
 
@@ -63,21 +66,30 @@ export function GradientCard({ gradient, index }: Props) {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`swatch marks relative aspect-square border-r border-b border-muted overflow-hidden transition-transform duration-300 ease-out ${
-          isActive ? "is-active" : ""
-        }`}
+        className={`swatch marks relative aspect-square border-r border-b border-muted overflow-hidden transition-transform duration-300 ease-out ${isActive ? "is-active" : ""
+          }`}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Gradient layers */}
+        {/* Dark base — blend modes need a dark backdrop to produce vibrant colors */}
         <div className="absolute inset-0 bg-[#0c0a08]" />
-        <div
-          className="absolute inset-0 mix-blend-hard-light blur-[36px]"
-          style={{ background: gradient.hard }}
-        />
-        <div
-          className="absolute inset-0 mix-blend-soft-light blur-[36px]"
-          style={{ background: gradient.soft }}
-        />
+
+        {/* Dynamic layers */}
+        {gradient.layers.map((layer, i) => (
+          <div
+            key={i}
+            className="absolute inset-0"
+            style={{
+              backgroundImage: layer.background,
+              backgroundSize: layer.backgroundSize ?? "cover",
+              mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+              filter: layer.blur > 0 ? `blur(${layer.blur}px)` : undefined,
+              opacity: layer.opacity ?? 1,
+            }}
+          />
+        ))}
+
+        {/* Grain overlay */}
+        {gradient.grain && <GrainOverlay className="absolute inset-0" />}
 
         {/* 3D highlight that follows cursor */}
         <div
@@ -106,9 +118,17 @@ export function GradientCard({ gradient, index }: Props) {
 
         {/* Active badge */}
         {isActive && (
-          <span className="absolute top-3 right-3 flex items-center gap-1 bg-accent text-accent-fg text-[10px] font-medium uppercase tracking-wide px-2 py-1 z-30 rounded-sm">
-            <Icon icon="lucide:check" width={11} height={11} />
+          <span className="absolute top-3 right-3 flex items-center gap-1 bg-gradient-to-r from-[#B38728] via-[#FBF5B7] to-[#AA771C] text-neutral-950 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 z-30 rounded-md shadow-[0_2px_10px_rgba(179,135,40,0.3)] border border-[#FBF5B7]/40">
+            <Icon icon="lucide:check" width={11} height={11} className="stroke-[3]" />
             Active
+          </span>
+        )}
+
+        {/* Category badge */}
+        {categoryMeta && (
+          <span className="absolute top-3 left-3 flex items-center gap-1 bg-black/40 text-white/80 text-[9px] font-medium uppercase tracking-wider px-2 py-1 z-10 rounded-md backdrop-blur-sm border border-white/10">
+            <Icon icon={categoryMeta.icon} width={10} height={10} />
+            {categoryMeta.label}
           </span>
         )}
 

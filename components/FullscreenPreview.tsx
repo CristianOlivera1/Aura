@@ -3,10 +3,11 @@
 import { useCallback, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
+import { GrainOverlay } from "@/components/GrainOverlay";
 import { gradientToCSS } from "@/lib/gradients";
 
 export function FullscreenPreview() {
-  const { active, fullscreen, toggleFullscreen, showToast, goNext, goPrev } =
+  const { active, fullscreen, toggleFullscreen, showToast, goNext, goPrev, effectiveBase } =
     useGradients();
 
   /* ── Keyboard shortcuts ── */
@@ -54,16 +55,29 @@ export function FullscreenPreview() {
         animation: "fullscreen-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both",
       }}
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-[#0c0a08]" />
+      {/* Base color from customizer state */}
       <div
-        className="absolute inset-0 mix-blend-hard-light blur-[90px] md:blur-[130px]"
-        style={{ background: active.hard }}
+        className="absolute inset-0 transition-colors duration-300"
+        style={{ backgroundColor: effectiveBase }}
       />
-      <div
-        className="absolute inset-0 mix-blend-soft-light blur-[90px] md:blur-[130px]"
-        style={{ background: active.soft }}
-      />
+
+      {/* Dynamic layers */}
+      {active.layers.map((layer, i) => (
+        <div
+          key={i}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: layer.background,
+            backgroundSize: layer.backgroundSize,
+            mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+            filter: layer.blur > 0 ? `blur(${Math.min(layer.blur * 2.5, 130)}px)` : undefined,
+            opacity: layer.opacity ?? 1,
+          }}
+        />
+      ))}
+
+      {/* Grain overlay */}
+      {active.grain && <GrainOverlay className="absolute inset-0" />}
 
       {/* Click backdrop to close */}
       <div
@@ -100,7 +114,9 @@ export function FullscreenPreview() {
             <span className="text-sm font-semibold text-white">
               {active.name}
             </span>
-            <span className="text-[11px] text-white/60">{active.desc}</span>
+            <span className="text-[11px] text-white/60">
+              {active.category} · {active.desc}
+            </span>
           </div>
 
           <span className="w-px h-6 bg-white/20" />
