@@ -2,27 +2,48 @@ import type { Gradient, Layer } from "@/lib/gradients";
 
 /* ══════════════════════════════════════════════════════════════
    Export format generators for gradient customizations.
-   Each returns a ready-to-paste code string.
+
+   KEY ARCHITECTURE for blend-mode gradients:
+   - Base color goes on BODY/page, NOT on the container.
+   - Container is transparent so blend modes see through to body.
+   - Non-blend-mode gradients can use container background-color.
    ══════════════════════════════════════════════════════════════ */
 
+function usesBlendModes(layers: Layer[]): boolean {
+  return layers.some((l) => l.blendMode !== "normal");
+}
+
+/** Scale blur for fullscreen backgrounds — raw values are for card thumbnails */
+function scaleBlur(blur: number): number {
+  if (blur <= 0) return 0;
+  return 90; // Use 90px base, recommend 130px for desktop in comments
+}
+
 function layerCSS(layer: Layer, i: number): string {
+  const scaledBlur = scaleBlur(layer.blur);
   const props = [
     `  background: ${layer.background};`,
-    `  mix-blend-mode: ${layer.blendMode};`,
-    layer.blur > 0 ? `  filter: blur(${layer.blur}px);` : null,
     layer.backgroundSize ? `  background-size: ${layer.backgroundSize};` : null,
+    `  mix-blend-mode: ${layer.blendMode};`,
+    scaledBlur > 0 ? `  filter: blur(${scaledBlur}px); /* use 130px on desktop */` : null,
     layer.opacity != null && layer.opacity !== 1 ? `  opacity: ${layer.opacity};` : null,
+    `  transform: translateZ(0);`,
+    `  will-change: transform;`,
   ]
     .filter(Boolean)
     .join("\n");
 
-  return `/* Layer ${i + 1} — ${layer.blendMode} */\n.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n${props}\n}`;
+  return `/* Layer ${i + 1} — ${layer.blendMode} */\n.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n${props}\n  pointer-events: none;\n}`;
 }
 
 /* ── Vanilla CSS ── */
 
 export function toVanillaCSS(g: Gradient, layers: Layer[]): string {
-  const base = `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${g.base};\n}`;
+  const hasBlend = usesBlendModes(layers);
+  const base = hasBlend
+    ? `/* Base color on BODY — blend modes composite against this */\nbody {\n  background-color: ${g.base};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color — layers blend against body */\n}`
+    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${g.base};\n}`;
+
   const layerBlocks = layers.map((l, i) => layerCSS(l, i)).join("\n\n");
   return `/* ${g.name} — Aura (${g.category}) */\n\n${base}\n\n${layerBlocks}`;
 }
@@ -30,12 +51,14 @@ export function toVanillaCSS(g: Gradient, layers: Layer[]): string {
 /* ── Tailwind ── */
 
 export function toTailwind(g: Gradient, layers: Layer[]): string {
+  const hasBlend = usesBlendModes(layers);
+
   const layerDivs = layers
     .map((l, i) => {
+      const scaledBlur = scaleBlur(l.blur);
       const classes = [
-        "absolute inset-0",
-        `mix-blend-${l.blendMode.replace("-", "-")}`,
-        l.blur > 0 ? `blur-[${l.blur}px]` : "",
+        "absolute inset-0 pointer-events-none",
+        scaledBlur > 0 ? `blur-[${scaledBlur}px] md:blur-[130px]` : "",
         l.opacity != null && l.opacity !== 1 ? `opacity-${Math.round(l.opacity * 100)}` : "",
       ]
         .filter(Boolean)
@@ -44,15 +67,24 @@ export function toTailwind(g: Gradient, layers: Layer[]): string {
       const style = [
         `background: ${l.background}`,
         l.backgroundSize ? `background-size: ${l.backgroundSize}` : "",
+        `mix-blend-mode: ${l.blendMode}`,
       ]
         .filter(Boolean)
         .join("; ");
 
-      return `  <!-- Layer ${i + 1} -->\n  <div class="${classes}"\n       style="${style}"></div>`;
+      return `  <!-- Layer ${i + 1} -->\n  <div class="${classes}"\n       style="${style}" aria-hidden="true"></div>`;
     })
     .join("\n");
 
-  return `<!-- ${g.name} — Aura (${g.category}) -->\n<div class="relative overflow-hidden bg-[${g.base}]">\n${layerDivs}\n  <!-- Your content here -->\n</div>`;
+  const containerClass = hasBlend
+    ? "relative overflow-hidden"
+    : `relative overflow-hidden bg-[${g.base}]`;
+
+  const bodyComment = hasBlend
+    ? `<!-- ⚠️ Set body bg: <body class="bg-[${g.base}]"> -->\n`
+    : "";
+
+  return `${bodyComment}<!-- ${g.name} — Aura (${g.category}) -->\n<div class="${containerClass}">\n${layerDivs}\n  <!-- Your content here -->\n</div>`;
 }
 
 /* ── CSS Custom Properties ── */
@@ -76,23 +108,33 @@ export function toCSSVariables(g: Gradient, layers: Layer[]): string {
 /* ── CSS-in-JS (React) ── */
 
 export function toCSSInJS(g: Gradient, layers: Layer[]): string {
+  const hasBlend = usesBlendModes(layers);
+
   const layerObjs = layers
     .map((l, i) => {
+      const scaledBlur = scaleBlur(l.blur);
       const obj = [
         `    background: "${l.background}",`,
-        `    mixBlendMode: "${l.blendMode}" as const,`,
-        l.blur > 0 ? `    filter: "blur(${l.blur}px)",` : null,
         l.backgroundSize ? `    backgroundSize: "${l.backgroundSize}",` : null,
+        `    mixBlendMode: "${l.blendMode}" as const,`,
+        scaledBlur > 0 ? `    filter: "blur(${scaledBlur}px)", /* use 130px on desktop */` : null,
         l.opacity != null && l.opacity !== 1 ? `    opacity: ${l.opacity},` : null,
+        `    transform: "translateZ(0)",`,
       ]
         .filter(Boolean)
         .join("\n");
 
-      return `  // Layer ${i + 1}\n  {\n    position: "absolute" as const,\n    inset: 0,\n${obj}\n  },`;
+      return `  // Layer ${i + 1}\n  {\n    position: "absolute" as const,\n    inset: 0,\n${obj}\n    pointerEvents: "none" as const,\n  },`;
     })
     .join("\n");
 
-  return `// ${g.name} — Aura (${g.category})\nconst baseStyle = {\n  position: "relative" as const,\n  overflow: "hidden",\n  backgroundColor: "${g.base}",\n};\n\nconst layers = [\n${layerObjs}\n];`;
+  const bgNote = hasBlend
+    ? `// ⚠️ Set body background to "${g.base}" in global CSS\n// Container must NOT have backgroundColor for blend modes to work\n`
+    : "";
+
+  const containerBg = hasBlend ? "" : `\n  backgroundColor: "${g.base}",`;
+
+  return `${bgNote}// ${g.name} — Aura (${g.category})\nconst containerStyle = {\n  position: "relative" as const,\n  overflow: "hidden",${containerBg}\n};\n\nconst layers = [\n${layerObjs}\n];`;
 }
 
 export type ExportFormat = "css" | "tailwind" | "variables" | "cssinjs";

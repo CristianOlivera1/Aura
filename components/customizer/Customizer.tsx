@@ -137,23 +137,23 @@ export function Customizer() {
       }}
     >
       {/* ══ Left: Live Preview ══ */}
-      <div className="relative flex-1 overflow-hidden" data-customizer-preview>
-        {/* Base color from customizer state */}
-        <div
-          className="absolute inset-0 transition-colors duration-300"
-          style={{ backgroundColor: effectiveBase }}
-        />
+      <div
+        className="relative flex-1 overflow-hidden transition-colors duration-300"
+        data-customizer-preview
+        style={{ backgroundColor: effectiveBase }}
+      >
+        {/* NO extra base div — blend modes must composite directly against
+            the container's own background, same as body bg on the main page */}
 
         {/* Dynamic layers */}
         {effectiveLayers.map((layer, i) => (
           <div
             key={i}
-            className="absolute inset-0"
+            className={`absolute inset-0 ${layer.blur > 0 ? "blur-[90px] md:blur-[130px]" : ""}`}
             style={{
               backgroundImage: layer.background,
               backgroundSize: layer.backgroundSize ?? "cover",
               mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
-              filter: layer.blur > 0 ? `blur(${Math.min(layer.blur * 2.5, 130)}px)` : undefined,
               opacity: layer.opacity ?? 1,
             }}
           />
