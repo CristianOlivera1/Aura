@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
@@ -14,6 +14,9 @@ import {
 } from "@/hooks/useGradientParser";
 import type { Layer } from "@/lib/gradients";
 
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export function Customizer() {
   const {
     active,
@@ -21,10 +24,16 @@ export function Customizer() {
     toggleFullscreen,
     goNext,
     goPrev,
+    random,
     effectiveLayers,
     effectiveGrain,
+    custom,
     dispatchCustom,
   } = useGradients();
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const canUndo = custom.history.length > 0;
+  const canRedo = custom.redo.length > 0;
 
   /* ── Keyboard shortcuts ── */
   const handleKeyDown = useCallback(
@@ -33,18 +42,58 @@ export function Customizer() {
       if (e.key === "Escape") toggleFullscreen();
       if (e.key === "ArrowRight") goNext();
       if (e.key === "ArrowLeft") goPrev();
-      if (e.key === "z" && (e.ctrlKey || e.metaKey)) {
+      if (e.key === "r" || e.key === "R") random();
+      if ((e.key === "z" || e.key === "Z") && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        dispatchCustom({ type: "UNDO" });
+        dispatchCustom({ type: e.shiftKey ? "REDO" : "UNDO" });
       }
     },
-    [fullscreen, toggleFullscreen, goNext, goPrev, dispatchCustom],
+    [fullscreen, toggleFullscreen, goNext, goPrev, random, dispatchCustom],
   );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  /* ── Focus trap: keep Tab navigation inside the dialog, restore focus on close ── */
+  useEffect(() => {
+    if (!fullscreen) return;
+    const modal = modalRef.current;
+    if (!modal) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const focusables = () =>
+      Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (el) => el.offsetParent !== null,
+      );
+
+    (focusables()[0] ?? modal).focus();
+
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const list = focusables();
+      if (list.length === 0) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      const current = document.activeElement as HTMLElement | null;
+      if (e.shiftKey) {
+        if (current === first || !modal.contains(current)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (current === last || !modal.contains(current)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", trap);
+    return () => {
+      window.removeEventListener("keydown", trap);
+      previouslyFocused?.focus();
+    };
+  }, [fullscreen]);
 
   /* ── Node data (only for positioned gradients) ── */
   const nodes = useMemo(
@@ -122,6 +171,10 @@ export function Customizer() {
 
   return (
     <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Gradient customizer"
       className="fixed inset-0 z-[100] flex"
       style={{
         animation: "fullscreen-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both",
@@ -186,14 +239,22 @@ export function Customizer() {
 
       {/* ══ Right: Control Panel ══ */}
       {/* Aplicando los tonos oscuros de la imagen: #0a0a0a para el panel general y bordes sutiles white/5 */}
-      <div className="w-[370px] bg-[#0a0a0a] border-l border-white/5 flex flex-col overflow-hidden">
+      <div className="w-[400px] bg-[#0a0a0a] border-l border-white/5 flex flex-col overflow-hidden">
         {/* Panel header - Fondo ligeramente contrastado */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-[#0d0d0d]">
+        <div className="flex items-center justify-between px-5 py-2 border-b border-white/5 bg-[#0d0d0d]">
           <div className="flex items-center gap-2">
             <Icon icon="lucide:sliders-horizontal" width={15} height={15} className="text-white/60" />
             <span className="text-[13px] font-medium text-white/90">Customize</span>
           </div>
           <div className="flex items-center gap-1.5">
+            <button
+              onClick={random}
+              title="Random gradient (R)"
+              aria-label="Random gradient"
+              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
+            >
+              <Icon icon="lucide:shuffle" width={14} height={14} />
+            </button>
             <button
               onClick={handleReset}
               title="Reset to original"
@@ -203,10 +264,21 @@ export function Customizer() {
             </button>
             <button
               onClick={() => dispatchCustom({ type: "UNDO" })}
+              disabled={!canUndo}
               title="Undo (Ctrl+Z)"
-              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
+              aria-label="Undo"
+              className="text-white/40 hover:text-white disabled:opacity-30 disabled:hover:text-white/40 transition-colors p-1.5 rounded hover:bg-white/5"
             >
               <Icon icon="lucide:undo-2" width={14} height={14} />
+            </button>
+            <button
+              onClick={() => dispatchCustom({ type: "REDO" })}
+              disabled={!canRedo}
+              title="Redo (Ctrl+Shift+Z)"
+              aria-label="Redo"
+              className="text-white/40 hover:text-white disabled:opacity-30 disabled:hover:text-white/40 transition-colors p-1.5 rounded hover:bg-white/5"
+            >
+              <Icon icon="lucide:redo-2" width={14} height={14} />
             </button>
             <button
               onClick={toggleFullscreen}
@@ -219,7 +291,7 @@ export function Customizer() {
         </div>
 
         {/* Scrollable controls */}
-        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto px-5 py-6 space-y-6 ui-styled-scrollbar">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto px-5 pt-6 pb-0 space-y-4 ui-styled-scrollbar">
           {/* Scrollbar CSS sutil para igualar el aspecto técnico */}
           <style>{`
             .ui-styled-scrollbar::-webkit-scrollbar {
@@ -239,11 +311,6 @@ export function Customizer() {
 
           {/* Global controls */}
           <div className="flex flex-col gap-4">
-            {/* Títulos de sección con el tracking espaciado que se ve en la imagen (e.g. SWATCHES) */}
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold">
-              Global
-            </span>
-
             {/* Grain toggle */}
             <div className="flex items-center justify-between">
               <label className="text-[13px] text-white/60 font-medium">Grain Overlay</label>
@@ -287,6 +354,9 @@ export function Customizer() {
         <div className="px-5 py-3 border-t border-white/5 bg-[#0d0d0d] flex items-center gap-4 text-white/40 text-[11px] font-medium tracking-wide">
           <span className="flex items-center gap-1.5">
             <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">←→</kbd> nav
+          </span>
+          <span className="flex items-center gap-1.5">
+            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">R</kbd> random
           </span>
           <span className="flex items-center gap-1.5">
             <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">⌘Z</kbd> undo

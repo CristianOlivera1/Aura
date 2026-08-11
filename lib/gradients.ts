@@ -59,7 +59,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "vivid",
     desc: "Blue into orange, high key",
-    dark: false,
+    dark: true,
     text: "#24406e",
     base: "#0a0a0a",
     layers: [
@@ -220,7 +220,152 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
+  {
+    id: "midnight-sapphire",
+    name: "Midnight Sapphire",
+    category: "aura",
+    mood: "cool",
+    desc: "Deep cobalt bleeding into violet ink",
+    dark: true,
+    text: "#c8d4ff",
+    base: "#0a0c1a",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(61,90,255,0.12) 28%, rgb(255,255,255) 18%, rgb(45,55,135) 68%, rgb(20,25,60) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(61,90,255,0.22) 34%, rgb(255,255,255) 66%, rgb(45,55,135) 82%, rgb(20,25,60) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "ocean-pearl",
+    name: "Ocean Pearl",
+    category: "aura",
+    mood: "cool",
+    desc: "Seafoam drifting into abyssal blue",
+    dark: true,
+    text: "#1a3a4a",
+    base: "#f0f7fa",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(178,235,242,0.12) 28%, rgb(255,255,255) 18%, rgb(77,182,200) 68%, rgb(45,100,130) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(178,235,242,0.22) 34%, rgb(255,255,255) 66%, rgb(77,182,200) 82%, rgb(45,100,130) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "arctic-frost",
+    name: "Arctic Frost",
+    category: "aura",
+    mood: "cool",
+    desc: "Ice crystal refracting into periwinkle",
+    dark: true,
+    text: "#1a2a4a",
+    base: "#f2f6fa",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(200,230,255,0.12) 28%, rgb(255,255,255) 18%, rgb(150,200,255) 68%, rgb(100,130,200) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(200,230,255,0.22) 34%, rgb(255,255,255) 66%, rgb(150,200,255) 82%, rgb(100,130,200) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "silver-mist",
+    name: "Silver Mist",
+    category: "aura",
+    mood: "cool",
+    desc: "Mercury grey dissolving into pale lilac",
+    dark: true,
+    text: "#2a2a3a",
+    base: "#f5f5f7",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(200,200,210,0.12) 28%, rgb(255,255,255) 18%, rgb(160,160,180) 68%, rgb(130,120,160) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(200,200,210,0.22) 34%, rgb(255,255,255) 66%, rgb(160,160,180) 82%, rgb(130,120,160) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
 
+  /* ── VIVID ── */
+
+  {
+    id: "aurora-borealis",
+    name: "Aurora Borealis",
+    category: "aura",
+    mood: "vivid",
+    desc: "Emerald arc into electric violet",
+    dark: true,
+    text: "#1a4a3e",
+    base: "#f2faf6",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,255,166,0.12) 28%, rgb(255,255,255) 18%, rgb(61,200,255) 68%, rgb(139,92,246) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,255,166,0.22) 34%, rgb(255,255,255) 66%, rgb(61,200,255) 82%, rgb(139,92,246) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "nebula-void",
+    name: "Nebula Void",
+    category: "aura",
+    mood: "vivid",
+    desc: "Cosmic dust swirling through deep space",
+    dark: true,
+    text: "#e0d4ff",
+    base: "#08060a",
+    layers: [
+      { background: "radial-gradient(ellipse 100% 100% at 50% 0%, rgb(10,10,15) 0%, rgb(40,20,60) 40%, rgb(100,40,180) 70%, rgb(60,100,255) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "radial-gradient(ellipse 105% 105% at 50% -5%, rgb(12,12,18) 0%, rgb(45,25,65) 42%, rgb(110,45,190) 72%, rgb(65,105,255) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+
+  {
+    id: "aurora-beams",
+    name: "Aurora Beams",
+    category: "lattice",
+    mood: "cool",
+    desc: "Diagonal repeating light beams heavily blurred with a teal base glow",
+    dark: true,
+    text: "#ffffff",
+    base: "#0a0a0a",
+    grain: true,
+    layers: [
+      {
+        background:
+          "radial-gradient(55.8% 55.49% at 50% 100%, rgb(38, 77, 76) 0%, rgba(25, 48, 47, 0) 100%)",
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+
+      {
+        background: `
+        repeating-linear-gradient(
+          100deg,
+          #262626 0%,
+          #262626 3%,
+          rgba(38, 38, 38, 0.7) 5%,
+          rgba(38, 38, 38, 0.7) 7%,
+          transparent 10%,
+          transparent 12%,
+          rgba(38, 38, 38, 0.7) 14%,
+          #262626 16%
+        ),
+        repeating-linear-gradient(
+          100deg,
+          #9ca3af 0%,
+          #9ca3af 1.5%,
+          rgba(156, 163, 175, 0.8) 2%,
+          #6b7280 3%,
+          #6b7280 4%,
+          rgba(156, 163, 175, 0.8) 4.5%,
+          #9ca3af 5%
+        )
+      `,
+        backgroundSize: "300% 200%",
+        blendMode: "screen",
+        blur: 30,
+        opacity: 0.9,
+      },
+
+      {
+        background:
+          "radial-gradient(ellipse at 100% 100%, #ffffff 20%, #0a0a0a 80%)",
+        blendMode: "multiply",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
   /* ── MESH — Multi-point radial gradient compositions ── */
 
   {
@@ -507,7 +652,147 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 50%)", blendMode: "multiply", blur: 20 },
     ],
   },
+  {
+    id: "deep-cosmos",
+    name: "Deep Cosmos",
+    category: "nebula",
+    mood: "cool",
+    desc: "Deep purple abyss with stellar glows and distant twinkling stars",
+    dark: true,
+    text: "#ffffff",
+    base: "#0F0F12",
+    layers: [
+      {
+        background: "linear-gradient(180deg, #0F0F12 0%, rgba(76, 29, 149, 0.5) 50%, rgba(109, 40, 217, 0.7) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      },
+      {
+        background: "radial-gradient(ellipse at 50% 115%, rgba(147, 51, 234, 0.55) 0%, rgba(109, 40, 217, 0.2) 60%, transparent 80%)",
+        blendMode: "screen",
+        blur: 120, 
+        opacity: 1,
+      },
+      {
+        background: "radial-gradient(circle at 100% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%)",
+        blendMode: "screen",
+        blur: 100,
+        opacity: 1,
+      },
+      {
+        background: `
+          radial-gradient(circle at 12% 18%, rgba(255,255,255,0.8) 1px, transparent 3px),
+          radial-gradient(circle at 78% 14%, rgba(250,232,255,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 88% 44%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 18% 58%, rgba(233,213,255,1) 1.5px, transparent 4px),
+          radial-gradient(circle at 6% 40%, rgba(255,255,255,0.6) 1px, transparent 3px),
+          radial-gradient(circle at 68% 6%, rgba(250,232,255,0.8) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      }
+    ],
+  },
 
+  /* ── BEAMS — Light shafts through darkness ── */
+  {
+    id: "emerald-beams",
+    name: "Emerald Beams",
+    category: "aura",
+    mood: "cool",
+    desc: "Verdant light shafts through deep forest",
+    dark: true,
+    text: "#c8f0d8",
+    base: "#060f0a",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(40,100,70,0.5) 0%, rgba(30,80,55,0.25) 3%, transparent 5%, transparent 8%, rgba(35,90,60,0.35) 10%, rgba(40,100,70,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(45,120,85,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(80,180,130,0.12) 0%, rgba(60,150,100,0.08) 2%, transparent 4%, rgba(70,160,110,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
+  {
+    id: "midnight-beams",
+    name: "Midnight Beams",
+    category: "aura",
+    mood: "cool",
+    desc: "Indigo rays slicing through midnight",
+    dark: true,
+    text: "#c4c8f0",
+    base: "#080a14",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(50,55,100,0.5) 0%, rgba(40,45,80,0.25) 3%, transparent 5%, transparent 8%, rgba(45,50,90,0.35) 10%, rgba(50,55,100,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(55,65,130,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(100,110,200,0.12) 0%, rgba(80,90,170,0.08) 2%, transparent 4%, rgba(90,100,185,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
+  {
+    id: "amber-beams",
+    name: "Amber Beams",
+    category: "aura",
+    mood: "warm",
+    desc: "Golden shafts through smoked glass",
+    dark: true,
+    text: "#f5e6c8",
+    base: "#0f0a04",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(120,90,40,0.5) 0%, rgba(100,75,30,0.25) 3%, transparent 5%, transparent 8%, rgba(110,82,35,0.35) 10%, rgba(120,90,40,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(140,105,45,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(200,160,80,0.12) 0%, rgba(180,140,60,0.08) 2%, transparent 4%, rgba(190,150,70,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
+  {
+    id: "platinum-beams",
+    name: "Platinum Beams",
+    category: "aura",
+    mood: "cool",
+    desc: "Silver light refracting through crystal",
+    dark: true,
+    text: "#e8e8f0",
+    base: "#0a0a0f",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(80,80,100,0.5) 0%, rgba(65,65,85,0.25) 3%, transparent 5%, transparent 8%, rgba(72,72,92,0.35) 10%, rgba(80,80,100,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(90,90,120,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(150,150,180,0.12) 0%, rgba(130,130,160,0.08) 2%, transparent 4%, rgba(140,140,170,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
+  {
+    id: "teal-beams",
+    name: "Teal Beams",
+    category: "aura",
+    mood: "cool",
+    desc: "Abyssal light filtering through deep water",
+    dark: true,
+    text: "#c8f0f0",
+    base: "#040f0f",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(30,80,80,0.5) 0%, rgba(25,65,65,0.25) 3%, transparent 5%, transparent 8%, rgba(28,72,72,0.35) 10%, rgba(30,80,80,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(35,95,95,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(60,160,160,0.12) 0%, rgba(50,140,140,0.08) 2%, transparent 4%, rgba(55,150,150,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
+  {
+    id: "magenta-beams",
+    name: "Magenta Beams",
+    category: "aura",
+    mood: "vivid",
+    desc: "Neon pink slicing through the dark",
+    dark: true,
+    text: "#f0c8f0",
+    base: "#0f040f",
+    grain: true,
+    layers: [
+      { background: "repeating-linear-gradient(100deg, rgba(100,30,80,0.5) 0%, rgba(80,25,65,0.25) 3%, transparent 5%, transparent 8%, rgba(90,28,72,0.35) 10%, rgba(100,30,80,0.5) 12%)", blendMode: "screen", blur: 24, opacity: 0.6 },
+      { background: "radial-gradient(55% 55% at 50% 55%, rgba(120,35,95,0.4) 0%, transparent 100%)", blendMode: "soft-light", blur: 40, opacity: 0.8 },
+      { background: "repeating-linear-gradient(100deg, rgba(200,60,160,0.12) 0%, rgba(170,50,135,0.08) 2%, transparent 4%, rgba(185,55,148,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
+    ],
+  },
   /* ── GRAIN — Gradient + SVG noise texture ── */
 
   {

@@ -2,6 +2,7 @@ import { AuraBackground } from "@/components/AuraBackground";
 import { GradientProvider } from "@/components/GradientProvider";
 import { Hero } from "@/components/Hero";
 import { GradientsSection } from "@/components/GradientsSection";
+import { BackToGalleryButton } from "@/components/BackToGalleryButton";
 import { Customizer } from "@/components/customizer/Customizer";
 import { CopyToastWrapper } from "@/components/CopyToastWrapper";
 import { Footer } from "@/components/layout/Footer";
@@ -12,11 +13,12 @@ export default function Home() {
     <GradientProvider>
       <AuraBackground />
       <Header />
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 outline-none">
         <Hero />
         <GradientsSection />
       </main>
       <Footer />
+      <BackToGalleryButton />
       <Customizer />
       <CopyToastWrapper />
     </GradientProvider>

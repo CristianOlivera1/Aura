@@ -287,3 +287,54 @@ button{
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--color-muted-fg) 50%, transparent);
 }
+
+/* ── Reduced motion: respect the user's preference ── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Show the hover overlay on keyboard focus too */
+.swatch:focus-within .swatch-overlay,
+.swatch:focus .swatch-overlay {
+  opacity: 1;
+}
+
+/* Flash ring on the active card when returning from a preview */
+@keyframes card-flash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 179, 61, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(231, 179, 61, 0.5);
+  }
+}
+
+.card-flash {
+  animation: card-flash 0.8s ease-out 2;
+}
+
+.squircle-element {
+  corner-shape: squircle;
+  border-radius: 20px;
+}
+
+.squircle-element-xl {
+  corner-shape: squircle;
+  border-radius: 40px;
+}

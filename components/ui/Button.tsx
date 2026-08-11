@@ -8,8 +8,8 @@ type Size = "sm" | "md" | "lg" | "icon" | "icon-sm";
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-accent text-accent-fg font-medium hover:opacity-90 transition-opacity",
-  glass: "glass border border-muted font-medium inline-flex items-center justify-center gap-2 hover:border-accent hover:text-accent transition-colors",
+    "bg-accent text-accent-fg font-medium hover:opacity-90 transition-opacity squircle-element",
+  glass: "glass border border-muted font-medium inline-flex items-center justify-center gap-2 hover:border-accent hover:text-accent transition-colors squircle-element",
 };
 
 const sizeClasses: Record<Size, string> = {

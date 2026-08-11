@@ -50,7 +50,7 @@ export function Hero() {
         <div ref={ctaRef} className="reveal flex flex-wrap justify-center gap-3 mt-10">
           <a
             href="#gradients"
-            className="bg-accent text-accent-fg px-6 py-2.5 text-base font-medium hover:opacity-90 transition-opacity rounded-md"
+            className="bg-accent text-accent-fg px-6 py-2.5 text-base font-medium hover:opacity-90 transition-opacity squircle-element"
           >
             Browse gradients
           </a>
@@ -58,7 +58,7 @@ export function Hero() {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="glass border border-muted px-6 py-2.5 text-base font-medium flex items-center gap-2 hover:border-accent hover:text-accent transition-colors rounded-md"
+            className="glass border border-muted px-6 py-2.5 text-base font-medium flex items-center gap-2 hover:border-accent hover:text-accent transition-colors squircle-element"
           >
             <Icon icon="lucide:github" width={15} height={15} />
             Star on GitHub

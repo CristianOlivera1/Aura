@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, type MouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
@@ -13,17 +13,32 @@ interface Props {
 }
 
 export function GradientCard({ gradient, index }: Props) {
-  const { active, apply, toggleFullscreen } = useGradients();
+  const { active, apply, preview, toggleFullscreen, flashTick } = useGradients();
   const isActive = active?.id === gradient.id;
 
   const cardRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const revealRef = useReveal<HTMLDivElement>({ stagger: index % 3 });
 
+  /* Flash this card when the user returns to the gallery from a preview */
+  const [flash, setFlash] = useState(false);
+  const prevFlashTick = useRef(flashTick);
+  useEffect(() => {
+    const changed = prevFlashTick.current !== flashTick;
+    prevFlashTick.current = flashTick;
+    if (changed && isActive) {
+      setFlash(true);
+      const t = setTimeout(() => setFlash(false), 1600);
+      return () => clearTimeout(t);
+    }
+  }, [flashTick, isActive]);
+
   const categoryMeta = CATEGORIES.find((c) => c.id === gradient.category);
 
   /* ── 3D tilt effect original ── */
   const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const card = cardRef.current;
     const highlight = highlightRef.current;
     if (!card || !highlight) return;
@@ -48,24 +63,42 @@ export function GradientCard({ gradient, index }: Props) {
   }, []);
 
   const handlePreview = useCallback(() => {
-    apply(gradient.id);
-  }, [apply, gradient.id]);
+    preview(gradient.id);
+  }, [preview, gradient.id]);
 
   const handleCustomize = useCallback(() => {
     apply(gradient.id);
     toggleFullscreen();
   }, [apply, gradient.id, toggleFullscreen]);
 
+  const handleCardKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        preview(gradient.id);
+      }
+    },
+    [preview, gradient.id],
+  );
+
   return (
-    <div ref={revealRef} className="reveal">
+    <div
+      ref={revealRef}
+      className="reveal outline-none squircle-element-xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]"
+      data-card
+      tabIndex={0}
+      role="group"
+      aria-label={`${gradient.name}: ${gradient.desc}`}
+      onKeyDown={handleCardKeyDown}
+    >
       {/* ── CARD PRINCIPAL (Sin el wrapper del borde giratorio, con sombra sutil y esquinas redondeadas amplias) ── */}
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`swatch marks relative w-full aspect-[1/1.15] rounded-[20px] border-r border-b border-muted overflow-hidden transition-all duration-300 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
+        className={`swatch marks relative w-full aspect-[1/1.15] squircle-element-xl border-r border-b border-muted overflow-hidden transition-all duration-300 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
           isActive ? "is-active" : ""
-        }`}
+        } ${flash ? "card-flash" : ""}`}
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Base — same body bg color AuraBackground composites against */}
@@ -103,28 +136,28 @@ export function GradientCard({ gradient, index }: Props) {
         <div className="swatch-overlay absolute inset-0 bg-black/35 flex items-center justify-center gap-3 z-30">
           <button
             onClick={handlePreview}
-            className="flex items-center gap-2 bg-white/95 text-[#14130f] px-4 py-2 text-sm font-medium hover:bg-white transition-colors rounded-md shadow-lg"
+            className="flex items-center gap-2 bg-white/95 text-[#14130f] px-4 py-2 text-sm font-medium hover:bg-white transition-colors squircle-element shadow-lg"
           >
             <Icon icon="lucide:eye" width={14} height={14} /> Preview
           </button>
           <button
             onClick={handleCustomize}
-            className="flex items-center gap-2 bg-white/20 text-white px-4 py-2 text-sm font-medium hover:bg-white/30 transition-colors backdrop-blur-sm rounded-md border border-white/20 shadow-lg"
+            className="flex items-center gap-2 bg-white/20 text-white px-4 py-2 text-sm font-medium hover:bg-white/30 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
           >
-            <Icon icon="lucide:sliders-horizontal" width={14} height={14} /> Personalizar
+            <Icon icon="lucide:sliders-horizontal" width={14} height={14} /> Customize
           </button>
         </div>
 
         {/* Active badge */}
         {isActive && (
-          <span className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-[#B38728] via-[#FBF5B7] to-[#AA771C] text-neutral-950 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 z-30 rounded-md shadow-[0_2px_10px_rgba(179,135,40,0.3)] border border-[#FBF5B7]/40">
+          <span className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-[#B38728] via-[#FBF5B7] to-[#AA771C] text-neutral-950 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 z-30 squircle-element shadow-[0_2px_10px_rgba(179,135,40,0.3)] border border-[#FBF5B7]/40">
             <Icon icon="lucide:check" width={11} height={11} className="stroke-[3]" /> Active
           </span>
         )}
 
         {/* Category badge */}
         {categoryMeta && (
-          <span className="absolute top-4 left-4 flex items-center gap-1 bg-black/40 text-white/80 text-[9px] font-medium uppercase tracking-wider px-2 py-1 z-10 rounded-md backdrop-blur-sm border border-white/10">
+          <span className="absolute top-4 left-4 flex items-center gap-1 bg-black/40 text-white/80 text-[9px] font-medium uppercase tracking-wider px-2 py-1 z-10 squircle-element backdrop-blur-sm border border-white/10">
             <Icon icon={categoryMeta.icon} width={10} height={10} /> {categoryMeta.label}
           </span>
         )}

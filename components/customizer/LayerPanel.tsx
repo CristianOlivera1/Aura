@@ -101,7 +101,7 @@ function LayerRow({
   );
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-lg p-3 space-y-2.5 transition-all hover:border-white/20">
+    <div className="bg-white/5 border border-white/10 squircle-element p-3 space-y-2.5 transition-all hover:border-white/20">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

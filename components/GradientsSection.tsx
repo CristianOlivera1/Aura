@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState, type KeyboardEvent } from "react";
 import { Icon } from "@iconify/react";
 import { GradientCard } from "@/components/GradientCard";
 import { useGradients } from "@/components/GradientProvider";
@@ -11,13 +11,84 @@ import { GRADIENTS, CATEGORIES, type Category } from "@/lib/gradients";
 type CategoryFilter = "all" | Category;
 
 export function GradientsSection() {
-  const { active, reset } = useGradients();
+  const { active, reset, random } = useGradients();
   const [category, setCategory] = useState<CategoryFilter>("all");
+  const [query, setQuery] = useState("");
+  const catRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const visible =
-    category === "all"
-      ? GRADIENTS
-      : GRADIENTS.filter((g) => g.category === category);
+  const q = query.trim().toLowerCase();
+  const visible = GRADIENTS.filter(
+    (g) =>
+      (category === "all" || g.category === category) &&
+      (!q ||
+        g.name.toLowerCase().includes(q) ||
+        g.desc.toLowerCase().includes(q)),
+  );
+
+  /* Roving-tabindex keyboard nav for the category tabs */
+  const handleTabKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLElement>, index: number) => {
+      let next = -1;
+      switch (e.key) {
+        case "ArrowRight":
+        case "ArrowDown":
+          next = (index + 1) % CATEGORIES.length;
+          break;
+        case "ArrowLeft":
+        case "ArrowUp":
+          next = (index - 1 + CATEGORIES.length) % CATEGORIES.length;
+          break;
+        case "Home":
+          next = 0;
+          break;
+        case "End":
+          next = CATEGORIES.length - 1;
+          break;
+        default:
+          return;
+      }
+      e.preventDefault();
+      const id = CATEGORIES[next].id as CategoryFilter;
+      setCategory(id);
+      catRefs.current[next]?.focus();
+    },
+    [],
+  );
+
+  /* Arrow-key navigation across the gradient cards */
+  const handleGridKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
+    const grid = e.currentTarget;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>("[data-card]"));
+    const idx = cards.indexOf(document.activeElement as HTMLElement);
+    if (idx === -1) return;
+
+    let next = -1;
+    switch (e.key) {
+      case "ArrowRight":
+        next = idx + 1;
+        break;
+      case "ArrowLeft":
+        next = idx - 1;
+        break;
+      case "ArrowDown":
+      case "ArrowUp": {
+        const cols = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+        next = e.key === "ArrowDown" ? idx + cols : idx - cols;
+        break;
+      }
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = cards.length - 1;
+        break;
+      default:
+        return;
+    }
+    if (next < 0 || next >= cards.length) return;
+    e.preventDefault();
+    cards[next].focus();
+  }, []);
 
   return (
     <section id="gradients">
@@ -41,6 +112,14 @@ export function GradientsSection() {
             </Badge>
             <span className="w-px h-4 bg-muted mx-1" />
             <Button
+              onClick={random}
+              title="Random gradient"
+              aria-label="Random gradient"
+              size="icon-sm"
+              icon="lucide:shuffle"
+              iconSize={13}
+            />
+            <Button
               onClick={reset}
               title="Reset background"
               aria-label="Reset background"
@@ -51,15 +130,32 @@ export function GradientsSection() {
           </div>
         </div>
 
-        {/* Category tabs */}
-        <div className="glass border border-muted inline-flex flex-wrap items-center gap-x-1 gap-y-1 p-1 rounded-lg">
-          {CATEGORIES.map((cat) => {
+        {/* Category tabs + search */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div
+            role="tablist"
+            aria-label="Gradient categories"
+            onKeyDown={(e) => {
+              const idx = CATEGORIES.findIndex((c) => c.id === category);
+              if (idx !== -1) handleTabKeyDown(e, idx);
+            }}
+            className="glass border border-muted inline-flex flex-wrap items-center gap-x-1 gap-y-1 p-1 squircle-element"
+          >
+          {CATEGORIES.map((cat, i) => {
             const isActive = category === cat.id;
             return (
               <button
                 key={cat.id}
+                ref={(el) => {
+                  catRefs.current[i] = el;
+                }}
+                role="tab"
+                id={`cat-${cat.id}`}
+                aria-selected={isActive}
+                aria-controls="gradients-grid-panel"
+                tabIndex={isActive ? 0 : -1}
                 onClick={() => setCategory(cat.id as CategoryFilter)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 rounded-md ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element ${
                   isActive
                     ? "bg-accent text-accent-fg shadow-sm"
                     : "text-muted-fg hover:text-fg hover:bg-muted/30"
@@ -70,11 +166,32 @@ export function GradientsSection() {
               </button>
             );
           })}
+          </div>
+
+          {/* Search */}
+          <label className="glass border border-muted flex items-center gap-2 h-9 px-3 squircle-element text-muted-fg focus-within:border-accent focus-within:text-fg transition-colors">
+            <Icon icon="lucide:search" width={14} height={14} />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search gradients…"
+              aria-label="Search gradients by name or description"
+              className="bg-transparent outline-none w-full min-w-[140px] text-sm placeholder:text-muted-fg/70"
+            />
+           
+          </label>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl w-full px-6 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        <div
+          id="gradients-grid-panel"
+          role="tabpanel"
+          aria-labelledby={`cat-${category}`}
+          onKeyDown={handleGridKeyDown}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"
+        >
           {visible.map((g, i) => (
             <GradientCard key={g.id} gradient={g} index={i} />
           ))}

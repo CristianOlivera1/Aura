@@ -52,7 +52,7 @@ export function Header() {
             onClick={toggleTheme}
             title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             aria-label="Toggle theme"
-            className="glass border border-muted flex items-center justify-center w-9 h-9 hover:border-accent hover:text-accent transition-colors"
+            className="glass border border-muted flex items-center justify-center w-9 h-9 hover:border-accent hover:text-accent transition-colors squircle-element"
           >
             <span key={isDark ? "moon" : "sun"} className="theme-icon-enter">
               <Icon
@@ -67,7 +67,7 @@ export function Header() {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="glass border border-muted flex items-center gap-2 h-9 px-3 text-sm hover:border-accent hover:text-accent transition-colors"
+            className="glass border border-muted flex items-center gap-2 h-9 px-3 text-sm hover:border-accent hover:text-accent transition-colors squircle-element"
           >
             <Icon icon="lucide:github" width={15} height={15} />
             <GitHubBadge className="text-sm" />

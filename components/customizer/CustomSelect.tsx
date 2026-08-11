@@ -60,7 +60,7 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
       {/* Trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center justify-between w-full bg-white/5 border border-white/10 hover:border-white/25 text-white text-[12px] rounded-md px-2.5 py-1.5 outline-none transition-colors"
+        className="flex items-center justify-between w-full bg-white/5 border border-white/10 hover:border-white/25 text-white text-[12px] squircle-element px-2.5 py-1.5 outline-none transition-colors"
       >
         <span className="truncate">{selected?.label ?? value}</span>
         <Icon
@@ -74,7 +74,7 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
       {/* Dropdown */}
       {open && (
         <div
-          className="absolute left-0 right-0 top-full mt-1 z-50 bg-[#16161e]/95 backdrop-blur-xl border border-white/15 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
+          className="absolute left-0 right-0 top-full mt-1 z-50 bg-[#16161e]/95 backdrop-blur-xl border border-white/15 squircle-element shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
           style={{ animation: "select-in 0.15s ease-out both" }}
         >
           <div className="py-1 max-h-48 overflow-y-auto custom-scrollbar">

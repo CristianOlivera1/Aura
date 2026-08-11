@@ -5,11 +5,23 @@ import { CopyToast } from "@/components/CopyToast";
 import { useGradients } from "@/components/GradientProvider";
 
 export function CopyToastWrapper() {
-  const { toast, clearToast } = useGradients();
+  const { toasts, dismissToast } = useGradients();
 
-  const handleDone = useCallback(() => {
-    clearToast();
-  }, [clearToast]);
+  const handleDone = useCallback(
+    (id: number) => dismissToast(id),
+    [dismissToast],
+  );
 
-  return <CopyToast message={toast ?? ""} visible={!!toast} onDone={handleDone} />;
+  return (
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] flex flex-col items-center gap-2 pointer-events-none">
+      {toasts.map((t) => (
+        <CopyToast
+          key={t.id}
+          message={t.message}
+          type={t.type}
+          onDone={() => handleDone(t.id)}
+        />
+      ))}
+    </div>
+  );
 }

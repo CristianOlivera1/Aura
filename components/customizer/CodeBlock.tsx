@@ -17,7 +17,7 @@ export function CodeBlock({ code, language }: Props) {
     <Highlight theme={themes.vsDark} code={code.trim()} language={language}>
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <pre
-          className="text-[10px] leading-relaxed p-3 overflow-auto flex-1 min-h-0 font-mono rounded-lg custom-scrollbar"
+          className="text-[10px] leading-relaxed p-3 overflow-auto flex-1 min-h-0 font-mono squircle-element custom-scrollbar"
           style={{ ...style, background: "transparent", margin: 0 }}
         >
           {tokens.map((line, i) => {
