@@ -5,6 +5,7 @@ import { GradientsSection } from "@/components/GradientsSection";
 import { BackToGalleryButton } from "@/components/BackToGalleryButton";
 import { Customizer } from "@/components/customizer/Customizer";
 import { CopyToastWrapper } from "@/components/CopyToastWrapper";
+import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 
@@ -19,6 +20,7 @@ export default function Home() {
       </main>
       <Footer />
       <BackToGalleryButton />
+      <ScrollToTopButton />
       <Customizer />
       <CopyToastWrapper />
     </GradientProvider>

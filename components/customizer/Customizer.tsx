@@ -181,7 +181,7 @@ export function Customizer() {
       }}
     >
       {/* ══ Left: Live Preview ══ */}
-      <div className="relative flex-1 overflow-hidden bg-[#0c0a08]" data-customizer-preview>
+      <div className="relative flex-1 overflow-hidden bg-[var(--color-bg)]" data-customizer-preview>
         {/* Dynamic layers */}
         {effectiveLayers.map((layer, i) => (
           <div

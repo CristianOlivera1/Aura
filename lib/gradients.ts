@@ -366,6 +366,68 @@ export const GRADIENTS: Gradient[] = [
       },
     ],
   },
+
+  {
+    id: "midnight-horizon",
+    name: "Midnight Horizon",
+    category: "aura",
+    mood: "vivid",
+    desc: "A vibrant transition from deep space blue to an electric sunrise horizon",
+    dark: true,
+    text: "#ffffff",
+    base: "hsl(240, 100%, 6%)", // El azul ultra oscuro del fondo
+    layers: [
+      {
+        background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background: "linear-gradient(to top, rgb(0, 0, 31) 0%, rgba(0, 0, 31, 0.99) 8.1%, rgba(0, 0, 31, 0.953) 15.5%, rgba(0, 0, 31, 0.894) 22.5%, rgba(0, 0, 31, 0.824) 29%, rgba(0, 0, 31, 0.74) 35.3%, rgba(0, 0, 31, 0.647) 41.2%, rgba(0, 0, 31, 0.55) 47.1%, rgba(0, 0, 31, 0.45) 52.9%, rgba(0, 0, 31, 0.353) 58.8%, rgba(0, 0, 31, 0.26) 64.7%, rgba(0, 0, 31, 0.176) 71%, rgba(0, 0, 31, 0.106) 77.5%, rgba(0, 0, 31, 0.047) 84.5%, rgba(0, 0, 31, 0.01) 91.9%, rgba(0, 0, 31, 0) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      }
+    ],
+  },
+  {
+    id: "aurora-nova",
+    name: "Aurora Nova",
+    category: "aura",
+    mood: "vivid",
+    desc: "A vibrant transition from deep cosmic violet to an electric neon sunrise",
+    dark: true,
+    text: "#ffffff",
+    base: "hsl(240, 100%, 6%)",
+    layers: [
+      {
+        background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background: "linear-gradient(to top, rgb(0, 0, 31) 0%, rgba(0, 0, 31, 0.85) 8.1%, rgba(0, 0, 31, 0.7) 15.5%, rgba(0, 0, 31, 0.55) 22.5%, rgba(0, 0, 31, 0.4) 29%, rgba(0, 0, 31, 0.25) 35.3%, rgba(0, 0, 31, 0.15) 41.2%, rgba(0, 0, 31, 0) 50%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 0.5,
+      }
+    ],
+  },
+
   /* ── MESH — Multi-point radial gradient compositions ── */
 
   {
@@ -671,7 +733,7 @@ export const GRADIENTS: Gradient[] = [
       {
         background: "radial-gradient(ellipse at 50% 115%, rgba(147, 51, 234, 0.55) 0%, rgba(109, 40, 217, 0.2) 60%, transparent 80%)",
         blendMode: "screen",
-        blur: 120, 
+        blur: 120,
         opacity: 1,
       },
       {

@@ -35,7 +35,7 @@ export function BackToGalleryButton() {
   return (
     <button
       onClick={backToGallery}
-      className="fixed bottom-6 right-6 z-40 flex items-center gap-2 glass border border-muted pl-3 pr-4 h-10 rounded-full text-sm font-medium shadow-lg hover:border-accent hover:text-accent transition-colors"
+      className="fixed bottom-6 right-20 z-40 flex items-center gap-2 glass border border-muted pl-3 pr-4 h-10 rounded-full text-sm font-medium shadow-lg hover:border-accent hover:text-accent transition-colors"
     >
       <Icon icon="lucide:arrow-down" width={14} height={14} />
       Back to gallery

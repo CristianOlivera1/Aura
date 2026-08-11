@@ -24,6 +24,34 @@ function scaleBlur(blur: number): number {
   return blur > 0 ? 90 : 0;
 }
 
+/** True if the PNG data URL has actual painted pixels (not fully transparent) */
+function hasVisiblePixels(dataUrl: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const c = document.createElement("canvas");
+        c.width = EXPORT_W;
+        c.height = EXPORT_H;
+        const ctx = c.getContext("2d");
+        if (!ctx) return resolve(false);
+        ctx.drawImage(img, 0, 0);
+        const data = ctx.getImageData(0, 0, EXPORT_W, EXPORT_H).data;
+        let visible = 0;
+        for (let i = 3; i < data.length; i += 4) {
+          if (data[i] > 0) visible++;
+          if (visible > 200) break;
+        }
+        resolve(visible > 200);
+      } catch {
+        resolve(false);
+      }
+    };
+    img.onerror = () => resolve(false);
+    img.src = dataUrl;
+  });
+}
+
 export function ExportPanel() {
   const { active, effectiveLayers, effectiveGrain, showToast } = useGradients();
   const [format, setFormat] = useState<ExportFormat>("css");
@@ -75,17 +103,35 @@ export function ExportPanel() {
     [showToast],
   );
 
-  /* Render the gradient (base + layers + grain) offscreen and download it */
+  /* Render the gradient (base + layers + grain) offscreen and download it.
+     The snapshot node lives at 0,0 inside an off-screen wrapper — html-to-image
+     clones the node with its computed styles, so a `left: -10000px` on the node
+     itself would push the content off-canvas and produce a blank image. */
   const handleDownload = useCallback(
     async (format: "png" | "svg") => {
       const node = exportRef.current;
       if (!node || !active) return;
       setDownloading(true);
       try {
+        const opts = {
+          width: EXPORT_W,
+          height: EXPORT_H,
+          pixelRatio: 1,
+          cacheBust: true,
+          style: {
+            position: "absolute" as const,
+            left: "0",
+            top: "0",
+            right: "auto",
+            bottom: "auto",
+            margin: "0",
+          },
+        };
         const url =
-          format === "png"
-            ? await toPng(node, { width: EXPORT_W, height: EXPORT_H, pixelRatio: 1 })
-            : await toSvg(node, { width: EXPORT_W, height: EXPORT_H });
+          format === "png" ? await toPng(node, opts) : await toSvg(node, opts);
+        if (format === "png" && !(await hasVisiblePixels(url))) {
+          throw new Error("blank image");
+        }
         const link = document.createElement("a");
         link.download = `${active.id}.${format}`;
         link.href = url;
@@ -211,35 +257,36 @@ export function ExportPanel() {
         </button>
       </div>
 
-      {/* Hidden export stage — rendered offscreen for html-to-image to snapshot */}
+      {/* Hidden export stage — off-screen wrapper, snapshot node at 0,0 */}
       <div
-        ref={exportRef}
         aria-hidden="true"
-        style={{
-          position: "fixed",
-          left: -10000,
-          top: 0,
-          width: EXPORT_W,
-          height: EXPORT_H,
-          backgroundColor: active.base,
-          pointerEvents: "none",
-        }}
+        style={{ position: "fixed", left: -9999, top: 0, pointerEvents: "none", zIndex: -1 }}
       >
-        {effectiveLayers.map((layer, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: layer.background,
-              backgroundSize: layer.backgroundSize ?? "cover",
-              mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
-              filter: layer.blur > 0 ? `blur(${scaleBlur(layer.blur)}px)` : undefined,
-              opacity: layer.opacity ?? 1,
-            }}
-          />
-        ))}
-        {effectiveGrain && <GrainOverlay className="absolute inset-0" />}
+        <div
+          ref={exportRef}
+          style={{
+            width: EXPORT_W,
+            height: EXPORT_H,
+            position: "relative",
+            backgroundColor: "var(--color-bg)",
+          }}
+        >
+          {effectiveLayers.map((layer, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: layer.background,
+                backgroundSize: layer.backgroundSize ?? "cover",
+                mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+                filter: layer.blur > 0 ? `blur(${scaleBlur(layer.blur)}px)` : undefined,
+                opacity: layer.opacity ?? 1,
+              }}
+            />
+          ))}
+          {effectiveGrain && <GrainOverlay className="absolute inset-0" />}
+        </div>
       </div>
     </div>
   );
