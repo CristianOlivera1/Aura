@@ -11,6 +11,7 @@
   "dependencies": {
     "@iconify/react": "^6.0.2",
     "next": "16.3.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
