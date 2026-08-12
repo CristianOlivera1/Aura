@@ -5,19 +5,23 @@ import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GitHubBadge } from "@/components/ui/GitHubBadge";
 import { GITHUB_URL } from "@/lib/constants";
-
-const CONIC_GRADIENT =
-  "conic-gradient(from 200deg, #008AFF, #F7A442, #E942F7, #008AFF)";
+import Link from "next/link";
 
 export function Logo({ size = "md" }: { size?: "md" | "sm" }) {
-  const box = size === "md" ? "w-6 h-6" : "w-5 h-5";
+  // Definimos la altura del contenedor según el tamaño: md (40px / h-10) o sm (24px / h-6)
+  // Usamos h- en lugar de size- para permitir que el ancho se adapte libremente a la imagen original
+  const isMedium = size === "md";
+  const heightClass = isMedium ? "h-10" : "h-6";
+
   return (
-    <span className={`relative ${box} rounded-full shrink-0`} style={{ background: CONIC_GRADIENT, filter: "blur(0.2px)" }}>
-      <span
-        className={`absolute inset-0 rounded-full blur-[6px] opacity-70`}
-        style={{ background: CONIC_GRADIENT }}
+    <div className={`relative ${heightClass} w-auto shrink-0`}>
+      <img
+        src="/images/metadata/aura.webp"
+        alt="Aura Logo"
+        className="h-full w-auto object-contain"
+        loading="eager" // Equivalente a priority para imágenes nativas
       />
-    </span>
+    </div>
   );
 }
 
@@ -41,10 +45,10 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-7xl w-full px-6 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-0.5">
           <Logo />
-          <span className="font-semibold text-lg tracking-tight">Aura</span>
-        </a>
+          <span className="text-3xl tracking-tight font-black italic">AURA</span>
+        </Link>
 
         <div className="flex items-center gap-2">
           {/* Theme toggle */}
@@ -55,11 +59,7 @@ export function Header() {
             className="glass border border-muted flex items-center justify-center w-9 h-9 hover:border-accent hover:text-accent transition-colors squircle-element"
           >
             <span key={isDark ? "moon" : "sun"} className="theme-icon-enter">
-              <Icon
-                icon={isDark ? "lucide:moon" : "lucide:sun"}
-                width={16}
-                height={16}
-              />
+              <Icon icon={isDark ? "lucide:moon" : "lucide:sun"} width={16} height={16} />
             </span>
           </button>
 

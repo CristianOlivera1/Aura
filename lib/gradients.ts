@@ -428,6 +428,158 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
+  {
+    id: "solstice-veil",
+    name: "Solstice Veil",
+    category: "aura",
+    mood: "warm",
+    desc: "Horizonte ámbar que se disuelve en dusk rosa-violeta",
+    dark: true,
+    text: "#ffe9df",
+    base: "hsl(345, 55%, 6%)",
+    layers: [
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,94,58,0.9) 40%, rgb(255,255,255) 70%, rgb(255,159,67) 82%, rgb(236,64,122) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,94,58,0.9) 40%, rgb(255,255,255) 70%, rgb(255,159,67) 82%, rgb(236,64,122) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(to top, rgb(31,4,10) 0%, rgba(31,4,10,0.9) 15%, rgba(31,4,10,0.6) 35%, rgba(31,4,10,0.25) 60%, rgba(31,4,10,0) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "arctic-dawn",
+    name: "Arctic Dawn",
+    category: "aura",
+    mood: "cool",
+    desc: "Horizonte cian helado que se funde en rosa pálido",
+    dark: true,
+    text: "#e8f4ff",
+    base: "hsl(205, 60%, 6%)",
+    layers: [
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(56,189,248,0.9) 40%, rgb(255,255,255) 70%, rgb(199,210,254) 82%, rgb(249,168,212) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(56,189,248,0.9) 40%, rgb(255,255,255) 70%, rgb(199,210,254) 82%, rgb(249,168,212) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "neon-skyline",
+    name: "Neon Skyline",
+    category: "aura",
+    mood: "vivid",
+    desc: "Horizonte cian eléctrico sangrando hacia magenta neón",
+    dark: true,
+    text: "#f5e6ff",
+    base: "hsl(265, 75%, 5%)",
+    layers: [
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(34,211,238,0.9) 40%, rgb(255,255,255) 70%, rgb(232,121,249) 82%, rgb(139,92,246) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(34,211,238,0.9) 40%, rgb(255,255,255) 70%, rgb(232,121,249) 82%, rgb(139,92,246) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(to top, rgb(8,4,20) 0%, rgba(8,4,20,0.85) 15%, rgba(8,4,20,0.5) 35%, rgba(8,4,20,0.15) 60%, rgba(8,4,20,0) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 0.6,
+      },
+    ],
+  },
+  {
+    id: "crimson-veil",
+    name: "Crimson Veil",
+    category: "aura",
+    mood: "warm",
+    desc: "Horizonte rojo profundo derritiéndose en oro ámbar",
+    dark: true,
+    text: "#ffe8d6",
+    base: "hsl(10, 65%, 5%)",
+    layers: [
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(220,38,38,0.9) 40%, rgb(255,255,255) 70%, rgb(251,146,60) 82%, rgb(250,204,21) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(220,38,38,0.9) 40%, rgb(255,255,255) 70%, rgb(251,146,60) 82%, rgb(250,204,21) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "violet-horizon",
+    name: "Violet Horizon",
+    category: "aura",
+    mood: "vivid",
+    desc: "Horizonte índigo que se abre en lavanda y rosa",
+    dark: true,
+    text: "#ece5ff",
+    base: "hsl(255, 65%, 6%)",
+    layers: [
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(99,102,241,0.9) 40%, rgb(255,255,255) 70%, rgb(216,180,254) 82%, rgb(244,114,182) 100%)",
+        blendMode: "hard-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(rgba(0,0,0,0) 0%, rgba(99,102,241,0.9) 40%, rgb(255,255,255) 70%, rgb(216,180,254) 82%, rgb(244,114,182) 100%)",
+        blendMode: "soft-light",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(to top, rgb(10,8,26) 0%, rgba(10,8,26,0.9) 15%, rgba(10,8,26,0.55) 35%, rgba(10,8,26,0.2) 60%, rgba(10,8,26,0) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+
   /* ── MESH — Multi-point radial gradient compositions ── */
 
   {
@@ -542,6 +694,31 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 78% 32%, rgba(253,224,71,0.5) 0%, transparent 40%)", blendMode: "normal", blur: 80 },
       { background: "radial-gradient(circle at 50% 78%, rgba(234,179,8,0.4) 0%, transparent 50%)", blendMode: "normal", blur: 85 },
       { background: "radial-gradient(circle at 85% 75%, rgba(202,138,4,0.3) 0%, transparent 35%)", blendMode: "soft-light", blur: 55 },
+    ],
+  },
+  {
+    id: "celestial-drift",
+    name: "Celestial Drift",
+    category: "mesh",
+    mood: "vivid",
+    desc: "Mesh cósmico pastel con nodos lavanda y menta bajo estrellas tenues",
+    dark: true,
+    text: "#eae6ff",
+    base: "#0a0a16",
+    layers: [
+      { background: "radial-gradient(circle at 22% 32%, rgba(167,139,250,0.6) 0%, transparent 45%)", blendMode: "screen", blur: 70 },
+      { background: "radial-gradient(circle at 72% 22%, rgba(110,231,183,0.45) 0%, transparent 40%)", blendMode: "screen", blur: 75 },
+      { background: "radial-gradient(circle at 55% 75%, rgba(244,114,182,0.4) 0%, transparent 50%)", blendMode: "screen", blur: 80 },
+      {
+        background: `
+          radial-gradient(circle at 10% 10%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 88% 15%, rgba(255,255,255,0.6) 1px, transparent 3px),
+          radial-gradient(circle at 40% 90%, rgba(255,255,255,0.6) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 0.8,
+      },
     ],
   },
 
@@ -715,6 +892,21 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
   {
+    id: "prism-borealis-shard",
+    name: "Borealis Shard",
+    category: "prism",
+    mood: "vivid",
+    desc: "Fragmento cónico con tonos de aurora atravesando el espacio profundo",
+    dark: true,
+    text: "#d5f5ff",
+    base: "#07080f",
+    layers: [
+      { background: "conic-gradient(from 210deg at 50% 55%, #14b8a6, #6366f1, #ec4899, #22d3ee, #14b8a6)", blendMode: "screen", blur: 65 },
+      { background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.55) 0%, transparent 50%)", blendMode: "multiply", blur: 20 },
+    ],
+  },
+
+  {
     id: "deep-cosmos",
     name: "Deep Cosmos",
     category: "nebula",
@@ -755,6 +947,152 @@ export const GRADIENTS: Gradient[] = [
         blur: 0,
         opacity: 1,
       }
+    ],
+  },
+
+  {
+    id: "starlit-abyss",
+    name: "Starlit Abyss",
+    category: "nebula",
+    mood: "cool",
+    desc: "Vacío índigo con un resplandor distante y estrellas dispersas",
+    dark: true,
+    text: "#e0e4ff",
+    base: "#06060c",
+    layers: [
+      {
+        background:
+          "linear-gradient(180deg, #06060c 0%, rgba(30,27,75,0.5) 50%, rgba(49,46,129,0.6) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      },
+      {
+        background:
+          "radial-gradient(ellipse at 50% 115%, rgba(79,70,229,0.55) 0%, rgba(49,46,129,0.15) 60%, transparent 80%)",
+        blendMode: "screen",
+        blur: 120,
+        opacity: 1,
+      },
+      {
+        background:
+          "radial-gradient(circle at 15% 20%, rgba(56,189,248,0.15) 0%, transparent 40%)",
+        blendMode: "screen",
+        blur: 100,
+        opacity: 1,
+      },
+      {
+        background: `
+          radial-gradient(circle at 10% 15%, rgba(255,255,255,0.8) 1px, transparent 3px),
+          radial-gradient(circle at 82% 10%, rgba(199,210,254,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 90% 48%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 22% 62%, rgba(224,231,255,1) 1.5px, transparent 4px),
+          radial-gradient(circle at 5% 45%, rgba(255,255,255,0.6) 1px, transparent 3px),
+          radial-gradient(circle at 65% 8%, rgba(199,210,254,0.8) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "stardust-halo",
+    name: "Stardust Halo",
+    category: "nebula",
+    mood: "vivid",
+    desc: "Halo magenta brillando a través de un campo de estrellas lejanas",
+    dark: true,
+    text: "#ffe4f5",
+    base: "#0a0612",
+    layers: [
+      {
+        background:
+          "linear-gradient(180deg, #0a0612 0%, rgba(76,29,90,0.5) 50%, rgba(157,23,138,0.5) 100%)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+      },
+      {
+        background:
+          "radial-gradient(ellipse at 50% 110%, rgba(232,121,249,0.55) 0%, rgba(157,23,138,0.15) 60%, transparent 80%)",
+        blendMode: "screen",
+        blur: 120,
+        opacity: 1,
+      },
+      {
+        background:
+          "radial-gradient(circle at 80% 20%, rgba(244,114,182,0.2) 0%, transparent 40%)",
+        blendMode: "screen",
+        blur: 100,
+        opacity: 1,
+      },
+      {
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.8) 1px, transparent 3px),
+          radial-gradient(circle at 70% 12%, rgba(250,232,255,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 88% 55%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 12% 60%, rgba(233,213,255,1) 1.5px, transparent 4px),
+          radial-gradient(circle at 40% 8%, rgba(255,255,255,0.6) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "galactic-bloom",
+    name: "Galactic Bloom",
+    category: "nebula",
+    mood: "vivid",
+    desc: "Nubes de nebulosa teal y magenta a la deriva entre polvo estelar",
+    dark: true,
+    text: "#d4fff2",
+    base: "#050810",
+    layers: [
+      { background: "radial-gradient(ellipse 50% 45% at 30% 40%, rgba(20,184,166,0.7) 0%, transparent 65%)", blendMode: "screen", blur: 60 },
+      { background: "radial-gradient(ellipse 45% 50% at 68% 55%, rgba(232,121,249,0.6) 0%, transparent 60%)", blendMode: "screen", blur: 65 },
+      { background: "radial-gradient(ellipse 30% 35% at 50% 20%, rgba(99,102,241,0.4) 0%, transparent 55%)", blendMode: "screen", blur: 50 },
+      {
+        background: `
+          radial-gradient(circle at 14% 22%, rgba(255,255,255,0.8) 1px, transparent 3px),
+          radial-gradient(circle at 76% 30%, rgba(209,250,229,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 85% 75%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 25% 78%, rgba(250,232,255,1) 1.5px, transparent 4px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "orion-drift",
+    name: "Orion Drift",
+    category: "nebula",
+    mood: "cool",
+    desc: "Resplandor azul-blanco frío bajo un denso campo estelar",
+    dark: true,
+    text: "#dbeeff",
+    base: "#04070f",
+    layers: [
+      { background: "radial-gradient(ellipse 55% 50% at 40% 45%, rgba(56,189,248,0.6) 0%, transparent 65%)", blendMode: "screen", blur: 65 },
+      { background: "radial-gradient(ellipse 40% 45% at 65% 60%, rgba(255,255,255,0.35) 0%, transparent 60%)", blendMode: "soft-light", blur: 55 },
+      {
+        background: `
+          radial-gradient(circle at 8% 12%, rgba(255,255,255,0.9) 1px, transparent 3px),
+          radial-gradient(circle at 30% 8%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 60% 15%, rgba(199,210,254,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 85% 22%, rgba(255,255,255,0.7) 1px, transparent 3px),
+          radial-gradient(circle at 92% 60%, rgba(255,255,255,0.8) 1.5px, transparent 4px),
+          radial-gradient(circle at 45% 75%, rgba(199,210,254,1) 1.5px, transparent 4px),
+          radial-gradient(circle at 15% 68%, rgba(255,255,255,0.6) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
     ],
   },
 
@@ -932,6 +1270,21 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 50% 40%, rgba(113,113,122,0.2) 0%, transparent 55%)", blendMode: "soft-light", blur: 30 },
     ],
   },
+  {
+    id: "grain-cosmic-ash",
+    name: "Cosmic Ash",
+    category: "grain",
+    mood: "cool",
+    desc: "Grano carbón e índigo con un sutil trasfondo violeta",
+    dark: true,
+    text: "#d6d0f0",
+    base: "#0d0b16",
+    grain: true,
+    layers: [
+      { background: "linear-gradient(140deg, #0d0b16 0%, #1e1b32 40%, #312e4d 70%, #433f68 100%)", blendMode: "normal", blur: 0 },
+      { background: "radial-gradient(circle at 55% 40%, rgba(129,140,248,0.25) 0%, transparent 50%)", blendMode: "screen", blur: 45 },
+    ],
+  },
   /* ── GLASS — Frosted refraction backgrounds ── */
 
   {
@@ -1013,6 +1366,32 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 30% 35%, rgba(113,113,122,0.35) 0%, transparent 40%)", blendMode: "screen", blur: 50 },
       { background: "radial-gradient(circle at 72% 65%, rgba(161,161,170,0.25) 0%, transparent 35%)", blendMode: "screen", blur: 60 },
       { background: "linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.03) 100%)", blendMode: "overlay", blur: 10 },
+    ],
+  },
+
+  {
+    id: "glass-starlight",
+    name: "Starlight Glass",
+    category: "glass",
+    mood: "cool",
+    desc: "Vidrio esmerilado oscuro en azul-violeta con luz estelar embebida",
+    dark: true,
+    text: "#dcd6ff",
+    base: "#0a0918",
+    layers: [
+      { background: "linear-gradient(135deg, rgba(10,9,24,0.95) 0%, rgba(30,27,75,0.75) 50%, rgba(49,46,129,0.5) 100%)", blendMode: "normal", blur: 0 },
+      { background: "radial-gradient(circle at 30% 30%, rgba(99,102,241,0.4) 0%, transparent 40%)", blendMode: "screen", blur: 50 },
+      { background: "radial-gradient(circle at 70% 70%, rgba(129,140,248,0.3) 0%, transparent 35%)", blendMode: "screen", blur: 60 },
+      {
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6) 1px, transparent 3px),
+          radial-gradient(circle at 78% 25%, rgba(255,255,255,0.5) 1px, transparent 3px),
+          radial-gradient(circle at 55% 80%, rgba(255,255,255,0.5) 1px, transparent 3px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 0.7,
+      },
     ],
   },
 
@@ -1115,6 +1494,23 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
+  {
+    id: "flux-nebula-flow",
+    name: "Nebula Flow",
+    category: "flux",
+    mood: "vivid",
+    desc: "Blobs orgánicos magenta, teal y violeta a la deriva como nubes de nebulosa",
+    dark: true,
+    text: "#eae0ff",
+    base: "#08050f",
+    layers: [
+      { background: "radial-gradient(ellipse 55% 45% at 35% 45%, rgba(236,72,153,0.75) 0%, transparent 60%)", blendMode: "screen", blur: 45 },
+      { background: "radial-gradient(ellipse 45% 50% at 68% 40%, rgba(20,184,166,0.65) 0%, transparent 55%)", blendMode: "screen", blur: 50 },
+      { background: "radial-gradient(ellipse 35% 40% at 50% 75%, rgba(139,92,246,0.55) 0%, transparent 50%)", blendMode: "screen", blur: 45 },
+      { background: "radial-gradient(ellipse 22% 25% at 80% 75%, rgba(232,121,249,0.4) 0%, transparent 45%)", blendMode: "screen", blur: 35 },
+    ],
+  },
+
   /* ── LATTICE — Geometric patterns with gradient overlays ── */
 
   {
@@ -1205,6 +1601,39 @@ export const GRADIENTS: Gradient[] = [
       { background: "linear-gradient(rgba(148,163,184,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.1) 1px, transparent 1px)", blendMode: "normal", blur: 0, opacity: 1, backgroundSize: "50px 50px" },
       { background: "radial-gradient(circle at 50% 50%, rgba(148,163,184,0.3) 0%, transparent 50%)", blendMode: "screen", blur: 80 },
       { background: "radial-gradient(circle at 25% 75%, rgba(203,213,225,0.2) 0%, transparent 40%)", blendMode: "screen", blur: 60 },
+    ],
+  },
+
+  {
+    id: "lattice-star-grid",
+    name: "Star Grid",
+    category: "lattice",
+    mood: "cool",
+    desc: "Grilla fina sobre azul marino profundo, salpicada de puntos brillantes",
+    dark: true,
+    text: "#dbe4ff",
+    base: "#05060f",
+    layers: [
+      {
+        background: "linear-gradient(rgba(99,102,241,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.1) 1px, transparent 1px)",
+        blendMode: "normal",
+        blur: 0,
+        opacity: 1,
+        backgroundSize: "45px 45px",
+      },
+      { background: "radial-gradient(circle at 50% 45%, rgba(99,102,241,0.35) 0%, transparent 50%)", blendMode: "screen", blur: 80 },
+      {
+        background: `
+          radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 78% 15%, rgba(199,210,254,0.9) 1.5px, transparent 4px),
+          radial-gradient(circle at 88% 60%, rgba(255,255,255,0.8) 1.5px, transparent 4px),
+          radial-gradient(circle at 30% 75%, rgba(255,255,255,0.8) 1.5px, transparent 4px),
+          radial-gradient(circle at 55% 85%, rgba(199,210,254,0.9) 1.5px, transparent 4px)
+        `,
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
     ],
   },
 
