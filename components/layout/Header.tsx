@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GitHubBadge } from "@/components/ui/GitHubBadge";
@@ -15,11 +16,13 @@ export function Logo({ size = "md" }: { size?: "md" | "sm" }) {
 
   return (
     <div className={`relative ${heightClass} w-auto shrink-0`}>
-      <img
+      <Image
         src="/images/metadata/aura.webp"
         alt="Aura Logo"
+        width={100}
+        height={100}
+        priority
         className="h-full w-auto object-contain"
-        loading="eager" // Equivalente a priority para imágenes nativas
       />
     </div>
   );
