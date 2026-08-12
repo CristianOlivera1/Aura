@@ -1,9 +1,9 @@
 <div align="center">
-  <!-- ▸ LOGO: replace with your Aura logo -->
-  <img width="50%" alt="Aura logo" src="__ADD_IMAGE__" />
+  
+  <img width="700" alt="Frame 1116606756 (1) (1)" src="https://github.com/user-attachments/assets/90eb752e-2db4-4ee6-9ea9-959fc5c433ed" />
 
-  ## Backgrounds that feel like light
-  **200+ layered, atmospheric gradients built from soft blend modes — preview them live, tweak them in the browser, and drop them behind any interface.**
+  # Backgrounds that feel like light
+  ### **200+ layered, atmospheric gradients built from soft blend modes — preview them live, tweak them in the browser, and drop them behind any interface.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://react.dev)
@@ -13,8 +13,7 @@
 </div>
 
 <div align="center">
-  <!-- ▸ HERO SHOT: your best showcase image (wide) -->
-  <img alt="Aura hero" src="__ADD_IMAGE__" />
+  <img width="1570" height="919" alt="localhost_3000__g=aurora-borealis (1)" src="https://github.com/user-attachments/assets/582f70e6-2423-4791-b991-c7db3e9b0fed" />
   <br>
 </div>
 
@@ -45,6 +44,7 @@
 
 ## Screenshot
 
+<img width="1408" height="798" alt="Captura de pantalla 2026-08-12 140449 (1)" src="https://github.com/user-attachments/assets/23423302-1ce9-4b62-a402-77fed94219cc" />
 
 ---
 
