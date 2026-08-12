@@ -28,13 +28,23 @@ export function Hero() {
           <span className="text-muted-fg">· CSS blend modes</span>
           <Icon icon="lucide:sparkles" width={14} height={14} className="text-accent" />
         </span>
-
         <h1
           ref={h1Ref}
           className="reveal font-semibold text-5xl sm:text-6xl md:text-7xl leading-[1.05] max-w-3xl"
         >
           Backgrounds that feel{" "}
-          <span className="italic text-accent">like light.</span>
+          <span className="italic text-accent">
+            <span className="relative inline-block">
+              like
+              <img
+                src="/svg/decorator-like.svg"
+                alt=""
+                aria-hidden="true"
+                className="absolute -left-0.5 bottom-3 w-4 h-auto translate-y-[15%] -z-10 select-none pointer-events-none"
+              />
+            </span>{" "}
+            light.
+          </span>
         </h1>
 
         <p
@@ -48,7 +58,7 @@ export function Hero() {
         </p>
 
         <div ref={ctaRef} className="reveal relative flex flex-wrap justify-center gap-3 mt-10">
-          
+
           <div className="absolute -top-4 -left-14 sm:-top-8 sm:-left-32 hidden sm:flex flex-col items-center -rotate-20 text-accent/80 animate-pulse">
             <span className="text-sm mr-10 font-medium italic mb-1 tracking-wide">
               Try it out!

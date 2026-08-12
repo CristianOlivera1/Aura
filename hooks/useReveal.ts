@@ -26,18 +26,37 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
       el.style.setProperty("--reveal-delay", `${stagger * 80}ms`);
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("is-visible");
-          observer.unobserve(el);
-        }
-      },
-      { threshold, rootMargin },
-    );
+    let observer: IntersectionObserver | null = null;
 
-    observer.observe(el);
-    return () => observer.disconnect();
+    const reveal = () => {
+      el.classList.add("is-visible");
+      observer?.disconnect();
+    };
+
+    // Content already on screen when the page loads must appear immediately,
+    // without waiting for an IntersectionObserver tick. This keeps the first
+    // block of hero + cards visible from the start.
+    const rect = el.getBoundingClientRect();
+    const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+    if (inViewport) {
+      reveal();
+      return;
+    }
+
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) reveal();
+        },
+        { threshold, rootMargin },
+      );
+      observer.observe(el);
+    } else {
+      // No IO support: never leave content hidden.
+      reveal();
+    }
+
+    return () => observer?.disconnect();
   }, [stagger, threshold, rootMargin]);
 
   return ref;

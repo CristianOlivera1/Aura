@@ -84,7 +84,8 @@ export function GradientCard({ gradient, index }: Props) {
   return (
     <div
       ref={revealRef}
-      className="reveal outline-none squircle-element-xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]"
+      id={`g-${gradient.id}`}
+      className="reveal scroll-mt-24 outline-none squircle-element-xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]"
       data-card
       tabIndex={0}
       role="group"
@@ -96,9 +97,8 @@ export function GradientCard({ gradient, index }: Props) {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`swatch marks relative w-full aspect-[1/1.15] squircle-element-xl border-r border-b border-muted overflow-hidden transition-all duration-300 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${
-          isActive ? "is-active" : ""
-        } ${flash ? "card-flash" : ""}`}
+        className={`swatch marks relative w-full aspect-[1/1.15] squircle-element-xl border-r border-b border-muted overflow-hidden transition-all duration-300 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${isActive ? "is-active" : ""
+          } ${flash ? "card-flash" : ""}`}
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Base — same body bg color AuraBackground composites against */}
@@ -145,7 +145,7 @@ export function GradientCard({ gradient, index }: Props) {
           </button>
           <button
             onClick={handleCustomize}
-            className="flex items-center gap-2 bg-white/20 text-white px-4 py-2 text-sm font-medium hover:bg-white/30 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
+            className="flex items-center gap-2 bg-white/20 text-white px-4 py-2 text-sm font-medium hover:bg-white/50 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
           >
             <Icon icon="lucide:sliders-horizontal" width={14} height={14} /> Customize
           </button>
@@ -153,8 +153,12 @@ export function GradientCard({ gradient, index }: Props) {
 
         {/* Active badge */}
         {isActive && (
-          <span className="absolute top-4 right-4 flex items-center gap-1 bg-gradient-to-r from-[#B38728] via-[#FBF5B7] to-[#AA771C] text-neutral-950 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 z-30 squircle-element shadow-[0_2px_10px_rgba(179,135,40,0.3)] border border-[#FBF5B7]/40">
-            <Icon icon="lucide:check" width={11} height={11} className="stroke-[3]" /> Active
+          <span className="glass-white absolute top-4 right-4 inline-flex items-center justify-center px-3 py-1.5 rounded-full text-[11px] font-bold shadow-lg z-30 tracking-wider">
+
+            {/* El texto en mayúsculas notable */}
+            <span className="uppercase tracking-widest text-[10px] text-neutral-950 font-black">
+              Active
+            </span>
           </span>
         )}
 

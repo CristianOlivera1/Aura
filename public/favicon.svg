@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    @media (prefers-color-scheme: light) { .bg { fill: #faf8f2; } }
+    @media (prefers-color-scheme: dark) { .bg { fill: #100e0b; } }
+  </style>
+  <defs>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" />
+    </filter>
+  </defs>
+  <rect class="bg" width="64" height="64" rx="16" />
+  <g id="orb">
+    <circle cx="22" cy="20" r="22" fill="#008AFF" opacity=".85" filter="url(#soft)" />
+    <circle cx="44" cy="44" r="20" fill="#E942F7" opacity=".85" filter="url(#soft)" />
+    <circle cx="42" cy="20" r="16" fill="#F7A442" opacity=".8" filter="url(#soft)" />
+  </g>
+</svg>
