@@ -15,7 +15,7 @@ variables or standalone SVG/PNG. The project is open source and MIT licensed.
 - Live editor: layer reordering, blur 0-100px, opacity, blend mode, grain overlay
 - Exports: CSS gradient code, SVG, PNG download (1600x1000)
 - Adaptive light/dark themes per gradient with manual override
-- 82 gradients total, categorized by style
+- 203 gradients total, categorized by style
 
 ## Additional Resources
 

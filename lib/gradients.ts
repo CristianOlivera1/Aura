@@ -406,7 +406,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Solstice Veil",
     category: "aura",
     mood: "warm",
-    desc: "Horizonte ámbar que se disuelve en dusk rosa-violeta",
+    desc: "Amber horizon dissolving into rose-violet dusk",
     dark: true,
     text: "#ffe9df",
     base: "hsl(345, 55%, 6%)",
@@ -439,7 +439,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Arctic Dawn",
     category: "aura",
     mood: "cool",
-    desc: "Horizonte cian helado que se funde en rosa pálido",
+    desc: "Frozen cyan horizon melting into pale rose",
     dark: true,
     text: "#e8f4ff",
     base: "hsl(205, 60%, 6%)",
@@ -465,7 +465,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Neon Skyline",
     category: "aura",
     mood: "vivid",
-    desc: "Horizonte cian eléctrico sangrando hacia magenta neón",
+    desc: "Electric cyan horizon bleeding into neon magenta",
     dark: true,
     text: "#f5e6ff",
     base: "hsl(265, 75%, 5%)",
@@ -498,7 +498,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Crimson Veil",
     category: "aura",
     mood: "warm",
-    desc: "Horizonte rojo profundo derritiéndose en oro ámbar",
+    desc: "Deep crimson horizon melting into amber gold",
     dark: true,
     text: "#ffe8d6",
     base: "hsl(10, 65%, 5%)",
@@ -524,7 +524,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Violet Horizon",
     category: "aura",
     mood: "vivid",
-    desc: "Horizonte índigo que se abre en lavanda y rosa",
+    desc: "Indigo horizon opening into lavender and rose",
     dark: true,
     text: "#ece5ff",
     base: "hsl(255, 65%, 6%)",
@@ -674,7 +674,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Celestial Drift",
     category: "mesh",
     mood: "vivid",
-    desc: "Mesh cósmico pastel con nodos lavanda y menta bajo estrellas tenues",
+    desc: "Pastel cosmic mesh with lavender and mint nodes under faint stars",
     dark: true,
     text: "#eae6ff",
     base: "#0a0a16",
@@ -1082,6 +1082,117 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(ellipse 25% 30% at 75% 25%, rgba(110,231,183,0.4) 0%, transparent 55%)", blendMode: "normal", blur: 50 },
     ],
   },
+
+  {
+    id: "blood-aurora",
+    name: "Blood Aurora",
+    category: "nebula",
+    mood: "dark",
+    desc: "Crimson and gold aurora curtains burning across an absolute night sky",
+    dark: true,
+    text: "#ffe0d0",
+    base: "#050101",
+    grain: true,
+    layers: [
+      {
+        background:
+          "linear-gradient(154deg, transparent 18%, rgba(60,10,10,0.06) 29%, rgba(255,40,0,0.40) 36%, rgb(255,255,255) 42%, rgba(207,60,20,0.32) 48%, rgba(158,20,10,0.22) 55%, rgba(255,90,0,0.30) 62%, rgba(60,15,10,0.08) 68%, transparent 82%)",
+        blendMode: "screen",
+        blur: 34,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(128deg, transparent 28%, rgba(80,10,20,0.06) 38%, rgba(255,80,0,0.35) 43%, rgb(255,255,255) 48%, rgba(200,60,30,0.22) 52%, rgba(255,40,0,0.25) 57%, rgba(90,20,10,0.10) 62%, transparent 76%)",
+        blendMode: "screen",
+        blur: 30,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 78% 20% at 51% 53%, rgba(200,50,20,0.24) 0%, rgba(100,20,10,0.10) 45%, transparent 82%)",
+        blendMode: "screen",
+        blur: 28,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 48% 9% at 52% 50%, rgba(255,220,190,0.14) 0%, rgba(200,80,50,0.06) 45%, transparent 80%)",
+        blendMode: "screen",
+        blur: 70,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(to top, rgba(5,1,1,0.90) 0%, rgba(5,1,1,0.58) 28%, rgba(5,1,1,0.20) 55%, transparent 78%)",
+        blendMode: "multiply",
+        blur: 32,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 50% 28% at 72% 18%, rgba(150,90,20,0.10) 0%, rgba(100,60,10,0.04) 45%, transparent 82%)",
+        blendMode: "screen",
+        blur: 55,
+        opacity: 0.7,
+      },
+    ],
+  },
+  {
+    id: "void-serpent",
+    name: "Void Serpent",
+    category: "nebula",
+    mood: "dark",
+    desc: "Poisonous green and violet curtains coiling through an absolute void",
+    dark: true,
+    text: "#d8ffe0",
+    base: "#020502",
+    grain: true,
+    layers: [
+      {
+        background:
+          "linear-gradient(154deg, transparent 18%, rgba(10,60,20,0.06) 29%, rgba(140,255,20,0.40) 36%, rgb(255,255,255) 42%, rgba(110,60,200,0.32) 48%, rgba(60,150,40,0.22) 55%, rgba(160,0,255,0.30) 62%, rgba(10,50,20,0.08) 68%, transparent 82%)",
+        blendMode: "screen",
+        blur: 34,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(128deg, transparent 28%, rgba(15,80,30,0.06) 38%, rgba(120,0,255,0.35) 43%, rgb(255,255,255) 48%, rgba(70,200,90,0.22) 52%, rgba(150,255,20,0.25) 57%, rgba(20,90,40,0.10) 62%, transparent 76%)",
+        blendMode: "screen",
+        blur: 30,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 78% 20% at 51% 53%, rgba(90,200,60,0.24) 0%, rgba(40,100,30,0.10) 45%, transparent 82%)",
+        blendMode: "screen",
+        blur: 28,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 48% 9% at 52% 50%, rgba(220,255,220,0.14) 0%, rgba(120,80,180,0.06) 45%, transparent 80%)",
+        blendMode: "screen",
+        blur: 70,
+        opacity: 1,
+      },
+      {
+        background:
+          "linear-gradient(to top, rgba(2,5,2,0.90) 0%, rgba(2,5,2,0.58) 28%, rgba(2,5,2,0.20) 55%, transparent 78%)",
+        blendMode: "multiply",
+        blur: 32,
+        opacity: 0.9,
+      },
+      {
+        background:
+          "radial-gradient(ellipse 50% 28% at 72% 18%, rgba(100,30,180,0.10) 0%, rgba(60,20,120,0.04) 45%, transparent 82%)",
+        blendMode: "screen",
+        blur: 55,
+        opacity: 0.7,
+      },
+    ],
+  },
   {
     id: "nebula-plasma",
     name: "Plasma Storm",
@@ -1299,7 +1410,7 @@ export const GRADIENTS: Gradient[] = [
     base: "#020509",
     grain: true,
     layers: [
-      // 1. Cortina principal: El verde central ahora está rodeado por blanco y cian eléctrico
+      // 1. Main curtain: the central green is now framed by white and electric cyan
       {
         background:
           "linear-gradient(154deg, transparent 18%, rgba(12,72,61,0.06) 29%, rgba(0,229,255,0.40) 36%, rgb(255,255,255) 42%, rgba(73,207,158,0.32) 48%, rgba(38,158,119,0.22) 55%, rgba(0,183,255,0.30) 62%, rgba(15,76,65,0.08) 68%, transparent 82%)",
@@ -1308,7 +1419,7 @@ export const GRADIENTS: Gradient[] = [
         opacity: 1,
       },
 
-      // 2. Segunda cortina: El verde/cian central se refuerza con blanco y cian en sus costados
+      // 2. Second curtain: the central green/cyan is reinforced with white and cyan on its flanks
       {
         background:
           "linear-gradient(128deg, transparent 28%, rgba(15,82,96,0.06) 38%, rgba(0,183,255,0.35) 43%, rgb(255,255,255) 48%, rgba(68,197,185,0.22) 52%, rgba(0,229,255,0.25) 57%, rgba(25,105,112,0.10) 62%, transparent 76%)",
@@ -1317,7 +1428,7 @@ export const GRADIENTS: Gradient[] = [
         opacity: 0.9,
       },
 
-      // 3. Halo horizontal: une las cortinas como una aurora continua
+      // 3. Horizontal halo joining the curtains into a continuous aurora
       {
         background:
           "radial-gradient(ellipse 78% 20% at 51% 53%, rgba(65,183,155,0.24) 0%, rgba(30,102,91,0.10) 45%, transparent 82%)",
@@ -1326,7 +1437,7 @@ export const GRADIENTS: Gradient[] = [
         opacity: 0.9,
       },
 
-      // 4. Núcleo de luz: blanco verdoso muy sutil
+      // 4. Light core: a very subtle greenish white
       {
         background:
           "radial-gradient(ellipse 48% 9% at 52% 50%, rgba(190,255,226,0.14) 0%, rgba(91,195,163,0.06) 45%, transparent 80%)",
@@ -1335,7 +1446,7 @@ export const GRADIENTS: Gradient[] = [
         opacity: 1,
       },
 
-      // 5. Azul profundo del cielo nocturno
+      // 5. Deep night-sky blue
       {
         background:
           "linear-gradient(to top, rgba(1,5,13,0.90) 0%, rgba(2,7,16,0.58) 28%, rgba(3,9,20,0.20) 55%, transparent 78%)",
@@ -1344,7 +1455,7 @@ export const GRADIENTS: Gradient[] = [
         opacity: 0.9,
       },
 
-      // 6. Violeta extremadamente sutil en la parte alta
+      // 6. Extremely subtle violet up top
       {
         background:
           "radial-gradient(ellipse 50% 28% at 72% 18%, rgba(89,62,151,0.10) 0%, rgba(57,44,100,0.04) 45%, transparent 82%)",
@@ -1432,7 +1543,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Borealis Shard",
     category: "prism",
     mood: "vivid",
-    desc: "Fragmento cónico con tonos de aurora atravesando el espacio profundo",
+    desc: "Conic fragment with aurora tones crossing deep space",
     dark: true,
     text: "#d5f5ff",
     base: "#07080f",
@@ -1829,7 +1940,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Starlit Abyss",
     category: "nebula",
     mood: "cool",
-    desc: "Vacío índigo con un resplandor distante y estrellas dispersas",
+    desc: "Indigo void with a distant glow and scattered stars",
     dark: true,
     text: "#e0e4ff",
     base: "#06060c",
@@ -1875,7 +1986,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Stardust Halo",
     category: "nebula",
     mood: "vivid",
-    desc: "Halo magenta brillando a través de un campo de estrellas lejanas",
+    desc: "Magenta halo glowing through a field of distant stars",
     dark: true,
     text: "#ffe4f5",
     base: "#0a0612",
@@ -1920,7 +2031,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Galactic Bloom",
     category: "nebula",
     mood: "vivid",
-    desc: "Nubes de nebulosa teal y magenta a la deriva entre polvo estelar",
+    desc: "Teal and magenta nebula clouds drifting through stellar dust",
     dark: true,
     text: "#d4fff2",
     base: "#050810",
@@ -1946,7 +2057,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Orion Drift",
     category: "nebula",
     mood: "cool",
-    desc: "Resplandor azul-blanco frío bajo un denso campo estelar",
+    desc: "Cold blue-white glow beneath a dense star field",
     dark: true,
     text: "#dbeeff",
     base: "#04070f",
@@ -2461,18 +2572,18 @@ export const GRADIENTS: Gradient[] = [
     desc: "Asymmetrical soft sage glow emerging from the bottom right",
     dark: true,
     text: "#a4b5b0",
-    base: "#050708", // Negro profundo con un micro tono verdoso
+    base: "#050708", // Deep black with a faint greenish tint
     grain: true,
     layers: [
       {
-        // El núcleo de luz principal en la esquina inferior derecha
+        // Main light core in the bottom-right corner
         background: "radial-gradient(ellipse 80% 80% at 85% 85%, rgba(135, 165, 155, 0.35) 0%, rgba(80, 110, 105, 0.15) 40%, rgba(0, 0, 0, 0) 70%)",
         blendMode: "screen",
         blur: 50,
         opacity: 1,
       },
       {
-        // Una extensión sutil del brillo hacia el centro para dar esa forma de "ola"
+        // A subtle extension of the glow toward the center to give it that "wave" shape
         background: "radial-gradient(ellipse 70% 50% at 65% 75%, rgba(135, 165, 155, 0.12) 0%, rgba(0, 0, 0, 0) 60%)",
         blendMode: "screen",
         blur: 60,
@@ -2488,18 +2599,18 @@ export const GRADIENTS: Gradient[] = [
     desc: "Deep cyan glow rising exclusively from the absolute black floor",
     dark: true,
     text: "#00e5ff",
-    base: "#000000", // Negro puro para contrastar
+    base: "#000000", // Pure black for contrast
     grain: true,
     layers: [
       {
-        // Elipse achatada concentrada en la base
+        // Flattened ellipse concentrated at the base
         background: "radial-gradient(ellipse 120% 70% at 50% 110%, rgba(0, 90, 110, 0.8) 0%, rgba(0, 45, 60, 0.5) 40%, rgba(0, 0, 0, 0) 75%)",
         blendMode: "screen",
         blur: 50,
         opacity: 1,
       },
       {
-        // Refuerzo lineal inferior para simular la luz rebotando en el suelo
+        // Bottom linear reinforcement simulating light bouncing off the floor
         background: "linear-gradient(to top, rgba(0, 130, 150, 0.25) 0%, rgba(0, 0, 0, 0) 35%)",
         blendMode: "screen",
         blur: 20,
@@ -2590,7 +2701,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Cosmic Ash",
     category: "grain",
     mood: "cool",
-    desc: "Grano carbón e índigo con un sutil trasfondo violeta",
+    desc: "Charcoal and indigo grain over a subtle violet undertone",
     dark: true,
     text: "#d6d0f0",
     base: "#0d0b16",
@@ -3130,7 +3241,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Starlight Glass",
     category: "glass",
     mood: "cool",
-    desc: "Vidrio esmerilado oscuro en azul-violeta con luz estelar embebida",
+    desc: "Dark frosted blue-violet glass with embedded starlight",
     dark: true,
     text: "#dcd6ff",
     base: "#0a0918",
@@ -3798,7 +3909,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Nebula Flow",
     category: "flux",
     mood: "vivid",
-    desc: "Blobs orgánicos magenta, teal y violeta a la deriva como nubes de nebulosa",
+    desc: "Organic magenta, teal and violet blobs drifting like nebula clouds",
     dark: true,
     text: "#eae0ff",
     base: "#08050f",
@@ -4338,6 +4449,117 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 25% 75%, rgba(236,72,153,0.3) 0%, transparent 40%)", blendMode: "screen", blur: 60 },
     ],
   },
+
+  {
+    id: "chrome-inferno",
+    name: "Chrome Inferno",
+    category: "lattice",
+    mood: "warm",
+    desc: "Incandescent metallic beams cutting through total darkness",
+    dark: true,
+    text: "#ffffff",
+    base: "#0a0000",
+    grain: true,
+    layers: [
+      {
+        background:
+          "radial-gradient(55.8% 55.49% at 50% 100%, rgb(120,30,10) 0%, rgba(80,15,5,0) 100%)",
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+      {
+        background: `
+          repeating-linear-gradient(
+            100deg,
+            #331100 0%,
+            #331100 3%,
+            rgba(80, 30, 10, 0.7) 5%,
+            rgba(80, 30, 10, 0.7) 7%,
+            transparent 10%,
+            transparent 12%,
+            rgba(80, 30, 10, 0.7) 14%,
+            #331100 16%
+          ),
+          repeating-linear-gradient(
+            100deg,
+            #ff6b00 0%,
+            #ff6b00 1.5%,
+            rgba(255, 107, 0, 0.8) 2%,
+            #b91c1c 3%,
+            #b91c1c 4%,
+            rgba(255, 107, 0, 0.8) 4.5%,
+            #ff6b00 5%
+          )
+        `,
+        backgroundSize: "300% 200%",
+        blendMode: "screen",
+        blur: 30,
+        opacity: 0.9,
+      },
+      {
+        background: "radial-gradient(ellipse at 100% 100%, #ffffff 20%, #0a0000 80%)",
+        blendMode: "multiply",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
+  {
+    id: "diamond-storm",
+    name: "Diamond Storm",
+    category: "lattice",
+    mood: "cool",
+    desc: "Electric ice beams cutting through a glacial void",
+    dark: true,
+    text: "#ffffff",
+    base: "#00030a",
+    grain: true,
+    layers: [
+      {
+        background:
+          "radial-gradient(55.8% 55.49% at 50% 100%, rgb(20,60,120) 0%, rgba(10,30,80,0) 100%)",
+        blendMode: "screen",
+        blur: 0,
+        opacity: 1,
+      },
+      {
+        background: `
+          repeating-linear-gradient(
+            100deg,
+            #041022 0%,
+            #041022 3%,
+            rgba(20, 60, 120, 0.7) 5%,
+            rgba(20, 60, 120, 0.7) 7%,
+            transparent 10%,
+            transparent 12%,
+            rgba(20, 60, 120, 0.7) 14%,
+            #041022 16%
+          ),
+          repeating-linear-gradient(
+            100deg,
+            #b3e5ff 0%,
+            #b3e5ff 1.5%,
+            rgba(179, 229, 255, 0.8) 2%,
+            #2563eb 3%,
+            #2563eb 4%,
+            rgba(179, 229, 255, 0.8) 4.5%,
+            #b3e5ff 5%
+          )
+        `,
+        backgroundSize: "300% 200%",
+        blendMode: "screen",
+        blur: 30,
+        opacity: 0.9,
+      },
+      {
+        background: "radial-gradient(ellipse at 100% 100%, #ffffff 20%, #00030a 80%)",
+        blendMode: "multiply",
+        blur: 0,
+        opacity: 1,
+      },
+    ],
+  },
   {
     id: "lattice-blueprint",
     name: "Blueprint",
@@ -4419,7 +4641,7 @@ export const GRADIENTS: Gradient[] = [
     name: "Star Grid",
     category: "lattice",
     mood: "cool",
-    desc: "Grilla fina sobre azul marino profundo, salpicada de puntos brillantes",
+    desc: "Fine grid over deep marine blue, speckled with bright dots",
     dark: true,
     text: "#dbe4ff",
     base: "#05060f",
@@ -4948,7 +5170,6 @@ export const GRADIENTS: Gradient[] = [
       },
     ],
   },
-
 ];
 
 /** Generate copyable CSS for a gradient (fullscreen blur scale). */

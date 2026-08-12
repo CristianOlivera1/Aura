@@ -10,9 +10,9 @@ available on GitHub at https://github.com/CristianOlivera1/Aura.
 
 ## Gradient catalog
 
-Total gradients: 82.
+Total gradients: 203.
 
-### Aura (30)
+### Aura (31)
 
 - **Sunrise Drift** (id: `sunrise-drift`): Blue into orange, high key. Theme: light. Mood: vivid.
 - **Ember Glow** (id: `ember-glow`): Coral into deep rose. Theme: light. Mood: warm.
@@ -29,23 +29,24 @@ Total gradients: 82.
 - **Ocean Pearl** (id: `ocean-pearl`): Seafoam drifting into abyssal blue. Theme: light. Mood: cool.
 - **Arctic Frost** (id: `arctic-frost`): Ice crystal refracting into periwinkle. Theme: light. Mood: cool.
 - **Silver Mist** (id: `silver-mist`): Mercury grey dissolving into pale lilac. Theme: light. Mood: cool.
-- **Aurora Borealis** (id: `aurora-borealis`): Emerald arc into electric violet. Theme: light. Mood: vivid.
-- **Nebula Void** (id: `nebula-void`): Cosmic dust swirling through deep space. Theme: dark. Mood: vivid.
 - **Midnight Horizon** (id: `midnight-horizon`): A vibrant transition from deep space blue to an electric sunrise horizon. Theme: dark. Mood: vivid.
 - **Aurora Nova** (id: `aurora-nova`): A vibrant transition from deep cosmic violet to an electric neon sunrise. Theme: dark. Mood: vivid.
-- **Solstice Veil** (id: `solstice-veil`): Horizonte ámbar que se disuelve en dusk rosa-violeta. Theme: dark. Mood: warm.
-- **Arctic Dawn** (id: `arctic-dawn`): Horizonte cian helado que se funde en rosa pálido. Theme: dark. Mood: cool.
-- **Neon Skyline** (id: `neon-skyline`): Horizonte cian eléctrico sangrando hacia magenta neón. Theme: dark. Mood: vivid.
-- **Crimson Veil** (id: `crimson-veil`): Horizonte rojo profundo derritiéndose en oro ámbar. Theme: dark. Mood: warm.
-- **Violet Horizon** (id: `violet-horizon`): Horizonte índigo que se abre en lavanda y rosa. Theme: dark. Mood: vivid.
-- **Emerald Beams** (id: `emerald-beams`): Verdant light shafts through deep forest. Theme: dark. Mood: cool.
-- **Midnight Beams** (id: `midnight-beams`): Indigo rays slicing through midnight. Theme: dark. Mood: cool.
-- **Amber Beams** (id: `amber-beams`): Golden shafts through smoked glass. Theme: dark. Mood: warm.
-- **Platinum Beams** (id: `platinum-beams`): Silver light refracting through crystal. Theme: dark. Mood: cool.
-- **Teal Beams** (id: `teal-beams`): Abyssal light filtering through deep water. Theme: dark. Mood: cool.
-- **Magenta Beams** (id: `magenta-beams`): Neon pink slicing through the dark. Theme: dark. Mood: vivid.
+- **Solstice Veil** (id: `solstice-veil`): Amber horizon dissolving into rose-violet dusk. Theme: dark. Mood: warm.
+- **Arctic Dawn** (id: `arctic-dawn`): Frozen cyan horizon melting into pale rose. Theme: dark. Mood: cool.
+- **Neon Skyline** (id: `neon-skyline`): Electric cyan horizon bleeding into neon magenta. Theme: dark. Mood: vivid.
+- **Crimson Veil** (id: `crimson-veil`): Deep crimson horizon melting into amber gold. Theme: dark. Mood: warm.
+- **Violet Horizon** (id: `violet-horizon`): Indigo horizon opening into lavender and rose. Theme: dark. Mood: vivid.
+- **Eclipse Bloom** (id: `eclipse-bloom`): A dim cyan bloom emerging from behind a dark eclipse. Theme: dark. Mood: cool.
+- **Tideglass** (id: `tideglass`): A translucent cyan tide bending across deep black. Theme: dark. Mood: cool.
+- **Nightfall** (id: `nightfall`): Cold blue atmosphere descending from the upper edge. Theme: dark. Mood: cool.
+- **Deep Current** (id: `deep-current`): A submerged current moving horizontally through darkness. Theme: dark. Mood: cool.
+- **Smokeveil** (id: `smokeveil`): A translucent veil of blue-green smoke crossing the frame. Theme: dark. Mood: cool.
+- **Copper Shadow** (id: `copper-shadow`): Muted copper light slipping beneath a black veil. Theme: dark. Mood: warm.
+- **Greenflare** (id: `greenflare`): A concentrated emerald flare dissolving into black. Theme: dark. Mood: vivid.
+- **Sage Phantom** (id: `sage-phantom`): Asymmetrical soft sage glow emerging from the bottom right. Theme: dark. Mood: dark.
+- **Abyssal Floor** (id: `abyssal-floor`): Deep cyan glow rising exclusively from the absolute black floor. Theme: dark. Mood: dark.
 
-### Mesh (8)
+### Mesh (29)
 
 - **Sakura Fields** (id: `mesh-sakura`): Cherry blossom pink mesh with warm peach nodes. Theme: light. Mood: warm.
 - **Aurora Borealis** (id: `mesh-aurora-borealis`): Northern lights mesh with emerald and violet nodes. Theme: dark. Mood: cool.
@@ -54,9 +55,30 @@ Total gradients: 82.
 - **Lavender Haze** (id: `mesh-lavender-haze`): Soft purple mesh with lilac and mauve nodes. Theme: light. Mood: vivid.
 - **Graphite Mesh** (id: `mesh-graphite`): Monochrome graphite mesh with cool steel nodes. Theme: dark. Mood: cool.
 - **Citrine Mesh** (id: `mesh-citrine`): Sunlit yellow-gold mesh with amber nodes. Theme: light. Mood: warm.
-- **Celestial Drift** (id: `celestial-drift`): Mesh cósmico pastel con nodos lavanda y menta bajo estrellas tenues. Theme: dark. Mood: vivid.
+- **Celestial Drift** (id: `celestial-drift`): Pastel cosmic mesh with lavender and mint nodes under faint stars. Theme: dark. Mood: vivid.
+- **Neon Tokyo** (id: `mesh-neon-tokyo`): Cyberpunk city lights bleeding through rain-slicked streets. Theme: dark. Mood: vivid.
+- **Volcanic Glass** (id: `mesh-volcanic-glass`): Molten obsidian cooling into prismatic fractures. Theme: dark. Mood: dark.
+- **Pearl Diving** (id: `mesh-pearl-diving`): Iridescent mother-of-pearl shimmering in abyssal depths. Theme: dark. Mood: cool.
+- **Solar Flare** (id: `mesh-solar-flare`): Coronal mass ejection captured in frozen light. Theme: light. Mood: warm.
+- **Witching Hour** (id: `mesh-witching-hour`): Midnight ritual glow with emerald smoke and violet embers. Theme: dark. Mood: dark.
+- **Cotton Candy** (id: `mesh-cotton-candy`): Sugar-spun clouds dissolving in pastel twilight. Theme: light. Mood: vivid.
+- **Arctic Aurora** (id: `mesh-arctic-aurora`): Polar light curtains dancing across frozen tundra. Theme: dark. Mood: cool.
+- **Bourbon Smoke** (id: `mesh-bourbon-smoke`): Amber liquid light refracting through oak-aged haze. Theme: dark. Mood: warm.
+- **Digital Rain** (id: `mesh-digital-rain`): Matrix code dissolving into phosphor green pools. Theme: dark. Mood: cool.
+- **Rose Quartz** (id: `mesh-rose-quartz`): Crystalline pink formations catching dawn light. Theme: light. Mood: warm.
+- **Abyssal Void** (id: `mesh-abyssal-void`): Crushing darkness pierced by bioluminescent anglerfish glow. Theme: dark. Mood: dark.
+- **Saffron Silk** (id: `mesh-saffron-silk`): Spice market warmth woven through golden fabric folds. Theme: light. Mood: warm.
+- **Nebula Core** (id: `mesh-nebula-core`): Stellar nursery birthing new stars in chromatic gas clouds. Theme: dark. Mood: vivid.
+- **Frosted Jade** (id: `mesh-frosted-jade`): Ancient jade carved from glacier ice and mountain mist. Theme: light. Mood: cool.
+- **Ember Dusk** (id: `mesh-ember-dusk`): Last embers of sunset smoldering behind charcoal hills. Theme: dark. Mood: warm.
+- **Lunar Surface** (id: `mesh-lunar-surface`): Moon dust catching earthshine in silent craters. Theme: dark. Mood: cool.
+- **Tropical Punch** (id: `mesh-tropical-punch`): Mango and dragon fruit colliding in a blender of light. Theme: light. Mood: vivid.
+- **Obsidian Prism** (id: `mesh-obsidian-prism`): Black volcanic glass fracturing light into hidden spectra. Theme: dark. Mood: dark.
+- **Alpine Meadow** (id: `mesh-alpine-meadow`): Wildflower blooms scattered across high altitude pastures. Theme: light. Mood: cool.
+- **Copper Patina** (id: `mesh-copper-patina`): Oxidized bronze catching verdigris and rust in equal measure. Theme: dark. Mood: warm.
+- **Starlight Canvas** (id: `mesh-starlight-canvas`): Painter's palette dipped in galaxy dust and constellation ink. Theme: dark. Mood: vivid.
 
-### Nebula (11)
+### Nebula (35)
 
 - **Cosmic Dust** (id: `nebula-cosmic-dust`): Floating violet and cyan orbs in deep space. Theme: dark. Mood: vivid.
 - **Supernova** (id: `nebula-supernova`): Explosive amber and crimson orbs. Theme: light. Mood: warm.
@@ -64,40 +86,106 @@ Total gradients: 82.
 - **Plasma Storm** (id: `nebula-plasma`): Electric purple and blue plasma blobs. Theme: dark. Mood: vivid.
 - **Rose Quartz** (id: `nebula-rose-quartz`): Delicate pink and blush floating orbs. Theme: light. Mood: warm.
 - **Ashen Nebula** (id: `nebula-ashen`): Dim charcoal orbs drifting through a gray void. Theme: dark. Mood: cool.
+- **Quiet Glow** (id: `nebula-quiet-glow`): A single soft cyan presence floating in darkness. Theme: dark. Mood: cool.
+- **Moonlit** (id: `nebula-moonlit`): A pale blue glow fading into a midnight void. Theme: dark. Mood: cool.
+- **Emberveil** (id: `nebula-emberveil`): A muted ember drifting behind a dark veil. Theme: dark. Mood: warm.
+- **Dew** (id: `nebula-dew`): Tiny turquoise atmosphere suspended in deep black. Theme: dark. Mood: cool.
+- **Boreal** (id: `nebula-boreal`): A restrained northern green haze in a black void. Theme: dark. Mood: cool.
+- **Silk** (id: `nebula-silk`): A thin atmospheric ribbon softly crossing the void. Theme: dark. Mood: cool.
+- **Aurora Borealis** (id: `aurora-borealis`): Layered emerald and cyan aurora curtains drifting across a midnight sky. Theme: dark. Mood: vivid.
 - **Deep Cosmos** (id: `deep-cosmos`): Deep purple abyss with stellar glows and distant twinkling stars. Theme: dark. Mood: cool.
-- **Starlit Abyss** (id: `starlit-abyss`): Vacío índigo con un resplandor distante y estrellas dispersas. Theme: dark. Mood: cool.
-- **Stardust Halo** (id: `stardust-halo`): Halo magenta brillando a través de un campo de estrellas lejanas. Theme: dark. Mood: vivid.
-- **Galactic Bloom** (id: `galactic-bloom`): Nubes de nebulosa teal y magenta a la deriva entre polvo estelar. Theme: dark. Mood: vivid.
-- **Orion Drift** (id: `orion-drift`): Resplandor azul-blanco frío bajo un denso campo estelar. Theme: dark. Mood: cool.
+- **Starlit Abyss** (id: `starlit-abyss`): Indigo void with a distant glow and scattered stars. Theme: dark. Mood: cool.
+- **Stardust Halo** (id: `stardust-halo`): Magenta halo glowing through a field of distant stars. Theme: dark. Mood: vivid.
+- **Galactic Bloom** (id: `galactic-bloom`): Teal and magenta nebula clouds drifting through stellar dust. Theme: dark. Mood: vivid.
+- **Orion Drift** (id: `orion-drift`): Cold blue-white glow beneath a dense star field. Theme: dark. Mood: cool.
+- **Golden Dawn** (id: `nebula-golden-dawn`): Solar flares condensing into molten gold spheres. Theme: dark. Mood: warm.
+- **Arctic Ice** (id: `nebula-arctic-ice`): Frozen nitrogen crystals orbiting a distant white dwarf. Theme: dark. Mood: cool.
+- **Witch's Brew** (id: `nebula-witch-brew`): Toxic green bubbles rising from a cauldron of stars. Theme: dark. Mood: vivid.
+- **Blood Moon** (id: `nebula-blood-moon`): Crimson lunar eclipses casting long shadows through dust. Theme: dark. Mood: dark.
+- **Peach Velvet** (id: `nebula-peach-velvet`): Soft peach fuzz orbs floating in cream. Theme: light. Mood: warm.
+- **Cobalt Dream** (id: `nebula-cobalt-dream`): Deep blue orbs suspended in midnight ink. Theme: dark. Mood: cool.
+- **Sunset Orchid** (id: `nebula-sunset-orchid`): Purple and tangerine orbs colliding at the horizon. Theme: dark. Mood: vivid.
+- **Smoke Signal** (id: `nebula-smoke-signal`): Gray smoke rings drifting from an extinguished star. Theme: dark. Mood: dark.
+- **Coral Reef** (id: `nebula-coral-reef`): Living coral polyps glowing in abyssal currents. Theme: dark. Mood: vivid.
+- **Lavender Fields** (id: `nebula-lavender-fields`): Soft violet spheres blooming in twilight. Theme: light. Mood: cool.
+- **Thunder Storm** (id: `nebula-thunder-storm`): Electric violet thunderheads rolling through void. Theme: dark. Mood: dark.
+- **Midnight Rose** (id: `nebula-midnight-rose`): Deep burgundy petals unfurling in eternal darkness. Theme: dark. Mood: dark.
+- **Sand Dunes** (id: `nebula-sand-dunes`): Desert mirages of heated air bending starlight. Theme: light. Mood: warm.
+- **Neon Sludge** (id: `nebula-neon-sludge`): Toxic waste orbs glowing with unnatural intensity. Theme: dark. Mood: vivid.
+- **Champagne Bubbles** (id: `nebula-champagne-bubbles`): Effervescent gold spheres rising through crystal. Theme: light. Mood: warm.
+- **Blood Aurora** (id: `blood-aurora`): Crimson and gold aurora curtains burning across an absolute night sky. Theme: dark. Mood: dark.
+- **Void Serpent** (id: `void-serpent`): Poisonous green and violet curtains coiling through an absolute void. Theme: dark. Mood: dark.
 
-### Prism (6)
+### Prism (16)
 
 - **Rainbow Flare** (id: `prism-rainbow-flare`): Full spectrum conic burst. Theme: light. Mood: vivid.
 - **Dark Spectrum** (id: `prism-dark-spectrum`): Neon prismatic halo on dark void. Theme: dark. Mood: vivid.
 - **Crystal Edge** (id: `prism-crystal-edge`): Angular prism refraction with blue-violet. Theme: light. Mood: cool.
 - **Solar Flare** (id: `prism-solar-flare`): Warm conic burst from golden core. Theme: light. Mood: warm.
 - **Steel Spectrum** (id: `prism-steel-spectrum`): Muted steel-blue conic burst, quiet and industrial. Theme: dark. Mood: cool.
-- **Borealis Shard** (id: `prism-borealis-shard`): Fragmento cónico con tonos de aurora atravesando el espacio profundo. Theme: dark. Mood: vivid.
+- **Borealis Shard** (id: `prism-borealis-shard`): Conic fragment with aurora tones crossing deep space. Theme: dark. Mood: vivid.
+- **Iris Halo** (id: `prism-iris-halo`): Soft iridescent ring with a luminous spectral center. Theme: dark. Mood: vivid.
+- **Glasswave** (id: `prism-glasswave`): Thin spectral waves refracting through translucent glass. Theme: dark. Mood: cool.
+- **Spectral Edge** (id: `prism-spectral-edge`): A concentrated rainbow refraction emerging from one edge. Theme: dark. Mood: vivid.
+- **Refract** (id: `prism-refract`): Diagonal spectral refraction split across a dark surface. Theme: dark. Mood: vivid.
+- **Polaris** (id: `prism-polaris`): Cold cyan and violet spectrum orbiting a dark center. Theme: dark. Mood: cool.
+- **Splitlight** (id: `prism-splitlight`): A clean beam splitting into spectral colors. Theme: dark. Mood: vivid.
+- **Neon Ring** (id: `prism-neon-ring`): Thin spectral ring glowing around a deep central void. Theme: dark. Mood: vivid.
+- **Aether** (id: `prism-aether`): Weightless cyan-violet iridescence floating through darkness. Theme: dark. Mood: cool.
+- **Diamond** (id: `prism-diamond`): Sharp spectral light refracted through an invisible crystal. Theme: dark. Mood: vivid.
+- **Aurora Glass** (id: `prism-aurora-glass`): Boreal cyan, emerald and violet refracted through translucent glass. Theme: dark. Mood: cool.
 
-### Grain (6)
+### Grain (23)
 
 - **Midnight Film** (id: `grain-midnight-film`): Deep indigo with analog film grain. Theme: dark. Mood: cool.
 - **Warm Velvet** (id: `grain-warm-velvet`): Rich burgundy with soft texture. Theme: dark. Mood: warm.
 - **Desert Sand** (id: `grain-desert-sand`): Warm beige with gritty film texture. Theme: light. Mood: warm.
 - **Forest Mist** (id: `grain-forest-mist`): Emerald depth with organic noise. Theme: dark. Mood: cool.
 - **Concrete Grain** (id: `grain-concrete`): Cool concrete gray with fine analog texture. Theme: light. Mood: cool.
-- **Cosmic Ash** (id: `grain-cosmic-ash`): Grano carbón e índigo con un sutil trasfondo violeta. Theme: dark. Mood: cool.
+- **Cosmic Ash** (id: `grain-cosmic-ash`): Charcoal and indigo grain over a subtle violet undertone. Theme: dark. Mood: cool.
+- **Obsidian** (id: `grain-obsidian`): Black volcanic depth with subtle graphite texture. Theme: dark. Mood: cool.
+- **Ocean Depth** (id: `grain-ocean-depth`): Deep marine blue with soft underwater illumination. Theme: dark. Mood: cool.
+- **Moss** (id: `grain-moss`): Muted moss green with earthy photographic texture. Theme: dark. Mood: cool.
+- **Smoked Lilac** (id: `grain-smoked-lilac`): Dusty violet softened by a smoky analog texture. Theme: dark. Mood: cool.
+- **Arctic Paper** (id: `grain-arctic-paper`): Cold white surface with a delicate icy texture. Theme: light. Mood: cool.
+- **Terracotta** (id: `grain-terracotta`): Burnt clay with warm tactile grain. Theme: light. Mood: warm.
+- **Olive Film** (id: `grain-olive-film`): Muted olive tones inspired by vintage photography. Theme: dark. Mood: warm.
+- **Carbon Blue** (id: `grain-carbon-blue`): Charcoal black transitioning into restrained cobalt blue. Theme: dark. Mood: cool.
+- **Champagne** (id: `grain-champagne`): Soft champagne surface with understated luxury texture. Theme: light. Mood: warm.
+- **Rainforest** (id: `grain-rainforest`): Dense tropical green with humid atmospheric texture. Theme: dark. Mood: cool.
+- **Dusty Rose** (id: `grain-dusty-rose`): Muted rose gradient with soft vintage film character. Theme: light. Mood: warm.
+- **Frosted Slate** (id: `grain-frosted-slate`): Desaturated blue-gray with soft frosted texture. Theme: light. Mood: cool.
+- **Burnt Paper** (id: `grain-burnt-paper`): Aged parchment fading into warm charcoal. Theme: dark. Mood: warm.
+- **Indigo Haze** (id: `grain-indigo-haze`): Soft midnight indigo with a hazy luminous center. Theme: dark. Mood: cool.
+- **Smoke** (id: `grain-smoke`): Neutral graphite gradient with dense atmospheric grain. Theme: dark. Mood: cool.
+- **Copper Patina** (id: `grain-copper-patina`): Aged copper transitioning into muted turquoise patina. Theme: dark. Mood: warm.
+- **Lunar Surface** (id: `grain-lunar-surface`): Cold lunar gray with subtle mineral depth. Theme: dark. Mood: cool.
 
-### Glass (6)
+### Glass (21)
 
 - **Arctic Frost** (id: `glass-arctic-frost`): Frosted glass with blue-cyan refraction. Theme: light. Mood: cool.
 - **Obsidian Glass** (id: `glass-obsidian`): Dark frosted glass with violet refractions. Theme: dark. Mood: cool.
 - **Rose Window** (id: `glass-rose-window`): Stained glass with rose and amber refractions. Theme: light. Mood: warm.
 - **Emerald Lens** (id: `glass-emerald-lens`): Green frosted glass with teal light beams. Theme: dark. Mood: cool.
 - **Smoked Glass** (id: `glass-smoked`): Dark smoked glass with graphite refractions. Theme: dark. Mood: cool.
-- **Starlight Glass** (id: `glass-starlight`): Vidrio esmerilado oscuro en azul-violeta con luz estelar embebida. Theme: dark. Mood: cool.
+- **Starlight Glass** (id: `glass-starlight`): Dark frosted blue-violet glass with embedded starlight. Theme: dark. Mood: cool.
+- **Liquid Cyan** (id: `glass-liquid-cyan`): Translucent cyan glass flowing like liquid crystal. Theme: dark. Mood: cool.
+- **Boreal Glass** (id: `glass-boreal`): Frosted glass infused with emerald and cyan northern light. Theme: dark. Mood: cool.
+- **Prism Window** (id: `glass-prism-window`): Transparent glass scattering subtle rainbow refractions. Theme: dark. Mood: vivid.
+- **Ice Sheet** (id: `glass-ice-sheet`): Layered translucent ice with frozen cyan fractures. Theme: light. Mood: cool.
+- **Violet Smoke** (id: `glass-violet-smoke`): Dark translucent violet glass surrounded by soft atmospheric haze. Theme: dark. Mood: vivid.
+- **Amber Crystal** (id: `glass-amber-crystal`): Warm translucent crystal with golden internal reflections. Theme: dark. Mood: warm.
+- **Aqua Bubble** (id: `glass-aqua-bubble`): Soft translucent bubbles suspended in an aquatic glass surface. Theme: light. Mood: cool.
+- **Carbon Glass** (id: `glass-carbon`): Nearly black glass with restrained graphite reflections. Theme: dark. Mood: cool.
+- **Deep Sea Glass** (id: `glass-deep-sea`): Dense blue-green glass with submerged light refractions. Theme: dark. Mood: cool.
+- **Champagne Glass** (id: `glass-champagne`): Soft golden translucent glass with luxurious highlights. Theme: light. Mood: warm.
+- **Neon Refraction** (id: `glass-neon-refraction`): Dark frosted glass splitting cyan, violet and pink neon light. Theme: dark. Mood: vivid.
+- **Frosted Mint** (id: `glass-frosted-mint`): Pale mint glass with a soft frozen atmospheric glow. Theme: light. Mood: cool.
+- **Moonstone** (id: `glass-moonstone`): Smoky blue glass with a faint lunar iridescence. Theme: dark. Mood: cool.
+- **Rain Window** (id: `glass-rain-window`): Condensed blue glass with soft distorted light behind it. Theme: dark. Mood: cool.
+- **Solar Glass** (id: `glass-solar`): Warm transparent glass glowing from an internal amber core. Theme: dark. Mood: warm.
 
-### Flux (7)
+### Flux (23)
 
 - **Lava Lamp** (id: `flux-lava-lamp`): Organic red and orange blobs floating in dark space. Theme: dark. Mood: warm.
 - **Jellyfish** (id: `flux-jellyfish`): Translucent cyan and violet organic shapes. Theme: dark. Mood: cool.
@@ -105,9 +193,25 @@ Total gradients: 82.
 - **Oil Spill** (id: `flux-oil-spill`): Iridescent dark blobs with rainbow reflections. Theme: dark. Mood: vivid.
 - **Cloud Nine** (id: `flux-cloud-nine`): Soft peach and cream organic cloudscape. Theme: light. Mood: warm.
 - **Graphite Flow** (id: `flux-graphite`): Slow graphite and slate blobs in dark space. Theme: dark. Mood: cool.
-- **Nebula Flow** (id: `flux-nebula-flow`): Blobs orgánicos magenta, teal y violeta a la deriva como nubes de nebulosa. Theme: dark. Mood: vivid.
+- **Nebula Flow** (id: `flux-nebula-flow`): Organic magenta, teal and violet blobs drifting like nebula clouds. Theme: dark. Mood: vivid.
+- **Liquid Metal** (id: `flux-liquid-metal`): Molten silver forms flowing through a dark metallic void. Theme: dark. Mood: cool.
+- **Toxic Mist** (id: `flux-toxic-mist`): Acid green and electric cyan vapor twisting through darkness. Theme: dark. Mood: vivid.
+- **Velvet Liquid** (id: `flux-velvet-liquid`): Deep burgundy and plum shapes melting into one another. Theme: dark. Mood: warm.
+- **Aurora Fluid** (id: `flux-aurora-fluid`): Liquid emerald and cyan forms inspired by northern lights. Theme: dark. Mood: cool.
+- **Ink Bloom** (id: `flux-ink-bloom`): Pigment-like blue and violet ink blooming through water. Theme: dark. Mood: vivid.
+- **Cosmic Jelly** (id: `flux-cosmic-jelly`): Translucent magenta and cyan masses floating like alien jelly. Theme: dark. Mood: vivid.
+- **Volcanic Glass** (id: `flux-volcanic-glass`): Molten amber shapes trapped inside black volcanic glass. Theme: dark. Mood: warm.
+- **Deep Tide** (id: `flux-deep-tide`): Slow-moving blue and teal masses inspired by deep ocean currents. Theme: dark. Mood: cool.
+- **Electric Pulp** (id: `flux-electric-pulp`): High-energy lime, violet and cyan organic masses. Theme: dark. Mood: vivid.
+- **Milk Tea** (id: `flux-milk-tea`): Creamy caramel and beige organic forms with a soft tactile feel. Theme: light. Mood: warm.
+- **Neon Plasma** (id: `flux-neon-plasma`): Electric blue and hot pink plasma colliding in organic forms. Theme: dark. Mood: vivid.
+- **Sage Smoke** (id: `flux-sage-smoke`): Muted sage and eucalyptus shapes drifting through pale air. Theme: light. Mood: cool.
+- **Solar Liquid** (id: `flux-solar-liquid`): Golden and coral liquid forms glowing like a molten sun. Theme: dark. Mood: warm.
+- **Boreal Pulse** (id: `flux-boreal-pulse`): Emerald, cyan and violet organic masses with a northern glow. Theme: dark. Mood: cool.
+- **Black Cherry** (id: `flux-black-cherry`): Dark cherry and crimson organic masses with a glossy depth. Theme: dark. Mood: warm.
+- **Frozen Plasma** (id: `flux-frozen-plasma`): Icy blue organic masses glowing inside a frozen void. Theme: dark. Mood: cool.
 
-### Lattice (8)
+### Lattice (25)
 
 - **Aurora Beams** (id: `aurora-beams`): Diagonal repeating light beams heavily blurred with a teal base glow. Theme: dark. Mood: cool.
 - **Neon Grid** (id: `lattice-neon-grid`): Cyberpunk grid with neon purple glow lines. Theme: dark. Mood: vivid.
@@ -116,7 +220,24 @@ Total gradients: 82.
 - **Dot Matrix** (id: `lattice-dot-matrix`): Retro dot pattern with violet gradient wash. Theme: dark. Mood: cool.
 - **Light Weave** (id: `lattice-light-weave`): Delicate grid on soft blue with subtle glow. Theme: light. Mood: cool.
 - **Mono Grid** (id: `lattice-mono-grid`): Minimal grayscale grid with soft steel glow. Theme: dark. Mood: cool.
-- **Star Grid** (id: `lattice-star-grid`): Grilla fina sobre azul marino profundo, salpicada de puntos brillantes. Theme: dark. Mood: cool.
+- **Star Grid** (id: `lattice-star-grid`): Fine grid over deep marine blue, speckled with bright dots. Theme: dark. Mood: cool.
+- **Hex Flow** (id: `lattice-hex-flow`): Soft hexagonal lattice dissolving into cyan atmospheric light. Theme: dark. Mood: cool.
+- **Topographic** (id: `lattice-topographic`): Layered contour lines flowing like a luminous terrain map. Theme: dark. Mood: cool.
+- **Circuit** (id: `lattice-circuit`): Minimal electronic traces illuminated by electric blue. Theme: dark. Mood: vivid.
+- **Diamond Field** (id: `lattice-diamond-field`): Fine diamond lattice floating over a violet atmospheric field. Theme: dark. Mood: vivid.
+- **Radar** (id: `lattice-radar`): Concentric scanning rings with a subtle electromagnetic glow. Theme: dark. Mood: cool.
+- **Microdots** (id: `lattice-microdots`): Ultra-fine dot matrix fading into a soft blue atmosphere. Theme: dark. Mood: cool.
+- **Wave Grid** (id: `lattice-wave-grid`): Curved interference lines creating a fluid geometric surface. Theme: dark. Mood: vivid.
+- **Honeycomb** (id: `lattice-honeycomb`): Hexagonal amber structure with a restrained golden glow. Theme: dark. Mood: warm.
+- **Constellation** (id: `lattice-constellation`): Sparse geometric network connecting luminous points. Theme: dark. Mood: cool.
+- **Prism Mesh** (id: `lattice-prism-mesh`): Angular mesh illuminated by cyan, violet and magenta refractions. Theme: dark. Mood: vivid.
+- **Scanlines** (id: `lattice-scanlines`): Fine horizontal scanlines over a subtle cybernetic glow. Theme: dark. Mood: vivid.
+- **Moiré** (id: `lattice-moire`): Overlapping fine waves producing a hypnotic moiré surface. Theme: dark. Mood: vivid.
+- **Celestial Lattice** (id: `lattice-celestial`): Fine celestial geometry fading into a deep cosmic blue. Theme: dark. Mood: cool.
+- **Soft Mesh** (id: `lattice-soft-mesh`): Minimal pale mesh dissolving into an airy cyan atmosphere. Theme: light. Mood: cool.
+- **Aurora Grid** (id: `lattice-aurora-grid`): Fine geometric grid submerged beneath an emerald and cyan aurora. Theme: dark. Mood: cool.
+- **Chrome Inferno** (id: `chrome-inferno`): Incandescent metallic beams cutting through total darkness. Theme: dark. Mood: warm.
+- **Diamond Storm** (id: `diamond-storm`): Electric ice beams cutting through a glacial void. Theme: dark. Mood: cool.
 
 ## Technical notes
 
