@@ -167,6 +167,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const [themeOverride, setThemeOverride] = useState<"light" | "dark" | null>("light");
   const [previewReturn, setPreviewReturn] = useState<{ y: number } | null>(null);
+  const previewReturnRef = useRef<{ y: number } | null>(null);
   const [flashTick, setFlashTick] = useState(0);
   const toastId = useRef(0);
 
@@ -243,6 +244,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setActiveId(id);
     setThemeOverride(null);
     setPreviewReturn({ y });
+    previewReturnRef.current = { y };
     window.history.pushState(null, "", `?g=${id}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -252,10 +254,14 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       window.scrollTo({ top: previewReturn.y, behavior: "smooth" });
     }
     setPreviewReturn(null);
+    previewReturnRef.current = null;
     setFlashTick((t) => t + 1);
   }, [previewReturn]);
 
-  const dismissPreviewReturn = useCallback(() => setPreviewReturn(null), []);
+  const dismissPreviewReturn = useCallback(() => {
+    setPreviewReturn(null);
+    previewReturnRef.current = null;
+  }, []);
 
   /* ── Random / shuffle ── */
 
@@ -286,8 +292,18 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     // Legit: sync the selected gradient from the URL once on mount
     // eslint-disable-next-line react-hooks/set-state-in-effect
     syncFromURL();
-    window.addEventListener("popstate", syncFromURL);
-    return () => window.removeEventListener("popstate", syncFromURL);
+    const onPopState = () => {
+      const pending = previewReturnRef.current;
+      syncFromURL();
+      if (pending) {
+        previewReturnRef.current = null;
+        setPreviewReturn(null);
+        window.scrollTo({ top: pending.y, behavior: "smooth" });
+        setFlashTick((t) => t + 1);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
   }, [syncFromURL]);
 
   const value = useMemo<GradientContextValue>(

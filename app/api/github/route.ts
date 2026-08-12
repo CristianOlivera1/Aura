@@ -3,11 +3,15 @@ import { GITHUB_REPO } from "@/lib/constants";
 
 export async function GET() {
   try {
+    const headers: Record<string, string> = {
+      "Accept": "application/vnd.github+json",
+    };
+    if (process.env.GITHUB_TOKEN) {
+      headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
     const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}`, {
-      headers: {
-        "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
-        "Accept": "application/vnd.github+json",
-      },
+      headers,
       next: { revalidate: 3600 },
     });
 

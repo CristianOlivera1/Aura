@@ -53,7 +53,7 @@ export function DraggableNode({ x, y, color, label, onMove }: Props) {
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      className="absolute z-40 -translate-x-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing group"
+      className="absolute z-40 -translate-x-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing group touch-none"
       style={{ left: `${x}%`, top: `${y}%` }}
       title={`${label} — ${Math.round(x)}%, ${Math.round(y)}%`}
     >

@@ -1677,3 +1677,19 @@ export function resolveBlendMode(mode: string, light: boolean): string {
       return mode;
   }
 }
+
+/* ── Fullscreen blur scaling ── */
+
+/**
+ * Catalog blur values are tuned for card thumbnails (raw px). Fullscreen
+ * backgrounds need much more blur for the atmospheric effect. Scale linearly
+ * from the thumbnail anchor (36px → 90/130px on mobile/desktop) so edited
+ * values produce a visible difference in the preview.
+ */
+export function scaleBlurFull(blur: number): { mobile: number; desktop: number } {
+  if (blur <= 0) return { mobile: 0, desktop: 0 };
+  return {
+    mobile: Math.min(200, Math.round(blur * 2.5)),
+    desktop: Math.min(260, Math.round(blur * 3.6)),
+  };
+}
