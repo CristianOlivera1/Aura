@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react
 import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
-import { type Gradient, CATEGORIES } from "@/lib/gradients";
+import { resolveBlendMode, type Gradient, CATEGORIES } from "@/lib/gradients";
 import { useReveal } from "@/hooks/useReveal";
 
 interface Props {
@@ -115,7 +115,10 @@ export function GradientCard({ gradient, index }: Props) {
             style={{
               backgroundImage: layer.background,
               backgroundSize: layer.backgroundSize ?? "cover",
-              mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+              mixBlendMode: resolveBlendMode(
+                layer.blendMode,
+                !gradient.dark,
+              ) as React.CSSProperties["mixBlendMode"],
               filter: layer.blur > 0 ? `blur(${Math.min(layer.blur, 24)}px)` : undefined,
               opacity: layer.opacity ?? 1,
             }}

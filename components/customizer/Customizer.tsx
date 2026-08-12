@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
+import { toPng, toSvg } from "html-to-image";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { DraggableNode } from "@/components/customizer/DraggableNode";
@@ -12,8 +13,46 @@ import {
   replacePosition,
   extractDominantColor,
 } from "@/hooks/useGradientParser";
+import { exportGradient, type ExportFormat } from "@/lib/exportFormats";
+import { generateAIPrompt } from "@/lib/generateAIPrompt";
 import type { Layer } from "@/lib/gradients";
-import { resolveBlendMode } from "@/lib/gradients";
+import { resolveBlendMode, scaleBlurFull } from "@/lib/gradients";
+
+const EXPORT_W = 1600;
+const EXPORT_H = 900;
+
+/** Scale blur for fullscreen/download — raw values are for card thumbnails */
+function scaleBlur(blur: number): number {
+  return blur > 0 ? 90 : 0;
+}
+
+/** True if the PNG data URL has actual painted pixels (not fully transparent) */
+function hasVisiblePixels(dataUrl: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const c = document.createElement("canvas");
+        c.width = EXPORT_W;
+        c.height = EXPORT_H;
+        const ctx = c.getContext("2d");
+        if (!ctx) return resolve(false);
+        ctx.drawImage(img, 0, 0);
+        const data = ctx.getImageData(0, 0, EXPORT_W, EXPORT_H).data;
+        let visible = 0;
+        for (let i = 3; i < data.length; i += 4) {
+          if (data[i] > 0) visible++;
+          if (visible > 200) break;
+        }
+        resolve(visible > 200);
+      } catch {
+        resolve(false);
+      }
+    };
+    img.onerror = () => resolve(false);
+    img.src = dataUrl;
+  });
+}
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
@@ -31,6 +70,7 @@ export function Customizer() {
     isDark,
     custom,
     dispatchCustom,
+    showToast,
   } = useGradients();
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -169,6 +209,79 @@ export function Customizer() {
     dispatchCustom({ type: "SET_GRAIN", grain: !effectiveGrain });
   }, [effectiveGrain, dispatchCustom]);
 
+  /* ── Export actions ── */
+  const [format, setFormat] = useState<ExportFormat>("css");
+  const [copied, setCopied] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  const code = useMemo(
+    () => (active ? exportGradient(format, active, effectiveLayers) : ""),
+    [active, format, effectiveLayers],
+  );
+
+  const aiPrompt = useMemo(
+    () => (active ? generateAIPrompt(active, effectiveLayers) : ""),
+    [active, effectiveLayers],
+  );
+
+  const handleCopy = useCallback(
+    async (text: string, label: string) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        setCopied(label);
+        showToast(`Copied ${label}`);
+        setTimeout(() => setCopied(null), 2000);
+      } catch {
+        showToast("Failed to copy", "error");
+      }
+    },
+    [showToast],
+  );
+
+  /* Render the gradient (base + layers + grain) offscreen and download it.
+     The snapshot node lives at 0,0 inside an off-screen wrapper — html-to-image
+     clones the node with its computed styles, so a `left: -10000px` on the node
+     itself would push the content off-canvas and produce a blank image. */
+  const handleDownload = useCallback(
+    async (dlFormat: "png" | "svg") => {
+      const node = exportRef.current;
+      if (!node || !active) return;
+      setDownloading(true);
+      try {
+        const opts = {
+          width: EXPORT_W,
+          height: EXPORT_H,
+          pixelRatio: 1,
+          cacheBust: true,
+          style: {
+            position: "absolute" as const,
+            left: "0",
+            top: "0",
+            right: "auto",
+            bottom: "auto",
+            margin: "0",
+          },
+        };
+        const url =
+          dlFormat === "png" ? await toPng(node, opts) : await toSvg(node, opts);
+        if (dlFormat === "png" && !(await hasVisiblePixels(url))) {
+          throw new Error("blank image");
+        }
+        const link = document.createElement("a");
+        link.download = `${active.id}.${dlFormat}`;
+        link.href = url;
+        link.click();
+        showToast(`Downloaded ${active.name} as ${dlFormat.toUpperCase()}`);
+      } catch {
+        showToast("Download failed", "error");
+      } finally {
+        setDownloading(false);
+      }
+    },
+    [active, showToast],
+  );
+
   if (!fullscreen || !active) return null;
 
   return (
@@ -185,21 +298,28 @@ export function Customizer() {
       {/* ══ Left: Live Preview ══ */}
       <div className="relative flex-1 overflow-hidden bg-[var(--color-bg)]" data-customizer-preview>
         {/* Dynamic layers */}
-        {effectiveLayers.map((layer, i) => (
-          <div
-            key={i}
-            className={`absolute inset-0 ${layer.blur > 0 ? "blur-[90px] md:blur-[130px]" : ""}`}
-            style={{
-              backgroundImage: layer.background,
-              backgroundSize: layer.backgroundSize ?? "cover",
-              mixBlendMode: resolveBlendMode(
-                layer.blendMode,
-                !isDark,
-              ) as React.CSSProperties["mixBlendMode"],
-              opacity: layer.opacity ?? 1,
-            }}
-          />
-        ))}
+        {effectiveLayers.map((layer, i) => {
+          const b = scaleBlurFull(layer.blur);
+          const blurActive = b.mobile > 0;
+          return (
+            <div
+              key={i}
+              className={`absolute inset-0 ${blurActive ? "aura-blur" : ""}`}
+              style={{
+                ...(blurActive
+                  ? ({ "--blur-m": `${b.mobile}px`, "--blur-d": `${b.desktop}px` } as React.CSSProperties)
+                  : {}),
+                backgroundImage: layer.background,
+                backgroundSize: layer.backgroundSize ?? "cover",
+                mixBlendMode: resolveBlendMode(
+                  layer.blendMode,
+                  !isDark,
+                ) as React.CSSProperties["mixBlendMode"],
+                opacity: layer.opacity ?? 1,
+              }}
+            />
+          );
+        })}
 
         {/* Grain overlay */}
         {effectiveGrain && <GrainOverlay className="absolute inset-0" />}
@@ -321,7 +441,10 @@ export function Customizer() {
               <label className="text-[13px] text-white/60 font-medium">Grain Overlay</label>
               <button
                 onClick={handleGrainToggle}
-                className={`relative w-9 h-5 rounded-full transition-colors border border-white/5 ${
+                role="switch"
+                aria-checked={effectiveGrain}
+                aria-label="Grain overlay"
+                className={`relative w-9 h-5 rounded-full transition-colors border border-white/5 focus-visible:outline-2 focus-visible:outline-white/60 ${
                   effectiveGrain ? "bg-[#333333]" : "bg-[#141414]"
                 }`}
               >
@@ -350,25 +473,110 @@ export function Customizer() {
           <div className="h-px bg-white/5" />
 
           {/* Export (Tu componente original se mantiene aquí) */}
-          <div className="flex-1 min-h-0 flex flex-col gap-4 pb-4">
-            <ExportPanel />
+          <div className="flex flex-col gap-4">
+            <ExportPanel
+              format={format}
+              onFormatChange={setFormat}
+              code={code}
+              copied={copied}
+              onCopy={handleCopy}
+            />
           </div>
         </div>
 
-        {/* Keyboard hints - Fondo contrastado sutil abajo */}
-        <div className="px-5 py-3 border-t border-white/5 bg-[#0d0d0d] flex items-center gap-4 text-white/40 text-[11px] font-medium tracking-wide">
-          <span className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">←→</kbd> nav
-          </span>
-          <span className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">R</kbd> random
-          </span>
-          <span className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">⌘Z</kbd> undo
-          </span>
-          <span className="flex items-center gap-1.5">
-            <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">esc</kbd> close
-          </span>
+        {/* Fixed export actions - Fondo contrastado abajo */}
+        <div className="border-t border-white/5 bg-[#0d0d0d]">
+          <div className="px-5 pt-3 pb-2 flex flex-col gap-2">
+            <button
+              onClick={() => handleCopy(aiPrompt, "AI Prompt")}
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600/80 to-fuchsia-600/80 hover:from-violet-600 hover:to-fuchsia-600 text-white text-[12px] font-medium py-2 px-3 squircle-element transition-all shadow-[0_2px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_4px_20px_rgba(139,92,246,0.5)]"
+            >
+              <Icon
+                icon={
+                  copied === "AI Prompt" ? "lucide:check" : "lucide:sparkles"
+                }
+                width={12}
+                height={12}
+              />
+              {copied === "AI Prompt" ? "Prompt Copied!" : "Copy AI Prompt"}
+            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleDownload("png")}
+                disabled={downloading}
+                className="flex flex-1 items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[12px] font-medium py-2 px-3 squircle-element transition-all border border-white/10 disabled:opacity-50"
+              >
+                <Icon
+                  icon={
+                    downloading ? "lucide:loader-circle" : "lucide:image-down"
+                  }
+                  width={12}
+                  height={12}
+                  className={downloading ? "animate-spin" : ""}
+                />
+                Download PNG
+              </button>
+              <button
+                onClick={() => handleDownload("svg")}
+                disabled={downloading}
+                className="flex flex-1 items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white text-[12px] font-medium py-2 px-3 squircle-element transition-all border border-white/10 disabled:opacity-50"
+              >
+                <Icon icon="lucide:file-down" width={12} height={12} />
+                Download SVG
+              </button>
+            </div>
+          </div>
+
+          {/* Keyboard hints - Fondo contrastado sutil abajo */}
+          <div className="px-5 py-3 border-t border-white/5 bg-[#0d0d0d] flex items-center gap-4 text-white/40 text-[11px] font-medium tracking-wide">
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">←→</kbd> nav
+            </span>
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">R</kbd> random
+            </span>
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">⌘Z</kbd> undo
+            </span>
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/5 rounded">esc</kbd> close
+            </span>
+          </div>
+        </div>
+
+        {/* Hidden export stage — off-screen wrapper, snapshot node at 0,0 */}
+        <div
+          aria-hidden="true"
+          style={{ position: "fixed", left: -9999, top: 0, pointerEvents: "none", zIndex: -1 }}
+        >
+          <div
+            ref={exportRef}
+            style={{
+              width: EXPORT_W,
+              height: EXPORT_H,
+              position: "relative",
+              backgroundColor: "var(--color-bg)",
+            }}
+          >
+            {effectiveLayers.map((layer, i) => (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundImage: layer.background,
+                  backgroundSize: layer.backgroundSize ?? "cover",
+                  mixBlendMode: resolveBlendMode(
+                    layer.blendMode,
+                    !isDark,
+                  ) as React.CSSProperties["mixBlendMode"],
+                  filter: layer.blur > 0 ? `blur(${scaleBlur(layer.blur)}px)` : undefined,
+                  opacity: layer.opacity ?? 1,
+                }}
+              />
+            ))}
+            {effectiveGrain && <GrainOverlay className="absolute inset-0" />}
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CONIC_GRADIENT, GITHUB_URL } from "@/lib/constants";
 import { Logo } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
@@ -32,6 +33,15 @@ export function Footer() {
           Star on GitHub <span className="text-lg text-muted-fg">· </span>
           <GitHubBadge className="text-lg text-muted-fg" />
         </Button>
+        <p className="mt-8 text-xs text-muted-fg">
+          <Link
+            href="/llms.txt"
+            className="underline decoration-dotted decoration-muted-fg/50 underline-offset-4 hover:decoration-muted-fg"
+          >
+            llms.txt
+          </Link>
+          <span className="mx-1.5">·</span> for AI agents
+        </p>
       </div>
     </footer>
   );

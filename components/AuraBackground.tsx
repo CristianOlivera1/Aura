@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
-import { resolveBlendMode, type Layer } from "@/lib/gradients";
+import { resolveBlendMode, scaleBlurFull, type Layer } from "@/lib/gradients";
 
 interface Stack {
   layers: Layer[];
@@ -19,21 +19,30 @@ function renderStack(stack: Stack, fading = false, light = false) {
         isolation: "isolate",
       }}
     >
-      {stack.layers.map((layer, i) => (
-        <div
-          key={i}
-          className={`absolute inset-0 transform-gpu will-change-transform ${layer.blur > 0 ? "blur-[90px] md:blur-[130px]" : ""}`}
-          style={{
-            backgroundImage: layer.background,
-            backgroundSize: layer.backgroundSize ?? "cover",
-            mixBlendMode: resolveBlendMode(
-              layer.blendMode,
-              light,
-            ) as React.CSSProperties["mixBlendMode"],
-            opacity: layer.opacity ?? 1,
-          }}
-        />
-      ))}
+      {stack.layers.map((layer, i) => {
+        const b = scaleBlurFull(layer.blur);
+        const blurActive = b.mobile > 0;
+        return (
+          <div
+            key={i}
+            className={`absolute inset-0 transform-gpu will-change-transform ${
+              blurActive ? "aura-blur" : ""
+            }`}
+            style={{
+              ...(blurActive
+                ? ({ "--blur-m": `${b.mobile}px`, "--blur-d": `${b.desktop}px` } as React.CSSProperties)
+                : {}),
+              backgroundImage: layer.background,
+              backgroundSize: layer.backgroundSize ?? "cover",
+              mixBlendMode: resolveBlendMode(
+                layer.blendMode,
+                light,
+              ) as React.CSSProperties["mixBlendMode"],
+              opacity: layer.opacity ?? 1,
+            }}
+          />
+        );
+      })}
       {stack.grain && <GrainOverlay className="absolute inset-0" />}
     </div>
   );

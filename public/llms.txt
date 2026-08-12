@@ -1,0 +1,25 @@
+# Aura
+
+> Ambient gradient backgrounds, free and open source.
+
+Aura is a small, growing catalog of hand-tuned ambient, mesh and nebula
+gradient backgrounds built from layered CSS gradients combined with blend
+modes and blur. Every gradient can be previewed, customized live (reorder
+layers, tweak blur, opacity and blend modes, toggle grain) and exported as CSS
+variables or standalone SVG/PNG. The project is open source and MIT licensed.
+
+## Key Topics
+
+- Ambient, mesh, nebula, prism, grain, glass, flux and lattice gradient backgrounds
+- Layered CSS gradients with blend modes (screen, overlay, hard-light, soft-light, multiply, color-dodge, difference)
+- Live editor: layer reordering, blur 0-100px, opacity, blend mode, grain overlay
+- Exports: CSS gradient code, SVG, PNG download (1600x1000)
+- Adaptive light/dark themes per gradient with manual override
+- 82 gradients total, categorized by style
+
+## Additional Resources
+
+- [Homepage](https://auragradients.vercel.app/): browse and preview the full catalog
+- [Full catalog (llms-full.txt)](https://auragradients.vercel.app/llms-full.txt): every gradient with metadata
+- [GitHub source](https://github.com/CristianOlivera1/Aura): MIT licensed, open source
+- [OG image](https://auragradients.vercel.app/images/metadata/og-image.png): 1200x630 social preview

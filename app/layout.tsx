@@ -1,5 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import {
+  GITHUB_URL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "@/lib/constants";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,14 +16,141 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Aura — Ambient gradient backgrounds",
-  description:
-    "A small, growing set of ambient gradients built from layered blend modes — soft, atmospheric, and easy to drop behind any interface.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} - ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "Cristian Olivera", url: GITHUB_URL }],
+  creator: "Cristian Olivera",
+  generator: "Next.js",
+  category: "technology",
+  keywords: [
+    "gradients",
+    "ambient gradient",
+    "css gradients",
+    "background gradients",
+    "blend modes",
+    "mesh gradient",
+    "nebulae",
+    "web design",
+  ],
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+    images: [
+      {
+        url: "/images/metadata/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/images/metadata/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
+      },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/images/metadata/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/images/metadata/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/images/metadata/apple-touch-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf8f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#100e0b" },
+  ],
+  colorScheme: "light dark",
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      image: `${SITE_URL}/images/metadata/og-image.png`,
+    },
+    {
+      "@type": "WebApplication",
+      name: `${SITE_NAME} — ${SITE_TAGLINE}`,
+      url: SITE_URL,
+      applicationCategory: "DesignApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      screenshot: `${SITE_URL}/images/metadata/og-image.png`,
+    },
+    {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      sameAs: [GITHUB_URL],
+      logo: `${SITE_URL}/images/metadata/og-image.png`,
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} antialiased h-full`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <a
           href="#main"

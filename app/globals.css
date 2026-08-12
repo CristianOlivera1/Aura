@@ -53,6 +53,18 @@ body {
     inset 0 -1px 0 color-mix(in srgb, var(--color-fg) 6%, transparent);
 }
 
+/* Fullscreen gradient-layer blur. The layer sets `--blur-m`/`--blur-d`
+   (mobile/desktop px) via inline style; falls back to 90/130px. */
+.aura-blur {
+  filter: blur(var(--blur-m, 90px));
+}
+
+@media (min-width: 768px) {
+  .aura-blur {
+    filter: blur(var(--blur-d, 130px));
+  }
+}
+
 /* Glass with accent glow on hover */
 @utility glass-glow {
   background: color-mix(in srgb, var(--color-surface) 55%, transparent);
@@ -103,9 +115,17 @@ button{
   }
 }
 
-/* Elements start hidden; `is-visible` triggers the animation */
+/* Elements start hidden; `is-visible` triggers the animation.
+   Only hide when scripting is enabled — if JS is blocked or slow,
+   the content stays visible instead of being permanently invisible. */
 .reveal {
-  opacity: 0;
+  opacity: 1;
+}
+
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+  }
 }
 
 .reveal.is-visible {

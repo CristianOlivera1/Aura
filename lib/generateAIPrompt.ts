@@ -9,28 +9,35 @@ import type { Gradient, Layer } from "@/lib/gradients";
  *   container is transparent, layers blend against the body.
  * - Non-blend-mode gradients (flux, lattice, etc.): base color goes on
  *   the container directly.
+ * - The base color is the gradient's authored `g.base` (NOT the app theme
+ *   background) so the exported result matches the catalog exactly.
  */
 
 function usesBlendModes(layers: Layer[]): boolean {
   return layers.some((l) => l.blendMode !== "normal");
 }
 
-/** Scale blur for fullscreen use — card thumbnails use raw values,
+/** Blend modes that break when composited against a light background. */
+const LIGHT_FRIENDLY_BLEND = new Set([
+  "hard-light",
+  "soft-light",
+  "screen",
+  "overlay",
+]);
+
+/** Scale blur for fullscreen use - card thumbnails use raw values,
  *  but page backgrounds need much higher blur for the atmospheric effect. */
 function scaleBlur(blur: number): { mobile: number; desktop: number } {
   if (blur <= 0) return { mobile: 0, desktop: 0 };
   return { mobile: 90, desktop: 130 };
 }
 
-/** The actual body background colors from the CSS palette.
- *  These are the colors blend modes composite against. */
-function bodyBg(dark: boolean): string {
-  return dark ? "#100e0b" : "#faf8f2";
-}
-
 export function generateAIPrompt(g: Gradient, layers: Layer[]): string {
-  const bg = bodyBg(g.dark);
+  const bg = g.base;
   const hasBlend = usesBlendModes(layers);
+  const darkModes = [...new Set(layers.map((l) => l.blendMode))].filter(
+    (m) => m !== "normal" && LIGHT_FRIENDLY_BLEND.has(m),
+  );
 
   const layerDescriptions = layers
     .map((l, i) => {
@@ -52,7 +59,7 @@ export function generateAIPrompt(g: Gradient, layers: Layer[]): string {
 
 ### ⚠️ Critical: Blend Mode Architecture
 These layers use CSS \`mix-blend-mode\` (${[...new Set(layers.map((l) => l.blendMode))].filter((m) => m !== "normal").join(", ")}). 
-Blend modes composite against whatever is **behind** the element — the page/body background.
+Blend modes composite against whatever is **behind** the element - the page/body background.
 
 **DO NOT** set \`background-color\` on the gradient container itself. Instead:
 1. Set \`background-color: ${bg}\` on the **\`<body>\`** or **page wrapper**.
@@ -61,6 +68,20 @@ Blend modes composite against whatever is **behind** the element — the page/bo
 
 If you put the base color on the container, the blend modes will composite against that instead of the page, producing incorrect (washed-out or too dark) results.`
     : "";
+
+  const themeNote =
+    hasBlend && darkModes.length > 0
+      ? `
+
+### 🌗 Light / Dark Theme Adaptation
+The layer blend modes (\`${darkModes.join("`, `")}\`) are tuned against the authored base \`${bg}\`. If you composite them over a **light or white** surface they wash out (the gradient "disappears"). To keep the same colors on a light surface, remap each of those blend modes to \`multiply\` - it renders the layer hues as tints over white while keeping the background light:
+
+| Original blend mode | On a light surface use |
+| --- | --- |
+${darkModes.map((m) => `| \`${m}\` | \`multiply\` |`).join("\n")}
+
+\`multiply\`, \`normal\`, and already-dark base colors need no change.`
+      : "";
 
   const cssLayers = layers
     .map(
@@ -73,11 +94,11 @@ If you put the base color on the container, the blend modes will composite again
     .join("\n\n");
 
   const bodyCSS = hasBlend
-    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here — blend modes need to see through to body */\n}`
+    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here - blend modes need to see through to body */\n}`
     : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${bg};\n}`;
 
   const reactBg = hasBlend
-    ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        /* NO backgroundColor — blend modes composite against body/page bg */\n      }}\n    >`
+    ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        /* NO backgroundColor - blend modes composite against body/page bg */\n      }}\n    >`
     : `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        backgroundColor: "${bg}",\n      }}\n    >`;
 
   const reactLayers = layers
@@ -103,7 +124,7 @@ The composition uses ${layers.length} layer${layers.length > 1 ? "s" : ""} over 
 ${layerDescriptions}
 ${g.grain ? "\nA **grain texture overlay** (SVG feTurbulence noise) is applied on top for an analog film feel." : ""}
 ${blendNote}
-
+${themeNote}
 ### Implementation Notes
 - Each layer is an absolutely-positioned div with its own \`mix-blend-mode\` and optional \`filter: blur()\`.
 - Use \`transform: translateZ(0)\` or \`will-change: transform\` on blur layers for GPU acceleration.
@@ -113,7 +134,7 @@ ${blendNote}
 ### CSS Code
 
 \`\`\`css
-/* ${g.name} — Aura */
+/* ${g.name} - Aura */
 ${bodyCSS}
 
 ${cssLayers}

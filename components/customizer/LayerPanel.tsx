@@ -44,7 +44,7 @@ export function LayerPanel({ layers, onUpdateLayer, onRemoveLayer, onAddLayer, o
 
       {layers.map((layer, i) => (
         <LayerRow
-          key={i}
+          key={layer.id ?? i}
           index={i}
           layer={layer}
           total={layers.length}
