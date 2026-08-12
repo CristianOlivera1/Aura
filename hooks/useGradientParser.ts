@@ -2,35 +2,10 @@
  * Gradient CSS parsing utilities.
  *
  * Extracts structured data from CSS gradient strings:
- * - Gradient type (linear, radial, conic, repeating)
- * - Direction / angle (for linear)
  * - Position (for radial/conic: at X% Y%)
  * - Dominant color (first non-transparent color stop)
+ * - Color helpers for the layer color editor (toHex / replaceDominantColor)
  */
-
-export type GradientType = "linear" | "radial" | "conic" | "repeating" | "unknown";
-
-export interface ParsedGradient {
-  type: GradientType;
-  /** Angle in degrees for linear gradients (null otherwise) */
-  angle: number | null;
-  /** Position { x, y } in percent for radial/conic (null otherwise) */
-  position: { x: number; y: number } | null;
-  /** First non-transparent color found */
-  dominantColor: string;
-  /** The raw CSS string */
-  raw: string;
-}
-
-/* ── Type detection ── */
-
-export function detectGradientType(css: string): GradientType {
-  if (css.startsWith("repeating-")) return "repeating";
-  if (css.startsWith("linear-gradient") || css.startsWith("linear")) return "linear";
-  if (css.startsWith("radial-gradient") || css.startsWith("radial")) return "radial";
-  if (css.startsWith("conic-gradient") || css.startsWith("conic")) return "conic";
-  return "unknown";
-}
 
 /* ── Position extraction (radial / conic) ── */
 
@@ -44,46 +19,6 @@ export function extractPosition(css: string): { x: number; y: number } | null {
 
 export function replacePosition(css: string, x: number, y: number): string {
   return css.replace(POS_RE, `at ${x.toFixed(0)}% ${y.toFixed(0)}%`);
-}
-
-/* ── Angle extraction (linear) ── */
-
-const ANGLE_RE = /linear-gradient\(\s*([\d.]+)deg/;
-const DIR_MAP: Record<string, number> = {
-  "to top": 0,
-  "to top right": 45,
-  "to right": 90,
-  "to bottom right": 135,
-  "to bottom": 180,
-  "to bottom left": 225,
-  "to left": 270,
-  "to top left": 315,
-};
-
-export function extractAngle(css: string): number | null {
-  const m = ANGLE_RE.exec(css);
-  if (m) return parseFloat(m[1]);
-
-  for (const [dir, deg] of Object.entries(DIR_MAP)) {
-    if (css.includes(dir)) return deg;
-  }
-  // Default: linear-gradient without direction = 180deg (top to bottom)
-  if (css.startsWith("linear-gradient")) return 180;
-  return null;
-}
-
-export function replaceAngle(css: string, angleDeg: number): string {
-  const m = ANGLE_RE.exec(css);
-  if (m) return css.replace(ANGLE_RE, `linear-gradient(${angleDeg.toFixed(0)}deg`);
-
-  // Replace direction keywords
-  for (const dir of Object.keys(DIR_MAP)) {
-    if (css.includes(dir)) {
-      return css.replace(dir, `${angleDeg.toFixed(0)}deg`);
-    }
-  }
-  // Insert angle after opening paren
-  return css.replace("linear-gradient(", `linear-gradient(${angleDeg.toFixed(0)}deg, `);
 }
 
 /* ── Color extraction ── */
@@ -108,21 +43,42 @@ export function extractDominantColor(css: string): string {
   return all[0] ?? "#888888";
 }
 
-/* ── Color replacement (replace dominant color in a gradient string) ── */
+/* ── Color helpers (layer color editor) ── */
 
-export function replaceDominantColor(css: string, oldColor: string, newColor: string): string {
-  return css.replace(oldColor, newColor);
+/** Normalize any CSS color to #rrggbb for use as an <input type="color"> value. */
+export function toHex(color: string): string {
+  const m = /rgba?\(([\d\s,.]+)\)/.exec(color);
+  if (m) {
+    const [r, g, b] = m[1].split(",").map((p) => {
+      const v = Math.round(parseFloat(p));
+      return Math.max(0, Math.min(255, v));
+    });
+    return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+  }
+  const hex = /^#([0-9a-fA-F]{3,8})$/.exec(color.trim());
+  if (hex) {
+    let h = hex[1];
+    if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+    return `#${h.slice(0, 6).toLowerCase()}`;
+  }
+  return "#888888";
 }
 
-/* ── Full parse ── */
+function hexToRgba(hex: string, alpha: string): string {
+  const h = toHex(hex).replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${parseFloat(alpha)})`;
+}
 
-export function parseGradient(css: string): ParsedGradient {
-  const type = detectGradientType(css);
-  return {
-    type,
-    angle: type === "linear" ? extractAngle(css) : null,
-    position: type === "radial" || type === "conic" ? extractPosition(css) : null,
-    dominantColor: extractDominantColor(css),
-    raw: css,
-  };
+/**
+ * Replace the dominant color in a gradient string. The native color picker
+ * only emits hex, so an rgba() match is rebuilt keeping its alpha to avoid
+ * silently making the layer opaque.
+ */
+export function replaceDominantColor(css: string, oldColor: string, newColor: string): string {
+  const alphaMatch = /,\s*([\d.]+)\)$/.exec(oldColor);
+  const replacement = alphaMatch ? hexToRgba(newColor, alphaMatch[1]) : newColor;
+  return css.replace(oldColor, replacement);
 }

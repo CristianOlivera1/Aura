@@ -7,20 +7,47 @@ type GitHubBadgeProps = {
   fallback?: string;
 };
 
-export function GitHubBadge({ className, fallback = "—" }: GitHubBadgeProps) {
-  const [stars, setStars] = useState<number | null>(null);
+/* Module-level cache: Header/Hero (and any future instance) share a single
+   /api/github fetch instead of each hitting the API on mount. Later mounts
+   resolve instantly from `cachedStars` or from the in-flight promise. */
+let cachedStars: number | null | undefined;
+let inFlight: Promise<number | null> | null = null;
 
-  useEffect(() => {
-    fetch("/api/github")
+function fetchStars(): Promise<number | null> {
+  if (cachedStars !== undefined) return Promise.resolve(cachedStars);
+  if (!inFlight) {
+    inFlight = fetch("/api/github")
       .then((res) => {
         if (!res.ok) throw new Error("Internal API Error");
         return res.json();
       })
-      .then((data) => setStars(data.stars))
+      .then((data) => {
+        cachedStars = data.stars;
+        return cachedStars;
+      })
       .catch((err) => {
         console.warn("[GitHubBadge] Failed to fetch stars:", err);
-        setStars(null);
+        cachedStars = null;
+        return null;
+      })
+      .finally(() => {
+        inFlight = null;
       });
+  }
+  return inFlight;
+}
+
+export function GitHubBadge({ className, fallback = "—" }: GitHubBadgeProps) {
+  const [stars, setStars] = useState<number | null>(cachedStars ?? null);
+
+  useEffect(() => {
+    let active = true;
+    fetchStars().then((n) => {
+      if (active) setStars(n);
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
   const formatStars = (count: number | null): string => {

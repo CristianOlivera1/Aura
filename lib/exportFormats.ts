@@ -111,11 +111,16 @@ export function toCSSVariables(g: Gradient, layers: Layer[], light: boolean): st
   const bg = light ? LIGHT_BG : DARK_BG;
   const vars = [
     `  --${slug}-base: ${bg};`,
-    ...layers.flatMap((l, i) => [
-      `  --${slug}-layer${i + 1}: ${l.background};`,
-      `  --${slug}-blend${i + 1}: ${resolveBlendMode(l.blendMode, light)};`,
-      l.blur > 0 ? `  --${slug}-blur${i + 1}: ${l.blur}px;` : null,
-    ]),
+    ...layers.flatMap((l, i) => {
+      const b = scaleBlurFull(l.blur);
+      return [
+        `  --${slug}-layer${i + 1}: ${l.background};`,
+        `  --${slug}-blend${i + 1}: ${resolveBlendMode(l.blendMode, light)};`,
+        l.blur > 0
+          ? `  --${slug}-blur${i + 1}: ${b.mobile}px; /* use ${b.desktop}px on desktop */`
+          : null,
+      ];
+    }),
   ]
     .filter(Boolean)
     .join("\n");
