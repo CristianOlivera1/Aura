@@ -28,7 +28,10 @@ function usesBlendModes(layers: Layer[]): boolean {
   return layers.some((l) => l.blendMode !== "normal");
 }
 
-function layerCSS(layer: Layer, i: number, light: boolean): string {
+/* ── Shared builders (also used by the AI prompt generator) ── */
+
+/** CSS for a single absolutely-positioned layer. */
+export function auraLayerCSS(layer: Layer, i: number, light: boolean): string {
   const mode = resolveBlendMode(layer.blendMode, light);
   const b = scaleBlurFull(layer.blur);
   const props = [
@@ -46,21 +49,24 @@ function layerCSS(layer: Layer, i: number, light: boolean): string {
   return `/* Layer ${i + 1} - ${mode} */\n.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n${props}\n  pointer-events: none;\n}`;
 }
 
+/** CSS for the base container/body, blend-aware. */
+export function auraContainerCSS(g: Gradient, layers: Layer[], light: boolean): string {
+  const hasBlend = usesBlendModes(layers);
+  const bg = light ? LIGHT_BG : DARK_BG;
+  return hasBlend
+    ? `/* Base color on BODY - blend modes composite against this */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  /* NO background-color - layers blend against body */\n}`
+    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  background-color: ${bg};\n}`;
+}
+
 /* ── Vanilla CSS ── */
 
 export function toVanillaCSS(g: Gradient, layers: Layer[], light: boolean): string {
-  const hasBlend = usesBlendModes(layers);
-  const bg = light ? LIGHT_BG : DARK_BG;
-  const base = hasBlend
-    ? `/* Base color on BODY - blend modes composite against this */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  /* NO background-color - layers blend against body */\n}`
-    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  background-color: ${bg};\n}`;
-
-  const layerBlocks = layers.map((l, i) => layerCSS(l, i, light)).join("\n\n");
+  const layerBlocks = layers.map((l, i) => auraLayerCSS(l, i, light)).join("\n\n");
 
   /* Content must sit above the absolute layers */
   const content = `\n\n/* Content wrapper - keep it above the absolute layers */\n.aura-content {\n  position: relative;\n  z-index: 1;\n}`;
 
-  return `/* ${g.name} - Aura (${g.category}) */\n\n${base}\n\n${layerBlocks}${content}`;
+  return `/* ${g.name} - Aura (${g.category}) */\n\n${auraContainerCSS(g, layers, light)}\n\n${layerBlocks}${content}`;
 }
 
 /* ── Tailwind ── */
@@ -183,4 +189,16 @@ export function exportGradient(
     case "variables": return toCSSVariables(g, layers, light);
     case "cssinjs": return toCSSInJS(g, layers, light);
   }
+}
+
+/** All export formats concatenated into a single block, separated by headers. */
+export function exportAllFormats(
+  g: Gradient,
+  layers: Layer[],
+  light: boolean,
+): string {
+  return EXPORT_FORMATS.map((f) => {
+    const code = exportGradient(f.id, g, layers, light);
+    return `/* ${"═".repeat(20)} ${f.label} ${"═".repeat(20)} */\n${code}`;
+  }).join("\n\n");
 }

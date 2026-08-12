@@ -23,6 +23,9 @@ interface Props {
 export function ExportPanel({ format, onFormatChange, code, copied, onCopy }: Props) {
   const fmtRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
+  const formatLabel =
+    EXPORT_FORMATS.find((f) => f.id === format)?.label ?? format;
+
   /* Roving-tabindex keyboard nav for the format tabs */
   const handleTabKeyDown = useCallback(
     (e: KeyboardEvent<HTMLElement>, index: number) => {
@@ -101,15 +104,15 @@ export function ExportPanel({ format, onFormatChange, code, copied, onCopy }: Pr
       >
         <CodeBlock code={code} language={FORMAT_LANGS[format]} />
         <button
-          onClick={() => onCopy(code, format.toUpperCase())}
+          onClick={() => onCopy(code, formatLabel)}
           className="absolute top-2 right-4 flex items-center gap-1 bg-white/90 hover:bg-white/20 text-black hover:text-white text-[12px] px-2 py-1 rounded transition-all"
         >
           <Icon
-            icon={copied === format.toUpperCase() ? "lucide:check" : "lucide:clipboard-copy"}
+            icon={copied === formatLabel ? "lucide:check" : "lucide:clipboard-copy"}
             width={11}
             height={11}
           />
-          {copied === format.toUpperCase() ? "Copied!" : `Copy ${EXPORT_FORMATS.find((f) => f.id === format)?.label ?? format}`}
+          {copied === formatLabel ? "Copied!" : `Copy ${formatLabel}`}
         </button>
       </div>
     </div>

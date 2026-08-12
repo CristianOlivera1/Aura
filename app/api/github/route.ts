@@ -12,7 +12,7 @@ export async function GET() {
 
     const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}`, {
       headers,
-      next: { revalidate: 3600 },
+      next: { revalidate: 900 },
     });
 
     if (!res.ok) {
