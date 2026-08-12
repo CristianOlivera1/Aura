@@ -30,7 +30,7 @@ function lightThemeTip(layers: Layer[]): string {
   return `\n\n/* Tip: on a light/white background surface, swap ${modes.join("/")} for multiply to avoid washing out */`;
 }
 
-/** Scale blur for fullscreen backgrounds — raw values are for card thumbnails */
+/** Scale blur for fullscreen backgrounds - raw values are for card thumbnails */
 function scaleBlur(blur: number): number {
   if (blur <= 0) return 0;
   return 90; // Use 90px base, recommend 130px for desktop in comments
@@ -50,7 +50,7 @@ function layerCSS(layer: Layer, i: number): string {
     .filter(Boolean)
     .join("\n");
 
-  return `/* Layer ${i + 1} — ${layer.blendMode} */\n.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n${props}\n  pointer-events: none;\n}`;
+  return `/* Layer ${i + 1} - ${layer.blendMode} */\n.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n${props}\n  pointer-events: none;\n}`;
 }
 
 /* ── Vanilla CSS ── */
@@ -58,11 +58,11 @@ function layerCSS(layer: Layer, i: number): string {
 export function toVanillaCSS(g: Gradient, layers: Layer[]): string {
   const hasBlend = usesBlendModes(layers);
   const base = hasBlend
-    ? `/* Base color on BODY — blend modes composite against this */\nbody {\n  background-color: ${g.base};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color — layers blend against body */\n}`
+    ? `/* Base color on BODY - blend modes composite against this */\nbody {\n  background-color: ${g.base};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color - layers blend against body */\n}`
     : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${g.base};\n}`;
 
   const layerBlocks = layers.map((l, i) => layerCSS(l, i)).join("\n\n");
-  return `/* ${g.name} — Aura (${g.category}) */\n\n${base}${lightThemeTip(layers)}\n\n${layerBlocks}`;
+  return `/* ${g.name} - Aura (${g.category}) */\n\n${base}${lightThemeTip(layers)}\n\n${layerBlocks}`;
 }
 
 /* ── Tailwind ── */
@@ -101,7 +101,7 @@ export function toTailwind(g: Gradient, layers: Layer[]): string {
     ? `<!-- ⚠️ Set body bg: <body class="bg-[${g.base}]"> -->\n<!-- Tip: on a light/white surface, swap hard-light/soft-light/screen/overlay for multiply -->\n`
     : "";
 
-  return `${bodyComment}<!-- ${g.name} — Aura (${g.category}) -->\n<div class="${containerClass}">\n${layerDivs}\n  <!-- Your content here -->\n</div>`;
+  return `${bodyComment}<!-- ${g.name} - Aura (${g.category}) -->\n<div class="${containerClass}">\n${layerDivs}\n  <!-- Your content here -->\n</div>`;
 }
 
 /* ── CSS Custom Properties ── */
@@ -119,7 +119,7 @@ export function toCSSVariables(g: Gradient, layers: Layer[]): string {
     .filter(Boolean)
     .join("\n");
 
-  return `/* ${g.name} — CSS Custom Properties */\n:root {\n${vars}\n}`;
+  return `/* ${g.name} - CSS Custom Properties */\n:root {\n${vars}\n}`;
 }
 
 /* ── CSS-in-JS (React) ── */
@@ -151,7 +151,7 @@ export function toCSSInJS(g: Gradient, layers: Layer[]): string {
 
   const containerBg = hasBlend ? "" : `\n  backgroundColor: "${g.base}",`;
 
-  return `${bgNote}// ${g.name} — Aura (${g.category})\nconst containerStyle = {\n  position: "relative" as const,\n  overflow: "hidden",${containerBg}\n};\n\nconst layers = [\n${layerObjs}\n];`;
+  return `${bgNote}// ${g.name} - Aura (${g.category})\nconst containerStyle = {\n  position: "relative" as const,\n  overflow: "hidden",${containerBg}\n};\n\nconst layers = [\n${layerObjs}\n];`;
 }
 
 export type ExportFormat = "css" | "tailwind" | "variables" | "cssinjs";

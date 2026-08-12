@@ -46,12 +46,12 @@ export const CATEGORIES: CategoryMeta[] = [
 ];
 
 /* ══════════════════════════════════════════════════════════════
-   GRADIENTS — Premium multi-layer backgrounds
+   GRADIENTS - Premium multi-layer backgrounds
    ══════════════════════════════════════════════════════════════ */
 
 export const GRADIENTS: Gradient[] = [
 
-  /* ── AURA — Signature blend-mode atmospheric gradients ── */
+  /* ── AURA - Signature blend-mode atmospheric gradients ── */
 
   {
     id: "sunrise-drift",
@@ -67,14 +67,14 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.1) 30%, rgb(255,255,255) 20%, rgb(247,164,66) 70%, rgb(233,66,247) 100%)",
         blendMode: "hard-light",
-        blur: 70,
+        blur: 30,
         opacity: 1,
       },
       {
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(0,138,255,0.2) 35%, rgb(255,255,255) 70%, rgb(247,164,66) 80%, rgb(233,66,247) 100%)",
         blendMode: "soft-light",
-        blur: 70,
+        blur: 50,
         opacity: 1,
       },
     ],
@@ -174,8 +174,8 @@ export const GRADIENTS: Gradient[] = [
     text: "#5c2e0a",
     base: "#faf8f2",
     layers: [
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.12) 28%, rgb(255,255,255) 18%, rgb(255,138,61) 68%, rgb(183,77,0) 100%)", blendMode: "hard-light", blur: 36 },
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.22) 34%, rgb(255,255,255) 66%, rgb(255,138,61) 82%, rgb(183,77,0) 100%)", blendMode: "soft-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.12) 28%, rgb(255,255,255) 18%, rgb(255,138,61) 68%, rgb(183,77,0) 100%)", blendMode: "hard-light", blur: 50 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,183,77,0.22) 34%, rgb(255,255,255) 66%, rgb(255,138,61) 82%, rgb(183,77,0) 100%)", blendMode: "soft-light", blur: 40 },
     ],
   },
   {
@@ -581,7 +581,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── MESH — Multi-point radial gradient compositions ── */
+  /* ── MESH - Multi-point radial gradient compositions ── */
 
   {
     id: "mesh-sakura",
@@ -723,7 +723,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── NEBULA — Floating orbs / blobs ── */
+  /* ── NEBULA - Floating orbs / blobs ── */
 
   {
     id: "nebula-cosmic-dust",
@@ -820,7 +820,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── PRISM — Conic / prismatic / rainbow effects ── */
+  /* ── PRISM - Conic / prismatic / rainbow effects ── */
 
   {
     id: "prism-rainbow-flare",
@@ -1097,7 +1097,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── BEAMS — Light shafts through darkness ── */
+  /* ── BEAMS - Light shafts through darkness ── */
   {
     id: "emerald-beams",
     name: "Emerald Beams",
@@ -1194,7 +1194,7 @@ export const GRADIENTS: Gradient[] = [
       { background: "repeating-linear-gradient(100deg, rgba(200,60,160,0.12) 0%, rgba(170,50,135,0.08) 2%, transparent 4%, rgba(185,55,148,0.06) 5%, transparent 7%)", blendMode: "overlay", blur: 16, opacity: 0.5 },
     ],
   },
-  /* ── GRAIN — Gradient + SVG noise texture ── */
+  /* ── GRAIN - Gradient + SVG noise texture ── */
 
   {
     id: "grain-midnight-film",
@@ -1286,7 +1286,7 @@ export const GRADIENTS: Gradient[] = [
       { background: "radial-gradient(circle at 55% 40%, rgba(129,140,248,0.25) 0%, transparent 50%)", blendMode: "screen", blur: 45 },
     ],
   },
-  /* ── GLASS — Frosted refraction backgrounds ── */
+  /* ── GLASS - Frosted refraction backgrounds ── */
 
   {
     id: "glass-arctic-frost",
@@ -1396,7 +1396,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── FLUX — Organic blobs / morphing shapes ── */
+  /* ── FLUX - Organic blobs / morphing shapes ── */
 
   {
     id: "flux-lava-lamp",
@@ -1512,7 +1512,7 @@ export const GRADIENTS: Gradient[] = [
     ],
   },
 
-  /* ── LATTICE — Geometric patterns with gradient overlays ── */
+  /* ── LATTICE - Geometric patterns with gradient overlays ── */
 
   {
     id: "lattice-neon-grid",
@@ -1648,11 +1648,11 @@ export function gradientToCSS(g: Gradient): string {
         l.blur > 0
           ? `\nfilter: blur(90px); /* use 130px on desktop */`
           : "";
-      return `/* Layer ${i + 1} — ${l.blendMode} */\nbackground: ${l.background};\nmix-blend-mode: ${l.blendMode};${blurLine}`;
+      return `/* Layer ${i + 1} - ${l.blendMode} */\nbackground: ${l.background};\nmix-blend-mode: ${l.blendMode};${blurLine}`;
     })
     .join("\n\n");
 
-  return `/* ${g.name} — Aura (${g.category}) */\n/* Base — set on body/page for blend modes */\nbackground-color: ${g.base};\n\n${layersCSS}${g.grain ? "\n\n/* Grain: apply SVG feTurbulence noise overlay */" : ""}`;
+  return `/* ${g.name} - Aura (${g.category}) */\n/* Base - set on body/page for blend modes */\nbackground-color: ${g.base};\n\n${layersCSS}${g.grain ? "\n\n/* Grain: apply SVG feTurbulence noise overlay */" : ""}`;
 }
 
 export const MOODS: ("all" | GradientMood)[] = ["all", "warm", "cool", "vivid"];
@@ -1663,7 +1663,7 @@ export const MOODS: ("all" | GradientMood)[] = ["all", "warm", "cool", "vivid"];
  * Catalog blend modes are authored against their natural backdrop (mostly
  * dark). Over a light theme background, `hard-light`, `soft-light`, `screen`
  * and `overlay` wash the gradient out to white. Map them to `multiply` so the
- * original hues render as tints on a light base — "white base, same colors".
+ * original hues render as tints on a light base - "white base, same colors".
  */
 export function resolveBlendMode(mode: string, light: boolean): string {
   if (!light) return mode;

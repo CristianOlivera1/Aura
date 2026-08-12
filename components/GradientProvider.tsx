@@ -165,7 +165,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const [activeId, setActiveId] = useState<string | null>(GRADIENTS[0].id);
   const [fullscreen, setFullscreen] = useState(false);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const [themeOverride, setThemeOverride] = useState<"light" | "dark" | null>("light");
+  const [themeOverride, setThemeOverride] = useState<"light" | "dark" | null>(null);
   const [previewReturn, setPreviewReturn] = useState<{ y: number } | null>(null);
   const previewReturnRef = useRef<{ y: number } | null>(null);
   const [flashTick, setFlashTick] = useState(0);
@@ -226,7 +226,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const next = GRADIENTS[(idx + 1) % GRADIENTS.length];
     setActiveId(next.id);
-    setThemeOverride(null);
   }, [active]);
 
   const goPrev = useCallback(() => {
@@ -234,7 +233,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const prev = GRADIENTS[(idx - 1 + GRADIENTS.length) % GRADIENTS.length];
     setActiveId(prev.id);
-    setThemeOverride(null);
   }, [active]);
 
   /* ── Preview scroll UX ── */
@@ -242,7 +240,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const preview = useCallback((id: string) => {
     const y = typeof window !== "undefined" ? window.scrollY : 0;
     setActiveId(id);
-    setThemeOverride(null);
     setPreviewReturn({ y });
     previewReturnRef.current = { y };
     window.history.pushState(null, "", `?g=${id}`);
@@ -270,7 +267,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const pick = pool[Math.floor(Math.random() * pool.length)];
     if (!pick) return;
     setActiveId(pick.id);
-    setThemeOverride(null);
   }, [activeId]);
 
   /* ── Deep-linking: keep the selected gradient in sync with the URL ── */
@@ -281,10 +277,8 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const id = params.get("g");
     if (id && GRADIENTS.some((g) => g.id === id)) {
       setActiveId(id);
-      setThemeOverride(null);
     } else {
       setActiveId(GRADIENTS[0].id);
-      setThemeOverride("light");
     }
   }, []);
 
@@ -323,12 +317,11 @@ export function GradientProvider({ children }: { children: ReactNode }) {
         }),
       apply: (id) => {
         setActiveId(id);
-        setThemeOverride(null);
       },
       reset: () => {
         const def = GRADIENTS[0];
         setActiveId(def.id);
-        setThemeOverride("light");
+        setThemeOverride(null);
         dispatchCustom({
           type: "RESET",
           layers: def.layers,

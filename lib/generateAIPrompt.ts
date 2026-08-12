@@ -25,7 +25,7 @@ const LIGHT_FRIENDLY_BLEND = new Set([
   "overlay",
 ]);
 
-/** Scale blur for fullscreen use — card thumbnails use raw values,
+/** Scale blur for fullscreen use - card thumbnails use raw values,
  *  but page backgrounds need much higher blur for the atmospheric effect. */
 function scaleBlur(blur: number): { mobile: number; desktop: number } {
   if (blur <= 0) return { mobile: 0, desktop: 0 };
@@ -59,7 +59,7 @@ export function generateAIPrompt(g: Gradient, layers: Layer[]): string {
 
 ### ⚠️ Critical: Blend Mode Architecture
 These layers use CSS \`mix-blend-mode\` (${[...new Set(layers.map((l) => l.blendMode))].filter((m) => m !== "normal").join(", ")}). 
-Blend modes composite against whatever is **behind** the element — the page/body background.
+Blend modes composite against whatever is **behind** the element - the page/body background.
 
 **DO NOT** set \`background-color\` on the gradient container itself. Instead:
 1. Set \`background-color: ${bg}\` on the **\`<body>\`** or **page wrapper**.
@@ -74,7 +74,7 @@ If you put the base color on the container, the blend modes will composite again
       ? `
 
 ### 🌗 Light / Dark Theme Adaptation
-The layer blend modes (\`${darkModes.join("`, `")}\`) are tuned against the authored base \`${bg}\`. If you composite them over a **light or white** surface they wash out (the gradient "disappears"). To keep the same colors on a light surface, remap each of those blend modes to \`multiply\` — it renders the layer hues as tints over white while keeping the background light:
+The layer blend modes (\`${darkModes.join("`, `")}\`) are tuned against the authored base \`${bg}\`. If you composite them over a **light or white** surface they wash out (the gradient "disappears"). To keep the same colors on a light surface, remap each of those blend modes to \`multiply\` - it renders the layer hues as tints over white while keeping the background light:
 
 | Original blend mode | On a light surface use |
 | --- | --- |
@@ -94,11 +94,11 @@ ${darkModes.map((m) => `| \`${m}\` | \`multiply\` |`).join("\n")}
     .join("\n\n");
 
   const bodyCSS = hasBlend
-    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here — blend modes need to see through to body */\n}`
+    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  /* NO background-color here - blend modes need to see through to body */\n}`
     : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  background-color: ${bg};\n}`;
 
   const reactBg = hasBlend
-    ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        /* NO backgroundColor — blend modes composite against body/page bg */\n      }}\n    >`
+    ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        /* NO backgroundColor - blend modes composite against body/page bg */\n      }}\n    >`
     : `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        backgroundColor: "${bg}",\n      }}\n    >`;
 
   const reactLayers = layers
@@ -134,7 +134,7 @@ ${themeNote}
 ### CSS Code
 
 \`\`\`css
-/* ${g.name} — Aura */
+/* ${g.name} - Aura */
 ${bodyCSS}
 
 ${cssLayers}
