@@ -85,7 +85,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "warm",
     desc: "Coral into deep rose",
-    dark: true,
+    dark: false,
     text: "#7a1f2e",
     base: "#faf8f2",
     layers: [
@@ -99,12 +99,26 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "cool",
     desc: "Cyan into indigo",
-    dark: true,
+    dark: false,
     text: "#1f3b6e",
     base: "#faf8f2",
     layers: [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,210,255,0.12) 28%, rgb(255,255,255) 18%, rgb(53,230,192) 68%, rgb(91,110,245) 100%)", blendMode: "hard-light", blur: 36 },
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(77,210,255,0.22) 34%, rgb(255,255,255) 66%, rgb(53,230,192) 82%, rgb(91,110,245) 100%)", blendMode: "soft-light", blur: 36 },
+    ],
+  },
+  {
+    id: "orchid-bloom",
+    name: "Orchid Bloom",
+    category: "aura",
+    mood: "vivid",
+    desc: "Magenta into blue",
+    dark: false,
+    text: "#5b1f6e",
+    base: "#faf8f2",
+    layers: [
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.12) 28%, rgb(255,255,255) 18%, rgb(139,92,246) 68%, rgb(61,139,255) 100%)", blendMode: "hard-light", blur: 36 },
+      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.22) 34%, rgb(255,255,255) 66%, rgb(139,92,246) 82%, rgb(61,139,255) 100%)", blendMode: "soft-light", blur: 36 },
     ],
   },
   {
@@ -121,20 +135,7 @@ export const GRADIENTS: Gradient[] = [
       { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(47,209,166,0.22) 34%, rgb(255,255,255) 66%, rgb(61,124,255) 82%, rgb(122,92,255) 100%)", blendMode: "soft-light", blur: 36 },
     ],
   },
-  {
-    id: "orchid-bloom",
-    name: "Orchid Bloom",
-    category: "aura",
-    mood: "vivid",
-    desc: "Magenta into blue",
-    dark: true,
-    text: "#5b1f6e",
-    base: "#faf8f2",
-    layers: [
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.12) 28%, rgb(255,255,255) 18%, rgb(139,92,246) 68%, rgb(61,139,255) 100%)", blendMode: "hard-light", blur: 36 },
-      { background: "linear-gradient(rgba(0,0,0,0) 0%, rgba(242,61,224,0.22) 34%, rgb(255,255,255) 66%, rgb(139,92,246) 82%, rgb(61,139,255) 100%)", blendMode: "soft-light", blur: 36 },
-    ],
-  },
+
   {
     id: "eclipse-flare",
     name: "Eclipse Flare",
@@ -169,7 +170,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "warm",
     desc: "Amber melting into burnt sienna",
-    dark: true,
+    dark: false,
     text: "#5c2e0a",
     base: "#faf8f2",
     layers: [
@@ -183,7 +184,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "warm",
     desc: "Blush pink dissolving into antique copper",
-    dark: true,
+    dark: false,
     text: "#6e2e2a",
     base: "#faf2f2",
     layers: [
@@ -197,7 +198,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "warm",
     desc: "Coral haze fading into honeyed amber",
-    dark: true,
+    dark: false,
     text: "#6e2a1a",
     base: "#faf6f2",
     layers: [
@@ -211,7 +212,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "warm",
     desc: "Pale gold bubbling into peach nectar",
-    dark: true,
+    dark: false,
     text: "#5c3d1a",
     base: "#faf8f2",
     layers: [
@@ -226,7 +227,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "cool",
     desc: "Deep cobalt bleeding into violet ink",
-    dark: true,
+    dark: false,
     text: "#c8d4ff",
     base: "#0a0c1a",
     layers: [
@@ -240,7 +241,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "cool",
     desc: "Seafoam drifting into abyssal blue",
-    dark: true,
+    dark: false,
     text: "#1a3a4a",
     base: "#f0f7fa",
     layers: [
@@ -254,7 +255,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "cool",
     desc: "Ice crystal refracting into periwinkle",
-    dark: true,
+    dark: false,
     text: "#1a2a4a",
     base: "#f2f6fa",
     layers: [
@@ -268,7 +269,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "cool",
     desc: "Mercury grey dissolving into pale lilac",
-    dark: true,
+    dark: false,
     text: "#2a2a3a",
     base: "#f5f5f7",
     layers: [
@@ -285,7 +286,7 @@ export const GRADIENTS: Gradient[] = [
     category: "aura",
     mood: "vivid",
     desc: "Emerald arc into electric violet",
-    dark: true,
+    dark: false,
     text: "#1a4a3e",
     base: "#f2faf6",
     layers: [
@@ -746,7 +747,7 @@ export const GRADIENTS: Gradient[] = [
     category: "nebula",
     mood: "warm",
     desc: "Explosive amber and crimson orbs",
-    dark: true,
+    dark: false,
     text: "#ffecd2",
     base: "#0a0502",
     layers: [
@@ -827,7 +828,7 @@ export const GRADIENTS: Gradient[] = [
     category: "prism",
     mood: "vivid",
     desc: "Full spectrum conic burst",
-    dark: true,
+    dark: false,
     text: "#3b1f6e",
     base: "#fafafa",
     layers: [
@@ -869,7 +870,7 @@ export const GRADIENTS: Gradient[] = [
     category: "prism",
     mood: "warm",
     desc: "Warm conic burst from golden core",
-    dark: true,
+    dark: false,
     text: "#fef3c7",
     base: "#0c0502",
     layers: [

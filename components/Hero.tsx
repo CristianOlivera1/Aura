@@ -44,7 +44,7 @@ export function Hero() {
         >
           Aura is a small, growing set of ambient gradients built from layered
           blend modes - soft, atmospheric, and easy to drop behind any
-          interface. Preview one below and the whole page picks up its glow.
+          interface.
         </p>
 
         <div ref={ctaRef} className="reveal relative flex flex-wrap justify-center gap-3 mt-10">
