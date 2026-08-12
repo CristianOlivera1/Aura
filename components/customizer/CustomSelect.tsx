@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { Icon } from "@iconify/react";
 
 interface SelectOption {
@@ -22,6 +22,8 @@ interface Props {
 export function CustomSelect({ value, options, onChange, className = "" }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const listId = useId();
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const selected = options.find((o) => o.value === value);
 
@@ -47,6 +49,13 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
 
+  // Focus the current option when the list opens
+  useEffect(() => {
+    if (!open) return;
+    const idx = options.findIndex((o) => o.value === value);
+    optionRefs.current[Math.max(0, idx)]?.focus();
+  }, [open, options, value]);
+
   const handleSelect = useCallback(
     (val: string) => {
       onChange(val);
@@ -55,11 +64,40 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
     [onChange],
   );
 
+  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      setOpen(true);
+    }
+  };
+
+  const handleListKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const current = optionRefs.current.findIndex((el) => el === document.activeElement);
+    let next = -1;
+    if (e.key === "ArrowDown") {
+      next = current < 0 ? 0 : Math.min(options.length - 1, current + 1);
+    } else if (e.key === "ArrowUp") {
+      next = current < 0 ? options.length - 1 : Math.max(0, current - 1);
+    } else if (e.key === "Home") {
+      next = 0;
+    } else if (e.key === "End") {
+      next = options.length - 1;
+    }
+    if (next >= 0) {
+      e.preventDefault();
+      optionRefs.current[next]?.focus();
+    }
+  };
+
   return (
     <div ref={ref} className={`relative ${className}`}>
       {/* Trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
+        onKeyDown={handleTriggerKeyDown}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
         className="flex items-center justify-between w-full bg-white/5 border border-white/10 hover:border-white/25 text-white text-[12px] squircle-element px-2.5 py-1.5 outline-none transition-colors"
       >
         <span className="truncate">{selected?.label ?? value}</span>
@@ -74,13 +112,22 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
       {/* Dropdown */}
       {open && (
         <div
+          id={listId}
+          role="listbox"
+          aria-label="Select an option"
+          onKeyDown={handleListKeyDown}
           className="absolute left-0 right-0 top-full mt-1 z-50 bg-[#16161e]/95 backdrop-blur-xl border border-white/15 squircle-element shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
           style={{ animation: "select-in 0.15s ease-out both" }}
         >
           <div className="py-1 max-h-48 overflow-y-auto custom-scrollbar">
-            {options.map((option) => (
+            {options.map((option, i) => (
               <button
                 key={option.value}
+                ref={(el) => {
+                  optionRefs.current[i] = el;
+                }}
+                role="option"
+                aria-selected={option.value === value}
                 onClick={() => handleSelect(option.value)}
                 className={`flex items-center gap-2 w-full text-left px-3 py-1.5 text-[11px] transition-colors ${
                   option.value === value

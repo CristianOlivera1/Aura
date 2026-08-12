@@ -10,6 +10,8 @@ export interface Layer {
   opacity?: number;
   /** For repeating patterns (grids, dots, stripes) */
   backgroundSize?: string;
+  /** Stable identity assigned by the customizer reducer (used as React key) */
+  id?: string;
 }
 
 export interface Gradient {

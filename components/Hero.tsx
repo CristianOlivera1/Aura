@@ -15,7 +15,7 @@ export function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden">
-      <div className="relative z-10 mx-auto max-w-7xl w-full px-6 py-24 sm:py-32 flex flex-col items-center text-center">
+      <div className="relative z-10 mx-auto max-w-7xl w-full px-6 py-24 sm:py-30 flex flex-col items-center text-center">
         <span
           ref={pillRef}
           className="reveal glass inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-base shadow-lg transition-all duration-300 border border-muted text-muted-fg mb-8"

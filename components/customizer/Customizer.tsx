@@ -441,7 +441,10 @@ export function Customizer() {
               <label className="text-[13px] text-white/60 font-medium">Grain Overlay</label>
               <button
                 onClick={handleGrainToggle}
-                className={`relative w-9 h-5 rounded-full transition-colors border border-white/5 ${
+                role="switch"
+                aria-checked={effectiveGrain}
+                aria-label="Grain overlay"
+                className={`relative w-9 h-5 rounded-full transition-colors border border-white/5 focus-visible:outline-2 focus-visible:outline-white/60 ${
                   effectiveGrain ? "bg-[#333333]" : "bg-[#141414]"
                 }`}
               >
