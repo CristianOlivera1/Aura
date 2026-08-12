@@ -14,13 +14,12 @@ const INITIAL_CARDS = 12;
 const LOAD_MORE = 12;
 
 export function GradientsSection() {
-  const { active, reset, random, favorites, toggleFavorite } = useGradients();
+  const { active, reset, random } = useGradients();
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [query, setQuery] = useState("");
   const [count, setCount] = useState(INITIAL_CARDS);
   const catRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const sentinelRef = useRef<HTMLDivElement>(null);
-  const isFavorite = active ? favorites.includes(active.id) : false;
 
   /* Filter helpers — the visible count always resets when a filter changes,
      so no effect or render-phase adjustment is needed. */
@@ -202,16 +201,6 @@ export function GradientsSection() {
               size="icon-sm"
               icon="lucide:rotate-ccw"
               iconSize={13}
-            />
-            <Button
-              onClick={() => active && toggleFavorite(active.id)}
-              title={isFavorite ? "Remove from favorites" : "Save as favorite"}
-              aria-label={isFavorite ? "Remove from favorites" : "Save as favorite"}
-              aria-pressed={isFavorite}
-              size="icon-sm"
-              icon="lucide:heart"
-              iconSize={13}
-              className={isFavorite ? "text-accent fill-current" : ""}
             />
           </div>
         </div>
