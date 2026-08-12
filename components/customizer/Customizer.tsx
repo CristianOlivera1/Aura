@@ -13,6 +13,7 @@ import {
   extractDominantColor,
 } from "@/hooks/useGradientParser";
 import type { Layer } from "@/lib/gradients";
+import { resolveBlendMode } from "@/lib/gradients";
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
@@ -27,6 +28,7 @@ export function Customizer() {
     random,
     effectiveLayers,
     effectiveGrain,
+    isDark,
     custom,
     dispatchCustom,
   } = useGradients();
@@ -190,7 +192,10 @@ export function Customizer() {
             style={{
               backgroundImage: layer.background,
               backgroundSize: layer.backgroundSize ?? "cover",
-              mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+              mixBlendMode: resolveBlendMode(
+                layer.blendMode,
+                !isDark,
+              ) as React.CSSProperties["mixBlendMode"],
               opacity: layer.opacity ?? 1,
             }}
           />

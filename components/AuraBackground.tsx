@@ -3,14 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
-import type { Layer } from "@/lib/gradients";
+import { resolveBlendMode, type Layer } from "@/lib/gradients";
 
 interface Stack {
   layers: Layer[];
   grain: boolean;
 }
 
-function renderStack(stack: Stack, fading = false) {
+function renderStack(stack: Stack, fading = false, light = false) {
   return (
     <div
       className={`absolute inset-0 ${fading ? "transition-opacity duration-700 ease-out" : ""}`}
@@ -26,7 +26,10 @@ function renderStack(stack: Stack, fading = false) {
           style={{
             backgroundImage: layer.background,
             backgroundSize: layer.backgroundSize ?? "cover",
-            mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+            mixBlendMode: resolveBlendMode(
+              layer.blendMode,
+              light,
+            ) as React.CSSProperties["mixBlendMode"],
             opacity: layer.opacity ?? 1,
           }}
         />
@@ -37,7 +40,7 @@ function renderStack(stack: Stack, fading = false) {
 }
 
 export function AuraBackground() {
-  const { effectiveLayers, effectiveGrain } = useGradients();
+  const { effectiveLayers, effectiveGrain, isDark } = useGradients();
 
   /* Crossfade between gradient states: keep the previous stack rendered on top
      while it fades out (each stack is isolated + opaque, so the fade is a clean
@@ -84,13 +87,13 @@ export function AuraBackground() {
             zIndex: 2,
           }}
         >
-          {renderStack(prevStack)}
+          {renderStack(prevStack, false, !isDark)}
         </div>
       )}
 
       {/* Current stack */}
       <div className="absolute inset-0">
-        {renderStack({ layers: effectiveLayers, grain: effectiveGrain })}
+        {renderStack({ layers: effectiveLayers, grain: effectiveGrain }, false, !isDark)}
       </div>
     </div>
   );

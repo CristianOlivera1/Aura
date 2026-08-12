@@ -20,9 +20,7 @@ export function GradientsSection() {
   const visible = GRADIENTS.filter(
     (g) =>
       (category === "all" || g.category === category) &&
-      (!q ||
-        g.name.toLowerCase().includes(q) ||
-        g.desc.toLowerCase().includes(q)),
+      (!q || g.name.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q)),
   );
 
   /* Roving-tabindex keyboard nav for the category tabs */
@@ -61,7 +59,6 @@ export function GradientsSection() {
     const cards = Array.from(grid.querySelectorAll<HTMLElement>("[data-card]"));
     const idx = cards.indexOf(document.activeElement as HTMLElement);
     if (idx === -1) return;
-
     let next = -1;
     switch (e.key) {
       case "ArrowRight":
@@ -104,11 +101,10 @@ export function GradientsSection() {
               {visible.length} Backgrounds
             </Badge>
           </div>
-
           <div className="flex items-center gap-2 text-lg">
             <Badge>
-              <span className="text-muted-fg">Previewing —</span>
-              <span className="font-medium">{active?.name ?? "none"}</span>
+              <span className="text-sm sm:text-muted-fg">Previewing -</span>
+              <span className="text-sm font-medium">{active?.name ?? "none"}</span>
             </Badge>
             <span className="w-px h-4 bg-muted mx-1" />
             <Button
@@ -131,7 +127,7 @@ export function GradientsSection() {
         </div>
 
         {/* Category tabs + search */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 max-w-full">
           <div
             role="tablist"
             aria-label="Gradient categories"
@@ -139,33 +135,39 @@ export function GradientsSection() {
               const idx = CATEGORIES.findIndex((c) => c.id === category);
               if (idx !== -1) handleTabKeyDown(e, idx);
             }}
-            className="glass border border-muted inline-flex flex-wrap items-center gap-x-1 gap-y-1 p-1 squircle-element"
+            // Cambios realizados aquí:
+            // - `flex sm:inline-flex`: flex en móviles para tomar el ancho disponible, inline-flex en escritorio.
+            // - `flex-nowrap sm:flex-wrap`: una sola línea en móviles, envuelve en escritorio.
+            // - `overflow-x-auto`: permite el scroll horizontal.
+            // - Clases para ocultar la barra de scroll en todos los navegadores.
+            className="glass border border-muted flex sm:inline-flex flex-nowrap sm:flex-wrap items-center gap-1 p-1 squircle-element overflow-x-auto max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
-          {CATEGORIES.map((cat, i) => {
-            const isActive = category === cat.id;
-            return (
-              <button
-                key={cat.id}
-                ref={(el) => {
-                  catRefs.current[i] = el;
-                }}
-                role="tab"
-                id={`cat-${cat.id}`}
-                aria-selected={isActive}
-                aria-controls="gradients-grid-panel"
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => setCategory(cat.id as CategoryFilter)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element ${
-                  isActive
-                    ? "bg-accent text-accent-fg shadow-sm"
-                    : "text-muted-fg hover:text-fg hover:bg-muted/30"
-                }`}
-              >
-                <Icon icon={cat.icon} width={13} height={13} />
-                {cat.label}
-              </button>
-            );
-          })}
+            {CATEGORIES.map((cat, i) => {
+              const isActive = category === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  ref={(el) => {
+                    catRefs.current[i] = el;
+                  }}
+                  role="tab"
+                  id={`cat-${cat.id}`}
+                  aria-selected={isActive}
+                  aria-controls="gradients-grid-panel"
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => setCategory(cat.id as CategoryFilter)}
+                  // Agregado `shrink-0` y `whitespace-nowrap` para evitar que los botones se encojan y quiebren el texto
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element shrink-0 whitespace-nowrap ${
+                    isActive
+                      ? "bg-accent text-accent-fg shadow-sm"
+                      : "text-muted-fg hover:text-fg hover:bg-muted/30"
+                  }`}
+                >
+                  <Icon icon={cat.icon} width={13} height={13} />
+                  {cat.label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Search */}
@@ -179,7 +181,6 @@ export function GradientsSection() {
               aria-label="Search gradients by name or description"
               className="bg-transparent outline-none w-full min-w-[140px] text-sm placeholder:text-muted-fg/70"
             />
-           
           </label>
         </div>
       </div>

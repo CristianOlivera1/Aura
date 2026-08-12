@@ -1655,3 +1655,24 @@ export function gradientToCSS(g: Gradient): string {
 }
 
 export const MOODS: ("all" | GradientMood)[] = ["all", "warm", "cool", "vivid"];
+
+/* ── Theme-aware blend modes ── */
+
+/**
+ * Catalog blend modes are authored against their natural backdrop (mostly
+ * dark). Over a light theme background, `hard-light`, `soft-light`, `screen`
+ * and `overlay` wash the gradient out to white. Map them to `multiply` so the
+ * original hues render as tints on a light base — "white base, same colors".
+ */
+export function resolveBlendMode(mode: string, light: boolean): string {
+  if (!light) return mode;
+  switch (mode) {
+    case "hard-light":
+    case "soft-light":
+    case "screen":
+    case "overlay":
+      return "multiply";
+    default:
+      return mode;
+  }
+}

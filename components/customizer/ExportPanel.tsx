@@ -8,6 +8,7 @@ import { CodeBlock } from "@/components/customizer/CodeBlock";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { EXPORT_FORMATS, exportGradient, type ExportFormat } from "@/lib/exportFormats";
 import { generateAIPrompt } from "@/lib/generateAIPrompt";
+import { resolveBlendMode } from "@/lib/gradients";
 
 const FORMAT_LANGS: Record<ExportFormat, "css" | "html" | "tsx" | "javascript"> = {
   css: "css",
@@ -53,7 +54,7 @@ function hasVisiblePixels(dataUrl: string): Promise<boolean> {
 }
 
 export function ExportPanel() {
-  const { active, effectiveLayers, effectiveGrain, showToast } = useGradients();
+  const { active, effectiveLayers, effectiveGrain, isDark, showToast } = useGradients();
   const [format, setFormat] = useState<ExportFormat>("css");
   const [copied, setCopied] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
@@ -279,7 +280,10 @@ export function ExportPanel() {
                 inset: 0,
                 backgroundImage: layer.background,
                 backgroundSize: layer.backgroundSize ?? "cover",
-                mixBlendMode: layer.blendMode as React.CSSProperties["mixBlendMode"],
+                mixBlendMode: resolveBlendMode(
+                  layer.blendMode,
+                  !isDark,
+                ) as React.CSSProperties["mixBlendMode"],
                 filter: layer.blur > 0 ? `blur(${scaleBlur(layer.blur)}px)` : undefined,
                 opacity: layer.opacity ?? 1,
               }}
