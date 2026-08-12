@@ -15,6 +15,7 @@ import {
 } from "@/hooks/useGradientParser";
 import { exportGradient, type ExportFormat } from "@/lib/exportFormats";
 import { generateAIPrompt } from "@/lib/generateAIPrompt";
+import { copyToClipboard } from "@/lib/clipboard";
 import type { Layer } from "@/lib/gradients";
 import { resolveBlendMode, scaleBlurFull } from "@/lib/gradients";
 
@@ -225,12 +226,13 @@ export function Customizer() {
 
   const handleCopy = useCallback(
     async (text: string, label: string) => {
-      try {
-        await navigator.clipboard.writeText(text);
+      // Trim so the copied text matches exactly what CodeBlock displays
+      const ok = await copyToClipboard(text.trim());
+      if (ok) {
         setCopied(label);
         showToast(`Copied ${label}`);
         setTimeout(() => setCopied(null), 2000);
-      } catch {
+      } else {
         showToast("Failed to copy", "error");
       }
     },

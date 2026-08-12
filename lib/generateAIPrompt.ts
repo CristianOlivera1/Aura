@@ -4,6 +4,7 @@ import {
   type Gradient,
   type Layer,
 } from "@/lib/gradients";
+import { auraContainerCSS, auraLayerCSS } from "@/lib/exportFormats";
 
 /**
  * Generates a professional, descriptive AI prompt that users can send to
@@ -97,19 +98,9 @@ ${darkModes.map((m) => `| \`${m}\` | \`multiply\` |`).join("\n")}
 \`multiply\`, \`normal\`, and dark backdrops need no change.`
       : "";
 
-  const cssLayers = layers
-    .map(
-      (l, i) => {
-        const b = scaleBlurFull(l.blur);
-        const blurCSS = b.mobile > 0 ? `\n  filter: blur(${b.mobile}px); /* use ${b.desktop}px on desktop */` : "";
-        return `.aura-layer-${i + 1} {\n  position: absolute;\n  inset: 0;\n  background: ${l.background};${l.backgroundSize ? `\n  background-size: ${l.backgroundSize};` : ""}\n  mix-blend-mode: ${resolved[i]};${blurCSS}${l.opacity != null && l.opacity !== 1 ? `\n  opacity: ${l.opacity};` : ""}\n  pointer-events: none;\n  transform: translateZ(0);\n  will-change: transform;\n}`;
-      },
-    )
-    .join("\n\n");
+  const cssLayers = layers.map((l, i) => auraLayerCSS(l, i, light)).join("\n\n");
 
-  const bodyCSS = hasBlend
-    ? `/* Set base color on the BODY, not on the container */\nbody {\n  background-color: ${bg};\n}\n\n.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  /* NO background-color here - blend modes need to see through to body */\n}`
-    : `.aura-bg {\n  position: relative;\n  overflow: hidden;\n  min-height: 100vh; /* height must be explicit - absolute layers add none */\n  background-color: ${bg};\n}`;
+  const bodyCSS = auraContainerCSS(g, layers, light);
 
   const reactBg = hasBlend
     ? `    <div\n      style={{\n        position: "relative",\n        overflow: "hidden",\n        minHeight: "100vh",\n        /* NO backgroundColor - blend modes composite against body/page bg */\n      }}\n    >`

@@ -5,6 +5,9 @@ import { Icon } from "@iconify/react";
 import { useGradients } from "@/components/GradientProvider";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { resolveBlendMode, type Gradient, CATEGORIES } from "@/lib/gradients";
+import { exportAllFormats } from "@/lib/exportFormats";
+import { generateAIPrompt } from "@/lib/generateAIPrompt";
+import { copyToClipboard } from "@/lib/clipboard";
 import { useReveal } from "@/hooks/useReveal";
 
 interface Props {
@@ -13,10 +16,12 @@ interface Props {
 }
 
 export function GradientCard({ gradient, index }: Props) {
-  const { active, apply, preview, toggleFullscreen, flashTick, favorites, toggleFavorite } =
+  const { active, apply, preview, toggleFullscreen, flashTick, favorites, toggleFavorite, showToast } =
     useGradients();
   const isActive = active?.id === gradient.id;
   const isFavorite = favorites.includes(gradient.id);
+
+  const [copied, setCopied] = useState<string | null>(null);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -72,6 +77,35 @@ export function GradientCard({ gradient, index }: Props) {
     apply(gradient.id);
     toggleFullscreen();
   }, [apply, gradient.id, toggleFullscreen]);
+
+  const handleCopyPrompt = useCallback(async () => {
+    const text = generateAIPrompt(
+      gradient,
+      gradient.layers,
+      gradient.grain ?? false,
+      !gradient.dark,
+    );
+    const ok = await copyToClipboard(text.trim());
+    if (ok) {
+      setCopied("prompt");
+      showToast(`Copied AI prompt for ${gradient.name}`);
+    } else {
+      showToast("Failed to copy", "error");
+    }
+    setTimeout(() => setCopied(null), 2000);
+  }, [gradient, showToast]);
+
+  const handleCopyAll = useCallback(async () => {
+    const text = exportAllFormats(gradient, gradient.layers, !gradient.dark);
+    const ok = await copyToClipboard(text.trim());
+    if (ok) {
+      setCopied("all");
+      showToast(`Copied ${gradient.name} in all formats`);
+    } else {
+      showToast("Failed to copy", "error");
+    }
+    setTimeout(() => setCopied(null), 2000);
+  }, [gradient, showToast]);
 
   const handleCardKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -148,18 +182,44 @@ export function GradientCard({ gradient, index }: Props) {
         />
 
         {/* Hover overlay with actions */}
-        <div className="swatch-overlay absolute inset-0 bg-black/35 flex items-center justify-center gap-3 z-30">
+        <div className="swatch-overlay absolute inset-0 bg-black/35 flex flex-wrap items-center justify-center gap-2 z-30 px-3">
           <button
             onClick={handlePreview}
-            className="flex items-center gap-2 bg-white/95 text-[#14130f] px-4 py-2 text-sm font-medium hover:bg-white transition-colors squircle-element shadow-lg"
+            className="flex items-center gap-1.5 bg-white/95 text-[#14130f] px-3 py-2 text-[13px] font-medium hover:bg-white transition-colors squircle-element shadow-lg"
           >
-            <Icon icon="lucide:eye" width={14} height={14} /> Preview
+            <Icon icon="lucide:eye" width={13} height={13} /> Preview
           </button>
           <button
             onClick={handleCustomize}
-            className="flex items-center gap-2 bg-white/20 text-white px-4 py-2 text-sm font-medium hover:bg-white/50 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
+            className="flex items-center gap-1.5 bg-white/20 text-white px-3 py-2 text-[13px] font-medium hover:bg-white/50 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
           >
-            <Icon icon="lucide:sliders-horizontal" width={14} height={14} /> Customize
+            <Icon icon="lucide:sliders-horizontal" width={13} height={13} /> Customize
+          </button>
+          <button
+            onClick={handleCopyPrompt}
+            title="Copy AI prompt for this gradient"
+            aria-label="Copy AI prompt for this gradient"
+            className="flex items-center gap-1.5 bg-white/20 text-white px-3 py-2 text-[13px] font-medium hover:bg-white/50 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
+          >
+            <Icon
+              icon={copied === "prompt" ? "lucide:check" : "lucide:sparkles"}
+              width={13}
+              height={13}
+            />
+            {copied === "prompt" ? "Copied!" : "Copy Prompt"}
+          </button>
+          <button
+            onClick={handleCopyAll}
+            title="Copy all formats (CSS, Tailwind, Variables, CSS-in-JS)"
+            aria-label="Copy all formats"
+            className="flex items-center gap-1.5 bg-white/20 text-white px-3 py-2 text-[13px] font-medium hover:bg-white/50 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
+          >
+            <Icon
+              icon={copied === "all" ? "lucide:check" : "lucide:clipboard-copy"}
+              width={13}
+              height={13}
+            />
+            {copied === "all" ? "Copied!" : "Copy All"}
           </button>
         </div>
 
@@ -190,7 +250,6 @@ export function GradientCard({ gradient, index }: Props) {
             className={isFavorite ? "fill-current" : ""}
           />
         </button>
-
 
         {/* Category badge */}
         {categoryMeta && (

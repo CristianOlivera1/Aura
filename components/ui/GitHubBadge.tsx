@@ -15,6 +15,7 @@ let inFlight: Promise<number | null> | null = null;
 
 function fetchStars(): Promise<number | null> {
   if (cachedStars !== undefined) return Promise.resolve(cachedStars);
+  
   if (!inFlight) {
     inFlight = fetch("/api/github")
       .then((res) => {
@@ -22,8 +23,9 @@ function fetchStars(): Promise<number | null> {
         return res.json();
       })
       .then((data) => {
-        cachedStars = data.stars;
-        return cachedStars;
+        // Fallback to null if data.stars is undefined, satisfying the Promise<number | null> return type
+        cachedStars = data.stars ?? null; 
+        return cachedStars as number | null; 
       })
       .catch((err) => {
         console.warn("[GitHubBadge] Failed to fetch stars:", err);
