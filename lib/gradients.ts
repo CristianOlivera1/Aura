@@ -5004,3 +5004,18 @@ export function scaleBlurFull(blur: number): { mobile: number; desktop: number }
     desktop: Math.min(260, Math.round(blur * 3.6)),
   };
 }
+
+/* ── Featured gradients ──
+   Shown first in the grid (no visual label), pinned by id in this order. */
+export const FEATURED_IDS: string[] = [
+  "sunrise-drift",
+  "golden-hour",
+  "midnight-sapphire",
+  "grain-dusty-rose",
+  "aurora-nova",
+  "aurora-borealis",
+  "aurora-beams",
+  "midnight-horizon",
+  "champagne-fizz",
+  "deep-lagoon",
+];

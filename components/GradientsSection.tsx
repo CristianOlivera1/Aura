@@ -6,7 +6,7 @@ import { GradientCard } from "@/components/GradientCard";
 import { useGradients } from "@/components/GradientProvider";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { GRADIENTS, CATEGORIES, type Category } from "@/lib/gradients";
+import { GRADIENTS, FEATURED_IDS, CATEGORIES, type Category } from "@/lib/gradients";
 
 type CategoryFilter = "all" | Category;
 
@@ -59,11 +59,19 @@ export function GradientsSection() {
   }, [active, category, query, applyCategory, applyQuery]);
 
   const q = query.trim().toLowerCase();
-  const visible = GRADIENTS.filter(
+  const filtered = GRADIENTS.filter(
     (g) =>
       (category === "all" || g.category === category) &&
       (!q || g.name.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q)),
   );
+
+  /* Featured gradients are pinned to the front of the grid, in FEATURED_IDS order */
+  const visible = [
+    ...(FEATURED_IDS.map((id) => filtered.find((g) => g.id === id)).filter(
+      (g): g is (typeof filtered)[number] => Boolean(g),
+    ) as (typeof filtered)[number][]),
+    ...filtered.filter((g) => !FEATURED_IDS.includes(g.id)),
+  ];
 
   /* Load more cards as the sentinel enters the viewport (shrinks SSR HTML) */
   useEffect(() => {
@@ -160,23 +168,23 @@ export function GradientsSection() {
             </Badge>
           </div>
           <div className="flex items-center gap-2 text-lg">
-<Badge
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Scroll to ${active?.name ?? "the"} gradient card`}
-                      title="Scroll to the previewed gradient"
-                      onClick={scrollToActiveCard}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          scrollToActiveCard();
-                        }
-                      }}
-                      className="cursor-pointer hover:border-accent hover:text-accent transition-colors"
-                    >
-                      <span className="text-sm sm:text-muted-fg">Previewing -</span>
-                      <span className="text-sm font-medium">{active?.name ?? "none"}</span>
-                    </Badge>
+            <Badge
+              role="button"
+              tabIndex={0}
+              aria-label={`Scroll to ${active?.name ?? "the"} gradient card`}
+              title="Scroll to the previewed gradient"
+              onClick={scrollToActiveCard}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  scrollToActiveCard();
+                }
+              }}
+              className="cursor-pointer hover:border-accent hover:text-accent transition-colors"
+            >
+              <span className="text-sm sm:text-muted-fg">Previewing -</span>
+              <span className="text-sm font-medium">{active?.name ?? "none"}</span>
+            </Badge>
             <span className="w-px h-4 bg-muted mx-1" />
             <Button
               onClick={random}
@@ -206,11 +214,6 @@ export function GradientsSection() {
               const idx = CATEGORIES.findIndex((c) => c.id === category);
               if (idx !== -1) handleTabKeyDown(e, idx);
             }}
-            // Cambios realizados aquí:
-            // - `flex sm:inline-flex`: flex en móviles para tomar el ancho disponible, inline-flex en escritorio.
-            // - `flex-nowrap sm:flex-wrap`: una sola línea en móviles, envuelve en escritorio.
-            // - `overflow-x-auto`: permite el scroll horizontal.
-            // - Clases para ocultar la barra de scroll en todos los navegadores.
             className="glass border border-muted flex sm:inline-flex flex-nowrap sm:flex-wrap items-center gap-1 p-1 squircle-element overflow-x-auto max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {CATEGORIES.map((cat, i) => {
@@ -228,11 +231,10 @@ export function GradientsSection() {
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => applyCategory(cat.id as CategoryFilter)}
                   // Agregado `shrink-0` y `whitespace-nowrap` para evitar que los botones se encojan y quiebren el texto
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element shrink-0 whitespace-nowrap ${
-                    isActive
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element shrink-0 whitespace-nowrap ${isActive
                       ? "bg-accent text-accent-fg shadow-sm"
                       : "text-muted-fg hover:text-fg hover:bg-muted/30"
-                  }`}
+                    }`}
                 >
                   <Icon icon={cat.icon} width={13} height={13} />
                   {cat.label}
