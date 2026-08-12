@@ -216,13 +216,13 @@ export function Customizer() {
   const exportRef = useRef<HTMLDivElement>(null);
 
   const code = useMemo(
-    () => (active ? exportGradient(format, active, effectiveLayers) : ""),
-    [active, format, effectiveLayers],
+    () => (active ? exportGradient(format, active, effectiveLayers, !isDark) : ""),
+    [active, format, effectiveLayers, isDark],
   );
 
   const aiPrompt = useMemo(
-    () => (active ? generateAIPrompt(active, effectiveLayers) : ""),
-    [active, effectiveLayers],
+    () => (active ? generateAIPrompt(active, effectiveLayers, effectiveGrain, !isDark) : ""),
+    [active, effectiveLayers, effectiveGrain, isDark],
   );
 
   const handleCopy = useCallback(

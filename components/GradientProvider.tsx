@@ -256,7 +256,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setThemeOverride(null);
     setPreviewReturn({ y });
     previewReturnRef.current = { y };
-    window.history.pushState(null, "", `?g=${id}`);
+    window.history.pushState(null, "", `?gradient=${id}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
