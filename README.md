@@ -36,10 +36,6 @@
 
 ### AI Prompt
 - One click copies a ready-to-paste prompt for **ChatGPT, Claude, or Copilot** that rebuilds the gradient in any project
-
-### Favorites
-- Heart any gradient and keep a personal favorites list, saved in your browser
-
 ---
 
 ## Screenshot
