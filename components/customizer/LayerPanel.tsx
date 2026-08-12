@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { Icon } from "@iconify/react";
 import type { Layer } from "@/lib/gradients";
-import { extractDominantColor } from "@/hooks/useGradientParser";
+import { extractDominantColor, toHex, replaceDominantColor } from "@/hooks/useGradientParser";
 import { CustomSelect } from "@/components/customizer/CustomSelect";
 
 const BLEND_MODES = [
@@ -78,6 +78,15 @@ function LayerRow({
   onMoveDown?: () => void;
 }) {
   const dominantColor = extractDominantColor(layer.background);
+  const colorHex = toHex(dominantColor);
+
+  const handleColorChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newBg = replaceDominantColor(layer.background, dominantColor, e.target.value);
+      onUpdate({ ...layer, background: newBg });
+    },
+    [layer, dominantColor, onUpdate],
+  );
 
   const handleBlendChange = useCallback(
     (value: string) => {
@@ -105,10 +114,19 @@ function LayerRow({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full border border-white/30 shrink-0"
-            style={{ backgroundColor: dominantColor }}
-          />
+          <label
+            className="relative w-4 h-4 rounded-full border border-white/30 overflow-hidden shrink-0 cursor-pointer"
+            title="Edit dominant color"
+          >
+            <input
+              type="color"
+              value={colorHex}
+              onChange={handleColorChange}
+              aria-label={`Layer ${index + 1} dominant color`}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+            <span className="absolute inset-0" style={{ backgroundColor: dominantColor }} />
+          </label>
           <span className="text-xs text-white/80 font-medium">Layer {index + 1}</span>
         </div>
         <div className="flex items-center gap-1">

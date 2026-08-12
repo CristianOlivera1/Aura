@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { CopyToast } from "@/components/CopyToast";
+import { CopyToast } from "@/components/ui/CopyToast";
 import { useGradients } from "@/components/GradientProvider";
 
 export function CopyToastWrapper() {

@@ -21,11 +21,6 @@ import { resolveBlendMode, scaleBlurFull } from "@/lib/gradients";
 const EXPORT_W = 1600;
 const EXPORT_H = 900;
 
-/** Scale blur for fullscreen/download — raw values are for card thumbnails */
-function scaleBlur(blur: number): number {
-  return blur > 0 ? 90 : 0;
-}
-
 /** True if the PNG data URL has actual painted pixels (not fully transparent) */
 function hasVisiblePixels(dataUrl: string): Promise<boolean> {
   return new Promise((resolve) => {
@@ -68,6 +63,9 @@ export function Customizer() {
     effectiveLayers,
     effectiveGrain,
     isDark,
+    toggleTheme,
+    favorites,
+    toggleFavorite,
     custom,
     dispatchCustom,
     showToast,
@@ -216,13 +214,13 @@ export function Customizer() {
   const exportRef = useRef<HTMLDivElement>(null);
 
   const code = useMemo(
-    () => (active ? exportGradient(format, active, effectiveLayers) : ""),
-    [active, format, effectiveLayers],
+    () => (active ? exportGradient(format, active, effectiveLayers, !isDark) : ""),
+    [active, format, effectiveLayers, isDark],
   );
 
   const aiPrompt = useMemo(
-    () => (active ? generateAIPrompt(active, effectiveLayers) : ""),
-    [active, effectiveLayers],
+    () => (active ? generateAIPrompt(active, effectiveLayers, effectiveGrain, !isDark) : ""),
+    [active, effectiveLayers, effectiveGrain, isDark],
   );
 
   const handleCopy = useCallback(
@@ -353,6 +351,21 @@ export function Customizer() {
           <Icon icon="lucide:chevron-right" width={18} height={18} />
         </button>
 
+        {/* Favorite toggle */}
+        <button
+          onClick={() => toggleFavorite(active.id)}
+          title={favorites.includes(active.id) ? "Remove from favorites" : "Save as favorite"}
+          aria-label={favorites.includes(active.id) ? "Remove from favorites" : "Save as favorite"}
+          aria-pressed={favorites.includes(active.id)}
+          className={`absolute top-4 right-4 z-30 bg-black/30 backdrop-blur-sm border w-10 h-10 flex items-center justify-center rounded-full transition-all ${
+            favorites.includes(active.id)
+              ? "text-rose-400 fill-current border-white/30"
+              : "text-white/70 hover:text-white hover:border-white/30 border-white/15"
+          }`}
+        >
+          <Icon icon="mdi:heart" width={18} height={18} />
+        </button>
+
         {/* Gradient name overlay */}
         <div className="absolute bottom-6 left-6 z-20">
           <h2 className="text-xl font-semibold text-white">{active.name}</h2>
@@ -364,7 +377,7 @@ export function Customizer() {
 
       {/* ══ Right: Control Panel ══ */}
       {/* Aplicando los tonos oscuros de la imagen: #0a0a0a para el panel general y bordes sutiles white/5 */}
-      <div className="w-[400px] bg-[#0a0a0a] border-l border-white/5 flex flex-col overflow-hidden">
+      <div className="w-[420px] bg-[#0a0a0a] border-l border-white/5 flex flex-col overflow-hidden">
         {/* Panel header - Fondo ligeramente contrastado */}
         <div className="flex items-center justify-between px-5 py-2 border-b border-white/5 bg-[#0d0d0d]">
           <div className="flex items-center gap-2">
@@ -404,6 +417,16 @@ export function Customizer() {
               className="text-white/40 hover:text-white disabled:opacity-30 disabled:hover:text-white/40 transition-colors p-1.5 rounded hover:bg-white/5"
             >
               <Icon icon="lucide:redo-2" width={14} height={14} />
+            </button>
+            <button
+              onClick={toggleTheme}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label="Toggle theme"
+              className="text-white/40 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5"
+            >
+              <span key={isDark ? "moon" : "sun"} className="theme-icon-enter">
+                <Icon icon={isDark ? "lucide:moon" : "lucide:sun"} width={14} height={14} />
+              </span>
             </button>
             <button
               onClick={toggleFullscreen}
@@ -570,7 +593,10 @@ export function Customizer() {
                     layer.blendMode,
                     !isDark,
                   ) as React.CSSProperties["mixBlendMode"],
-                  filter: layer.blur > 0 ? `blur(${scaleBlur(layer.blur)}px)` : undefined,
+                  filter:
+                    layer.blur > 0
+                      ? `blur(${scaleBlurFull(layer.blur).desktop}px)`
+                      : undefined,
                   opacity: layer.opacity ?? 1,
                 }}
               />

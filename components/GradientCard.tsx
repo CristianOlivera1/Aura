@@ -13,8 +13,10 @@ interface Props {
 }
 
 export function GradientCard({ gradient, index }: Props) {
-  const { active, apply, preview, toggleFullscreen, flashTick } = useGradients();
+  const { active, apply, preview, toggleFullscreen, flashTick, favorites, toggleFavorite } =
+    useGradients();
   const isActive = active?.id === gradient.id;
+  const isFavorite = favorites.includes(gradient.id);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -73,12 +75,22 @@ export function GradientCard({ gradient, index }: Props) {
 
   const handleCardKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.target !== e.currentTarget) return;
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         preview(gradient.id);
       }
     },
     [preview, gradient.id],
+  );
+
+  const handleToggleFavorite = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFavorite(gradient.id);
+    },
+    [toggleFavorite, gradient.id],
   );
 
   return (
@@ -153,14 +165,32 @@ export function GradientCard({ gradient, index }: Props) {
 
         {/* Active badge */}
         {isActive && (
-          <span className="glass-white absolute top-4 right-4 inline-flex items-center justify-center px-3 py-1.5 rounded-full text-[11px] font-bold shadow-lg z-30 tracking-wider">
-
-            {/* El texto en mayúsculas notable */}
+          <span className="glass-white absolute top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center px-3 py-1.5 rounded-full text-[11px] font-bold shadow-lg z-30 tracking-wider">
             <span className="uppercase tracking-widest text-[10px] text-neutral-950 font-black">
               Active
             </span>
           </span>
         )}
+
+        {/* Favorite toggle */}
+        <button
+          onClick={handleToggleFavorite}
+          title={isFavorite ? "Remove from favorites" : "Save as favorite"}
+          aria-label={isFavorite ? "Remove from favorites" : "Save as favorite"}
+          aria-pressed={isFavorite}
+          className={`absolute top-4 right-4 z-40 flex items-center justify-center p-1.5 transition-all duration-200 ${isFavorite
+            ? "text-rose-500 scale-110 drop-shadow-[0_2px_8px_rgba(244,63,94,0.4)]"
+            : "text-white/60 hover:text-white hover:scale-110"
+            }`}
+        >
+          <Icon
+            icon="mdi:heart"
+            width={16}
+            height={16}
+            className={isFavorite ? "fill-current" : ""}
+          />
+        </button>
+
 
         {/* Category badge */}
         {categoryMeta && (
@@ -170,9 +200,11 @@ export function GradientCard({ gradient, index }: Props) {
         )}
 
         {/* Name + description (Con mayor separación y padding de margen) */}
-        <div className="absolute left-5 bottom-5 right-5 leading-tight z-10 flex flex-col gap-1.5">
-          <p className="text-base text-white font-semibold">{gradient.name}</p>
-          <p className="text-xs text-white/70">{gradient.desc}</p>
+        <div className="absolute left-5 bottom-5 right-5 leading-tight z-10 flex items-start justify-between gap-2">
+          <div className="flex flex-col gap-1.5">
+            <p className="text-base text-white font-semibold">{gradient.name}</p>
+            <p className="text-xs text-white/70">{gradient.desc}</p>
+          </div>
         </div>
 
         {/* Corner marks */}

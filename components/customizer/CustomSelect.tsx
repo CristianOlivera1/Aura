@@ -17,15 +17,18 @@ interface Props {
 
 /**
  * Custom dropdown select with dark glass styling.
- * Replaces native <select> with a styled popover.
+ * Replaces native <select> with a styled combobox popover.
+ * Keyboard: ArrowUp/Down, Home, End move the active option (reflected via
+ * aria-activedescendant), Enter/Space select, Escape or Tab closes.
  */
 export function CustomSelect({ value, options, onChange, className = "" }: Props) {
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const listId = useId();
-  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const listId = useId().replace(/[^a-zA-Z0-9]/g, "");
 
   const selected = options.find((o) => o.value === value);
+  const optionId = useCallback((i: number) => `${listId}-option-${i}`, [listId]);
 
   // Close on click outside
   useEffect(() => {
@@ -39,7 +42,7 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  // Close on Escape
+  // Close on Escape (wherever the focus is)
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => {
@@ -49,12 +52,17 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
 
-  // Focus the current option when the list opens
+  // Keep the active option in view as it changes
   useEffect(() => {
     if (!open) return;
-    const idx = options.findIndex((o) => o.value === value);
-    optionRefs.current[Math.max(0, idx)]?.focus();
-  }, [open, options, value]);
+    const active = ref.current?.querySelector<HTMLElement>(`[id="${optionId(activeIndex)}"]`);
+    active?.scrollIntoView({ block: "nearest" });
+  }, [open, activeIndex, optionId]);
+
+  const openList = useCallback(() => {
+    setActiveIndex(Math.max(0, options.findIndex((o) => o.value === value)));
+    setOpen(true);
+  }, [options, value]);
 
   const handleSelect = useCallback(
     (val: string) => {
@@ -64,40 +72,66 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
     [onChange],
   );
 
-  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-      e.preventDefault();
-      setOpen(true);
+  const selectActive = useCallback(() => {
+    const opt = options[activeIndex];
+    if (opt) handleSelect(opt.value);
+  }, [activeIndex, options, handleSelect]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!open) {
+      if (["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        openList();
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setActiveIndex((i) => Math.min(options.length - 1, i + 1));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setActiveIndex((i) => Math.max(0, i - 1));
+        break;
+      case "Home":
+        e.preventDefault();
+        setActiveIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setActiveIndex(options.length - 1);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        selectActive();
+        break;
+      case "Escape":
+        setOpen(false);
+        break;
     }
   };
 
-  const handleListKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const current = optionRefs.current.findIndex((el) => el === document.activeElement);
-    let next = -1;
-    if (e.key === "ArrowDown") {
-      next = current < 0 ? 0 : Math.min(options.length - 1, current + 1);
-    } else if (e.key === "ArrowUp") {
-      next = current < 0 ? options.length - 1 : Math.max(0, current - 1);
-    } else if (e.key === "Home") {
-      next = 0;
-    } else if (e.key === "End") {
-      next = options.length - 1;
-    }
-    if (next >= 0) {
-      e.preventDefault();
-      optionRefs.current[next]?.focus();
+  // Close when focus leaves the component entirely (Tab, click on another field)
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget as Node | null;
+    if (next && ref.current && !ref.current.contains(next)) {
+      setOpen(false);
     }
   };
 
   return (
-    <div ref={ref} className={`relative ${className}`}>
+    <div ref={ref} className={`relative ${className}`} onBlur={handleBlur} onKeyDown={handleKeyDown}>
       {/* Trigger */}
       <button
-        onClick={() => setOpen((o) => !o)}
-        onKeyDown={handleTriggerKeyDown}
+        type="button"
+        onClick={() => (open ? setOpen(false) : openList())}
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
+        aria-activedescendant={open ? optionId(activeIndex) : undefined}
         className="flex items-center justify-between w-full bg-white/5 border border-white/10 hover:border-white/25 text-white text-[12px] squircle-element px-2.5 py-1.5 outline-none transition-colors"
       >
         <span className="truncate">{selected?.label ?? value}</span>
@@ -115,7 +149,6 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
           id={listId}
           role="listbox"
           aria-label="Select an option"
-          onKeyDown={handleListKeyDown}
           className="absolute left-0 right-0 top-full mt-1 z-50 bg-[#16161e]/95 backdrop-blur-xl border border-white/15 squircle-element shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden"
           style={{ animation: "select-in 0.15s ease-out both" }}
         >
@@ -123,14 +156,13 @@ export function CustomSelect({ value, options, onChange, className = "" }: Props
             {options.map((option, i) => (
               <button
                 key={option.value}
-                ref={(el) => {
-                  optionRefs.current[i] = el;
-                }}
+                type="button"
+                id={optionId(i)}
                 role="option"
                 aria-selected={option.value === value}
                 onClick={() => handleSelect(option.value)}
                 className={`flex items-center gap-2 w-full text-left px-3 py-1.5 text-[11px] transition-colors ${
-                  option.value === value
+                  i === activeIndex
                     ? "bg-white/10 text-white"
                     : "text-white/60 hover:bg-white/5 hover:text-white"
                 }`}

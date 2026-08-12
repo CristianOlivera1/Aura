@@ -4,7 +4,6 @@ import Link from "next/link";
 import { CONIC_GRADIENT, GITHUB_URL } from "@/lib/constants";
 import { Logo } from "@/components/layout/Header";
 import { Button } from "@/components/ui/Button";
-import { GitHubBadge } from "@/components/ui/GitHubBadge";
 
 export function Footer() {
   return (
@@ -30,8 +29,7 @@ export function Footer() {
           icon="lucide:github"
           className="mt-6"
         >
-          Star on GitHub <span className="text-lg text-muted-fg">· </span>
-          <GitHubBadge className="text-lg text-muted-fg" />
+          Star on GitHub
         </Button>
         <p className="mt-8 text-xs text-muted-fg">
           <Link

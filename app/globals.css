@@ -164,17 +164,6 @@ button{
   }
 }
 
-@keyframes fullscreen-out {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-}
-
 /* ── Toast ── */
 
 @keyframes toast-in {
@@ -255,20 +244,6 @@ button{
 .marks:hover .corner-mark,
 .marks.is-active .corner-mark {
   color: var(--color-accent);
-}
-
-.mood-tab {
-  border-bottom: 2px solid transparent;
-  color: var(--color-muted-fg);
-}
-
-.mood-tab.is-active {
-  border-color: var(--color-accent);
-  color: var(--color-fg);
-}
-
-.card-hidden {
-  display: none;
 }
 
 .swatch-overlay {

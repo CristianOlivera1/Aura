@@ -163,6 +163,9 @@ interface GradientContextValue {
   dismissPreviewReturn: () => void;
   /** Increments every time the user returns to the gallery, to flash the active card */
   flashTick: number;
+  /* ── Favorites (persisted in localStorage) ── */
+  favorites: string[];
+  toggleFavorite: (id: string) => void;
   /* ── Customizer ── */
   custom: CustomState;
   dispatchCustom: React.Dispatch<CustomAction>;
@@ -180,12 +183,58 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const [previewReturn, setPreviewReturn] = useState<{ y: number } | null>(null);
   const previewReturnRef = useRef<{ y: number } | null>(null);
   const [flashTick, setFlashTick] = useState(0);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const toastId = useRef(0);
+
+  const FAVORITES_KEY = "aura:favorites";
+  const LEGACY_FAVORITE_KEY = "aura:favorite";
+
+  // Restore saved favorites on mount (migrating the legacy single-favorite key)
+  useEffect(() => {
+    let next: string[] | null = null;
+    try {
+      const raw = window.localStorage.getItem(FAVORITES_KEY);
+      if (raw) {
+        const parsed: unknown = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          next = parsed.filter(
+            (id): id is string =>
+              typeof id === "string" && GRADIENTS.some((g) => g.id === id),
+          );
+        }
+      }
+      if (next === null) {
+        const legacy = window.localStorage.getItem(LEGACY_FAVORITE_KEY);
+        if (legacy && GRADIENTS.some((g) => g.id === legacy)) {
+          next = [legacy];
+        }
+      }
+    } catch {
+      // localStorage unavailable — ignore
+    }
+    if (next === null) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFavorites(next);
+  }, []);
 
   const active = useMemo(
     () => GRADIENTS.find((g) => g.id === activeId) ?? null,
     [activeId],
   );
+
+  const toggleFavorite = useCallback((id: string) => {
+    setFavorites((prev) => {
+      const next = prev.includes(id)
+        ? prev.filter((f) => f !== id)
+        : [...prev, id];
+      try {
+        window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  }, []);
 
   /* ── Customizer reducer ── */
   const [custom, dispatchCustom] = useReducer(customReducer, {
@@ -237,7 +286,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const next = GRADIENTS[(idx + 1) % GRADIENTS.length];
     setActiveId(next.id);
-    setThemeOverride(null);
   }, [active]);
 
   const goPrev = useCallback(() => {
@@ -245,7 +293,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const prev = GRADIENTS[(idx - 1 + GRADIENTS.length) % GRADIENTS.length];
     setActiveId(prev.id);
-    setThemeOverride(null);
   }, [active]);
 
   /* ── Preview scroll UX ── */
@@ -281,7 +328,6 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const pick = pool[Math.floor(Math.random() * pool.length)];
     if (!pick) return;
     setActiveId(pick.id);
-    setThemeOverride(null);
   }, [activeId]);
 
   /* ── Deep-linking: keep the selected gradient in sync with the URL ── */
@@ -334,7 +380,8 @@ export function GradientProvider({ children }: { children: ReactNode }) {
         }),
       apply: (id) => {
         setActiveId(id);
-        setThemeOverride(null);
+        // Keep the user's theme override so the customizer (and its exported
+        // code/prompt) shows exactly what the user picks for the theme.
       },
       reset: () => {
         const def = GRADIENTS[0];
@@ -359,12 +406,14 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       backToGallery,
       dismissPreviewReturn,
       flashTick,
+      favorites,
+      toggleFavorite,
       custom,
       dispatchCustom,
       effectiveLayers,
       effectiveGrain,
     }),
-    [active, effectiveLight, fullscreen, toasts, showToast, dismissToast, themeOverride, goNext, goPrev, random, preview, previewReturn, backToGallery, dismissPreviewReturn, flashTick, custom, effectiveLayers, effectiveGrain],
+    [active, effectiveLight, fullscreen, toasts, showToast, dismissToast, themeOverride, goNext, goPrev, random, preview, previewReturn, backToGallery, dismissPreviewReturn, flashTick, favorites, toggleFavorite, custom, effectiveLayers, effectiveGrain],
   );
 
   return (

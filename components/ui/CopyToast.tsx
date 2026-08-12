@@ -34,14 +34,14 @@ export function CopyToast({ message, type, onDone }: ToastProps) {
     >
       <div
         className={`w-5 h-5 rounded-full flex items-center justify-center ${
-          isError ? "bg-red-500/20" : "bg-accent/20"
+          isError ? "bg-red-500/20" : "bg-white"
         }`}
       >
         <Icon
-          icon={isError ? "lucide:circle-alert" : "lucide:check"}
-          width={12}
-          height={12}
-          className={isError ? "text-red-400" : "text-accent"}
+          icon={isError ? "tabler:alert-circle-filled" : "lets-icons:check-fill"}
+          width={20}
+          height={20}
+          className={isError ? "text-red-400" : "text-green-500"}
         />
       </div>
       <span className="text-sm font-medium">{message}</span>
