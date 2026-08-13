@@ -40,7 +40,7 @@ export function Hero() {
                 src="/svg/decorator-like.svg"
                 alt=""
                 aria-hidden="true"
-                className="absolute -left-0.5 bottom-3 w-4 h-auto translate-y-[15%] -z-10 select-none pointer-events-none"
+                className="absolute -left-0.5 bottom-2 sm:bottom-3 w-2 sm:w-4 h-auto translate-y-[15%] -z-10 select-none pointer-events-none"
               />
             </span>{" "}
             light.
