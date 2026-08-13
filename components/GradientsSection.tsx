@@ -40,8 +40,11 @@ export function GradientsSection() {
   const scrollToActiveCard = useCallback(() => {
     if (!active) return;
     const node = document.getElementById(`g-${active.id}`);
+    const behavior = window.matchMedia("(pointer: coarse)").matches
+      ? "auto"
+      : "smooth";
     if (node) {
-      node.scrollIntoView({ behavior: "smooth", block: "center" });
+      node.scrollIntoView({ behavior, block: "center" });
       return;
     }
 
@@ -62,7 +65,7 @@ export function GradientsSection() {
     const target = () =>
       document
         .getElementById(`g-${active.id}`)
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+        ?.scrollIntoView({ behavior, block: "center" });
     // Give React a second frame to commit the larger `count` before scrolling.
     requestAnimationFrame(() => requestAnimationFrame(target));
   }, [active, category, query, applyCategory, applyQuery]);

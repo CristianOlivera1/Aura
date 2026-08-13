@@ -21,16 +21,17 @@ function renderStack(stack: Stack, fading = false, light = false) {
     >
       {stack.layers.map((layer, i) => {
         const b = scaleBlurFull(layer.blur);
-        const blurActive = b.mobile > 0;
+        /* Cap the fullscreen blur radius on mobile: beyond ~120px a gradient
+           looks identical, but the GPU cost keeps climbing. */
+        const blurM = Math.min(b.mobile, 120);
+        const blurActive = blurM > 0;
         return (
           <div
             key={i}
-            className={`absolute inset-0 transform-gpu will-change-transform ${
-              blurActive ? "aura-blur" : ""
-            }`}
+            className={`absolute inset-0 ${blurActive ? "aura-blur" : ""}`}
             style={{
               ...(blurActive
-                ? ({ "--blur-m": `${b.mobile}px`, "--blur-d": `${b.desktop}px` } as React.CSSProperties)
+                ? ({ "--blur-m": `${blurM}px`, "--blur-d": `${b.desktop}px` } as React.CSSProperties)
                 : {}),
               backgroundImage: layer.background,
               backgroundSize: layer.backgroundSize ?? "cover",
@@ -68,6 +69,14 @@ export function AuraBackground() {
       return;
     }
     if (lastLayers.current === effectiveLayers && lastGrain.current === effectiveGrain) return;
+
+    // Mobile GPUs struggle with two full-screen blurred stacks crossfading at
+    // once — swap instantly there and keep the crossfade on desktop only.
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      lastLayers.current = effectiveLayers;
+      lastGrain.current = effectiveGrain;
+      return;
+    }
 
     setPrevStack({ layers: lastLayers.current, grain: lastGrain.current });
     lastLayers.current = effectiveLayers;
