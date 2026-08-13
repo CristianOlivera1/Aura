@@ -13,7 +13,7 @@
 </div>
 
 <div align="center">
-  <img width="1570" height="919" alt="localhost_3000__g=aurora-borealis (1)" src="https://github.com/user-attachments/assets/582f70e6-2423-4791-b991-c7db3e9b0fed" />
+  <img width="1408" height="798" alt="Captura de pantalla 2026-08-12 140449 (1)" src="https://github.com/user-attachments/assets/23423302-1ce9-4b62-a402-77fed94219cc" />
   <br>
 </div>
 
@@ -39,9 +39,8 @@
 ---
 
 ## Screenshot
-
-<img width="1408" height="798" alt="Captura de pantalla 2026-08-12 140449 (1)" src="https://github.com/user-attachments/assets/23423302-1ce9-4b62-a402-77fed94219cc" />
-
+  <img width="1570" height="919" alt="localhost_3000__g=aurora-borealis (1)" src="https://github.com/user-attachments/assets/582f70e6-2423-4791-b991-c7db3e9b0fed" />
+  
 ---
 
 ## Quick Start
