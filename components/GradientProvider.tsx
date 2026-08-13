@@ -281,19 +281,33 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
+  /* Keep the `?g=` query param in sync with the active gradient (deep-link) */
+  const syncURL = useCallback((id: string | null) => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (id) {
+      url.searchParams.set("g", id);
+    } else {
+      url.searchParams.delete("g");
+    }
+    window.history.replaceState(null, "", url);
+  }, []);
+
   const goNext = useCallback(() => {
     if (!active) return;
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const next = GRADIENTS[(idx + 1) % GRADIENTS.length];
     setActiveId(next.id);
-  }, [active]);
+    syncURL(next.id);
+  }, [active, syncURL]);
 
   const goPrev = useCallback(() => {
     if (!active) return;
     const idx = GRADIENTS.findIndex((g) => g.id === active.id);
     const prev = GRADIENTS[(idx - 1 + GRADIENTS.length) % GRADIENTS.length];
     setActiveId(prev.id);
-  }, [active]);
+    syncURL(prev.id);
+  }, [active, syncURL]);
 
   /* ── Preview scroll UX ── */
 
@@ -328,7 +342,8 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     const pick = pool[Math.floor(Math.random() * pool.length)];
     if (!pick) return;
     setActiveId(pick.id);
-  }, [activeId]);
+    syncURL(pick.id);
+  }, [activeId, syncURL]);
 
   /* ── Deep-linking: keep the selected gradient in sync with the URL ── */
 
@@ -382,6 +397,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
         setActiveId(id);
         // Keep the user's theme override so the customizer (and its exported
         // code/prompt) shows exactly what the user picks for the theme.
+        syncURL(id);
       },
       reset: () => {
         const def = GRADIENTS[0];
@@ -413,7 +429,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       effectiveLayers,
       effectiveGrain,
     }),
-    [active, effectiveLight, fullscreen, toasts, showToast, dismissToast, themeOverride, goNext, goPrev, random, preview, previewReturn, backToGallery, dismissPreviewReturn, flashTick, favorites, toggleFavorite, custom, effectiveLayers, effectiveGrain],
+    [active, effectiveLight, fullscreen, toasts, showToast, dismissToast, themeOverride, goNext, goPrev, random, preview, previewReturn, backToGallery, dismissPreviewReturn, flashTick, favorites, toggleFavorite, custom, effectiveLayers, effectiveGrain, syncURL],
   );
 
   return (
