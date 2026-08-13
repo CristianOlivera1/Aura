@@ -182,19 +182,21 @@ export function GradientCard({ gradient, index }: Props) {
         />
 
         {/* Hover overlay with actions */}
-        <div className="swatch-overlay absolute inset-0 bg-black/50 grid grid-cols-2 gap-2 place-content-center z-30 p-4">
-          <button
-            onClick={handlePreview}
-            className="w-full flex items-center justify-center gap-1.5 bg-white/95 text-[#14130f] px-3 py-2 text-[12px] font-medium hover:bg-white transition-colors squircle-element shadow-lg"
-          >
-            <Icon icon="lucide:eye" width={13} height={13} /> Preview
-          </button>
-          <button
-            onClick={handleCustomize}
-            className="w-full flex items-center justify-center gap-1.5 bg-white/20 text-white px-3 py-2 text-[12px] font-medium hover:bg-white/40 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
-          >
-            <Icon icon="lucide:sliders-horizontal" width={13} height={13} /> Customize
-          </button>
+        <div className="swatch-overlay absolute inset-0 bg-black/20 backdrop-blur-[1px] grid grid-cols-1 gap-2 place-content-center z-30 p-4">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={handlePreview}
+              className="w-full flex items-center justify-center gap-1.5 bg-white/95 text-[#14130f] px-3 py-2 text-[12px] font-medium hover:bg-white transition-colors squircle-element shadow-lg"
+            >
+              <Icon icon="lucide:eye" width={13} height={13} /> Preview
+            </button>
+            <button
+              onClick={handleCustomize}
+              className="w-full flex items-center justify-center gap-1.5 bg-white/20 text-white px-3 py-2 text-[12px] font-medium hover:bg-white/40 transition-colors backdrop-blur-sm squircle-element border border-white/20 shadow-lg"
+            >
+              <Icon icon="lucide:sliders-horizontal" width={13} height={13} /> Customize
+            </button>
+          </div>
           <button
             onClick={handleCopyPrompt}
             title="Copy AI prompt for this gradient"
@@ -213,7 +215,7 @@ export function GradientCard({ gradient, index }: Props) {
             />
             <span>{copied === "prompt" ? "Copied!" : "Copy Prompt"}</span>
           </button>
-          <button
+          {/* <button
             onClick={handleCopyAll}
             title="Copy all formats"
             aria-label="Copy all formats"
@@ -225,7 +227,7 @@ export function GradientCard({ gradient, index }: Props) {
               height={13}
             />
             {copied === "all" ? "Copied!" : "Copy CSS"}
-          </button>
+          </button> */}
         </div>
 
         {/* Active badge */}

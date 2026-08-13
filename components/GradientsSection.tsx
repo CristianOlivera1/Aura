@@ -33,7 +33,10 @@ export function GradientsSection() {
     setCount(INITIAL_CARDS);
   }, []);
 
-  /* Jump to the card of the currently previewed gradient */
+  /* Jump to the card of the currently previewed gradient.
+     Handles three cases: card already rendered, card below the lazy-load
+     cutoff (bump `count` and wait a frame), or card hidden by filters/search
+     (clear them so it becomes visible). */
   const scrollToActiveCard = useCallback(() => {
     if (!active) return;
     const node = document.getElementById(`g-${active.id}`);
@@ -42,19 +45,25 @@ export function GradientsSection() {
       return;
     }
 
-    // Filtered out or not yet rendered — clear filters and render enough cards.
-    const resetCategory = category !== "all";
-    const resetQuery = query.trim() !== "";
-    if (resetCategory) applyCategory("all");
-    if (resetQuery) applyQuery("");
-    if (!resetCategory && !resetQuery) return;
+    // Not rendered yet — clear filters/search and render enough cards to include it.
+    if (category !== "all") applyCategory("all");
+    if (query.trim() !== "") applyQuery("");
 
-    const idx = GRADIENTS.findIndex((g) => g.id === active.id);
-    setCount(Math.max(INITIAL_CARDS, idx + LOAD_MORE));
+    // Position of the card in the fully-rendered (featured-first) list, since
+    // the featured pinning reorders cards and `GRADIENTS.findIndex` alone can
+    // undercount how many cards are rendered before this one.
+    const pinned = [
+      ...FEATURED_IDS.map((id) => GRADIENTS.find((g) => g.id === id)).filter(Boolean),
+      ...GRADIENTS.filter((g) => !FEATURED_IDS.includes(g.id)),
+    ];
+    const pinnedIdx = pinned.findIndex((g) => g?.id === active.id);
+    setCount(Math.max(INITIAL_CARDS, pinnedIdx + LOAD_MORE));
+
     const target = () =>
       document
         .getElementById(`g-${active.id}`)
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Give React a second frame to commit the larger `count` before scrolling.
     requestAnimationFrame(() => requestAnimationFrame(target));
   }, [active, category, query, applyCategory, applyQuery]);
 
