@@ -311,6 +311,11 @@ export function GradientProvider({ children }: { children: ReactNode }) {
 
   /* ── Preview scroll UX ── */
 
+  const scrollBehavior = () =>
+    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
+      ? "auto"
+      : "smooth";
+
   const preview = useCallback((id: string) => {
     const y = typeof window !== "undefined" ? window.scrollY : 0;
     setActiveId(id);
@@ -318,12 +323,12 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setPreviewReturn({ y });
     previewReturnRef.current = { y };
     window.history.pushState(null, "", `?g=${id}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
   }, []);
 
   const backToGallery = useCallback(() => {
     if (previewReturn) {
-      window.scrollTo({ top: previewReturn.y, behavior: "smooth" });
+      window.scrollTo({ top: previewReturn.y, behavior: scrollBehavior() });
     }
     setPreviewReturn(null);
     previewReturnRef.current = null;
@@ -370,7 +375,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
       if (pending) {
         previewReturnRef.current = null;
         setPreviewReturn(null);
-        window.scrollTo({ top: pending.y, behavior: "smooth" });
+        window.scrollTo({ top: pending.y, behavior: scrollBehavior() });
         setFlashTick((t) => t + 1);
       }
     };

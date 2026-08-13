@@ -323,6 +323,16 @@ button{
   opacity: 1;
 }
 
+/* Skip rasterization of offscreen gallery cards. Each card is a stack of
+   gradient + blend-mode layers; with `content-visibility` the browser only
+   paints the ones near the viewport, which is a big win when scrolling the
+   grid on mobile. `contain-intrinsic-size` reserves layout space so the
+   scrollbar doesn't jump. */
+[data-card] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 380px;
+}
+
 /* Flash ring on the active card when returning from a preview */
 @keyframes card-flash {
   0%,
