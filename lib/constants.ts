@@ -9,4 +9,4 @@ export const SITE_URL = "https://auragradients.vercel.app";
 export const SITE_NAME = "Aura";
 export const SITE_TAGLINE = "Ambient gradient backgrounds";
 export const SITE_DESCRIPTION =
-  "A small, growing set of ambient gradients built from layered blend modes — soft, atmospheric, and easy to drop behind any interface.";
+  "Free CSS gradient generator & maker. Browse ambient and mesh gradients, tune the layers, and copy ready CSS, Tailwind or SVG code into any interface.";

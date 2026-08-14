@@ -1,0 +1,12 @@
+/* TEAM */
+Creator: Cristian Olivera
+Site: https://auragradients.vercel.app
+Contact: https://github.com/CristianOlivera1/Aura
+
+/* THANKS */
+Next.js, React, Tailwind CSS, TypeScript, Vercel
+
+/* SITE */
+Language: English
+Doctype: HTML5
+License: MIT (open source)
