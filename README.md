@@ -25,7 +25,7 @@
 - The whole page picks up the active gradient's glow — light and dark themes included
 
 ### Customizer
-- **Edit in the browser** — add/remove/reorder layers, tweak blend modes, blur, opacity, and base color
+- **In-browser aura gradient generator** — add/remove/reorder layers, tweak blend modes, blur, opacity, and base color
 - **Grain overlay** toggle for an analog film finish
 - Undo/redo as you experiment
 
