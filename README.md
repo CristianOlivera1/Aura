@@ -1,6 +1,6 @@
 <div align="center">
   
-  <img width="700" alt="Frame 1116606756 (1) (1)" src="https://github.com/user-attachments/assets/90eb752e-2db4-4ee6-9ea9-959fc5c433ed" />
+  <img width="600" alt="Frame 1116606756 (1) (1)" src="https://github.com/user-attachments/assets/90eb752e-2db4-4ee6-9ea9-959fc5c433ed" />
 
   # Backgrounds that feel like light
   ### **200+ layered, atmospheric gradients built from soft blend modes — preview them live, tweak them in the browser, and drop them behind any interface.**
