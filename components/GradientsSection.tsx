@@ -14,9 +14,10 @@ const INITIAL_CARDS = 12;
 const LOAD_MORE = 12;
 
 export function GradientsSection() {
-  const { active, reset, random } = useGradients();
+  const { active, reset, random, favorites } = useGradients();
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [query, setQuery] = useState("");
+  const [favOnly, setFavOnly] = useState(false);
   const [count, setCount] = useState(INITIAL_CARDS);
   const catRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -26,10 +27,21 @@ export function GradientsSection() {
   const applyCategory = useCallback((c: CategoryFilter) => {
     setCategory(c);
     setCount(INITIAL_CARDS);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (c === "all") url.searchParams.delete("category");
+      else url.searchParams.set("category", c);
+      window.history.replaceState(null, "", url);
+    }
   }, []);
 
   const applyQuery = useCallback((q: string) => {
     setQuery(q);
+    setCount(INITIAL_CARDS);
+  }, []);
+
+  const applyFavOnly = useCallback(() => {
+    setFavOnly((f) => !f);
     setCount(INITIAL_CARDS);
   }, []);
 
@@ -51,6 +63,7 @@ export function GradientsSection() {
     // Not rendered yet — clear filters/search and render enough cards to include it.
     if (category !== "all") applyCategory("all");
     if (query.trim() !== "") applyQuery("");
+    if (favOnly) setFavOnly(false);
 
     // Position of the card in the fully-rendered (featured-first) list, since
     // the featured pinning reorders cards and `GRADIENTS.findIndex` alone can
@@ -68,12 +81,13 @@ export function GradientsSection() {
         ?.scrollIntoView({ behavior, block: "center" });
     // Give React a second frame to commit the larger `count` before scrolling.
     requestAnimationFrame(() => requestAnimationFrame(target));
-  }, [active, category, query, applyCategory, applyQuery]);
+  }, [active, category, query, favOnly, applyCategory, applyQuery]);
 
   const q = query.trim().toLowerCase();
   const filtered = GRADIENTS.filter(
     (g) =>
       (category === "all" || g.category === category) &&
+      (!favOnly || favorites.includes(g.id)) &&
       (!q || g.name.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q)),
   );
 
@@ -100,6 +114,25 @@ export function GradientsSection() {
     io.observe(sentinel);
     return () => io.disconnect();
   }, [visible.length]);
+
+  /* Keep the `category` filter in sync with the URL (?category=mesh), so the
+     filtered view can be shared and survives reload/back. Mirror of the
+     provider's gradient deep-linking. */
+  useEffect(() => {
+    const readCategory = () => {
+      if (typeof window === "undefined") return;
+      const c = new URLSearchParams(window.location.search).get("category");
+      if (c && c !== "all" && CATEGORIES.some((x) => x.id === c)) {
+        setCategory(c as CategoryFilter);
+      } else {
+        setCategory("all");
+      }
+      setCount(INITIAL_CARDS);
+    };
+    readCategory();
+    window.addEventListener("popstate", readCategory);
+    return () => window.removeEventListener("popstate", readCategory);
+  }, []);
 
   /* Roving-tabindex keyboard nav for the category tabs */
   const handleTabKeyDown = useCallback(
@@ -195,9 +228,11 @@ export function GradientsSection() {
               className="cursor-pointer hover:border-accent hover:text-accent transition-colors"
             >
               <span className="text-sm sm:text-muted-fg">Previewing -</span>
-              <span className="text-sm font-medium">{active?.name ?? "none"}</span>
+              <span className="text-sm font-medium truncate max-w-[60px] inline-block md:max-w-none">
+                {active?.name ?? "none"}
+              </span>
             </Badge>
-            <span className="w-px h-4 bg-muted mx-1" />
+            <span className="w-px h-4 bg-gray-400 mx-1" />
             <Button
               onClick={random}
               title="Random gradient"
@@ -214,6 +249,24 @@ export function GradientsSection() {
               icon="lucide:rotate-ccw"
               iconSize={13}
             />
+            <button
+              type="button"
+              onClick={applyFavOnly}
+              aria-pressed={favOnly}
+              title={favOnly ? "Show all gradients" : "Show favorites only"}
+              aria-label={favOnly ? "Show all gradients" : "Show favorites only"}
+              className={`glass border border-muted w-7 h-7 inline-flex items-center justify-center squircle-element transition-colors ${favOnly
+                ? "text-rose-500 border-rose-500/60"
+                : "hover:border-accent hover:text-accent"
+                }`}
+            >
+              <Icon
+                icon="mdi:heart"
+                width={13}
+                height={13}
+                className={favOnly ? "fill-current" : ""}
+              />
+            </button>
           </div>
         </div>
 
@@ -244,8 +297,8 @@ export function GradientsSection() {
                   onClick={() => applyCategory(cat.id as CategoryFilter)}
                   // Agregado `shrink-0` y `whitespace-nowrap` para evitar que los botones se encojan y quiebren el texto
                   className={`flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-all duration-200 squircle-element shrink-0 whitespace-nowrap ${isActive
-                      ? "bg-accent text-accent-fg shadow-sm"
-                      : "text-muted-fg hover:text-fg hover:bg-muted/30"
+                    ? "bg-accent text-accent-fg shadow-sm"
+                    : "text-muted-fg hover:text-fg hover:bg-muted/30"
                     }`}
                 >
                   <Icon icon={cat.icon} width={13} height={13} />

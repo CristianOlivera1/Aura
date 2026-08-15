@@ -281,13 +281,17 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  /* Keep the `?g=` query param in sync with the active gradient (deep-link) */
+  /* Keep the query params in sync with the active gradient (deep-link).
+     Uses the full `gradient` name and preserves any other params (e.g.
+     `category`) already in the URL. Legacy `g` is read as an alias. */
   const syncURL = useCallback((id: string | null) => {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (id) {
-      url.searchParams.set("g", id);
+      url.searchParams.set("gradient", id);
+      url.searchParams.delete("g");
     } else {
+      url.searchParams.delete("gradient");
       url.searchParams.delete("g");
     }
     window.history.replaceState(null, "", url);
@@ -322,7 +326,12 @@ export function GradientProvider({ children }: { children: ReactNode }) {
     setThemeOverride(null);
     setPreviewReturn({ y });
     previewReturnRef.current = { y };
-    window.history.pushState(null, "", `?g=${id}`);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("gradient", id);
+      url.searchParams.delete("g");
+      window.history.pushState(null, "", url);
+    }
     window.scrollTo({ top: 0, behavior: scrollBehavior() });
   }, []);
 
@@ -355,7 +364,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
   const syncFromURL = useCallback(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    const id = params.get("g");
+    const id = params.get("gradient") ?? params.get("g");
     if (id && GRADIENTS.some((g) => g.id === id)) {
       setActiveId(id);
       setThemeOverride(null);
@@ -415,6 +424,7 @@ export function GradientProvider({ children }: { children: ReactNode }) {
         });
         if (typeof window !== "undefined") {
           const url = new URL(window.location.href);
+          url.searchParams.delete("gradient");
           url.searchParams.delete("g");
           window.history.replaceState(null, "", url);
         }

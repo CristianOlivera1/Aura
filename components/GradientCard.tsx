@@ -108,7 +108,7 @@ export function GradientCard({ gradient, index }: Props) {
     const ok = await copyToClipboard(text.trim());
     if (ok) {
       setCopied("prompt");
-      showToast(`Copied AI prompt for ${gradient.name}`);
+      showToast(`Copied AI prompt`);
     } else {
       showToast("Failed to copy", "error");
     }
@@ -300,8 +300,18 @@ export function GradientCard({ gradient, index }: Props) {
         {/* Name + description (Con mayor separación y padding de margen) */}
         <div className="absolute left-5 bottom-5 right-5 leading-tight z-10 flex items-start justify-between gap-2">
           <div className="flex flex-col gap-1.5">
-            <p className="text-base text-white font-semibold">{gradient.name}</p>
-            <p className="text-xs text-white/70">{gradient.desc}</p>
+            <p
+              className="text-base font-semibold"
+              style={{ color: gradient.cardText ?? "#ffffff" }}
+            >
+              {gradient.name}
+            </p>
+            <p
+              className="text-xs"
+              style={{ color: gradient.cardText ?? "#ffffff", opacity: 0.7 }}
+            >
+              {gradient.desc}
+            </p>
           </div>
         </div>
 

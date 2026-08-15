@@ -22,6 +22,15 @@ const RASTER_SCALE = 0.5;
 const CAPTURE_DELAY = 90;
 const FADE_MS = 400;
 
+/* Repeating patterns (grids, dots, scanlines...) contain 1px-scale detail
+   that is destroyed at 0.5x. Rasterize those at full resolution instead. */
+const needsFullRes = (stack: Stack): boolean =>
+  stack.layers.some(
+    (l) =>
+      !!l.backgroundSize ||
+      /repeating-(linear|radial|conic)-gradient/.test(l.background),
+  );
+
 function stackSignature(stack: Stack, light: boolean): string {
   return `${light}|${stack.grain}|${JSON.stringify(
     stack.layers.map((l) => [
@@ -90,7 +99,7 @@ export function AuraBackground() {
   const cacheRef = useRef(new Map<string, string>());
   const captureNodeRef = useRef<HTMLDivElement>(null);
   const curImgRef = useRef<string | null>(null);
-  const pendingSigRef = useRef<string | null>(null);
+  const pendingRef = useRef<{ sig: string; fullRes: boolean } | null>(null);
   const timerRef = useRef<number | null>(null);
   const fadeTimerRef = useRef<number | null>(null);
 
@@ -124,16 +133,17 @@ export function AuraBackground() {
     }
   }, []);
 
-  /* Rasterize the current stack into a low-res data URL. */
+  /* Rasterize the current stack into a data URL (low-res for soft gradients,
+     full-res for fine repeating patterns so grid lines survive). */
   const runCapture = useCallback(
-    async (sig: string) => {
+    async (sig: string, fullRes: boolean) => {
       const node = captureNodeRef.current;
       if (!node) return;
       try {
         const dataUrl = await toPng(node, {
           width: window.innerWidth,
           height: window.innerHeight,
-          pixelRatio: RASTER_SCALE,
+          pixelRatio: fullRes ? 1 : RASTER_SCALE,
           style: {
             position: "absolute",
             left: "0",
@@ -166,15 +176,15 @@ export function AuraBackground() {
       return;
     }
 
-    pendingSigRef.current = signature;
+    pendingRef.current = { sig: signature, fullRes: needsFullRes(stack) };
     if (timerRef.current !== null) window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {
-      const sig = pendingSigRef.current;
-      if (!sig) return;
-      pendingSigRef.current = null;
-      void runCapture(sig);
+      const p = pendingRef.current;
+      if (!p) return;
+      pendingRef.current = null;
+      void runCapture(p.sig, p.fullRes);
     }, CAPTURE_DELAY);
-  }, [signature, runCapture, commitImage]);
+  }, [signature, stack, runCapture, commitImage]);
 
   useEffect(
     () => () => {

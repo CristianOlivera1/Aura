@@ -59,7 +59,7 @@ export function Hero() {
 
         <div ref={ctaRef} className="reveal relative flex flex-wrap justify-center gap-3 mt-10">
 
-          <div className="absolute -top-4 -left-14 sm:-top-8 sm:-left-32 hidden sm:flex flex-col items-center -rotate-20 text-accent/80 animate-pulse">
+          <div className="absolute -top-4 -left-14 sm:-top-8 sm:-left-32 hidden sm:flex flex-col items-center -rotate-20 text-accent animate-pulse">
             <span className="text-sm mr-10 font-medium italic mb-1 tracking-wide">
               Try it out!
             </span>
