@@ -18,8 +18,6 @@ export function BackToGalleryButton() {
     let lastY = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      // Only dismiss on downward scroll past the hero fold (the smooth scroll
-      // up to the hero moves upward, so it never triggers a dismiss).
       if (y > lastY && y > window.innerHeight * 0.3) {
         dismissPreviewReturn();
       }
@@ -35,10 +33,10 @@ export function BackToGalleryButton() {
   return (
     <button
       onClick={backToGallery}
-      className="fixed bottom-24 right-20 z-40 flex items-center gap-2 glass border border-muted pl-3 pr-4 h-10 rounded-full text-sm font-medium shadow-lg hover:border-accent hover:text-accent transition-colors"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-20 md:left-auto md:translate-x-0 z-40 flex items-center gap-2 glass border border-muted pl-3 pr-4 h-10 rounded-full text-sm font-medium shadow-lg hover:border-accent hover:text-accent transition-all whitespace-nowrap"
     >
       <Icon icon="lucide:arrow-down" width={14} height={14} />
-      Back to gallery
+      Go to selection
     </button>
   );
 }

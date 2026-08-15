@@ -27,6 +27,26 @@ export function GradientCard({ gradient, index }: Props) {
   const highlightRef = useRef<HTMLDivElement>(null);
   const revealRef = useReveal<HTMLDivElement>({ stagger: index % 3 });
 
+  /* Touch devices reveal the action overlay only after an explicit tap
+     (first tap opens, second tap acts). Detected via pointer: coarse. */
+  const [tapOpen, setTapOpen] = useState(false);
+  const coarseRef = useRef(false);
+  useEffect(() => {
+    coarseRef.current = window.matchMedia("(pointer: coarse)").matches;
+  }, []);
+
+  /* Close the touch-open overlay when the user taps anywhere outside the card */
+  useEffect(() => {
+    if (!tapOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        setTapOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [tapOpen]);
+
   /* Flash this card when the user returns to the gallery from a preview */
   const [flash, setFlash] = useState(false);
   const prevFlashTick = useRef(flashTick);
@@ -127,6 +147,17 @@ export function GradientCard({ gradient, index }: Props) {
     [toggleFavorite, gradient.id],
   );
 
+  /* On touch, the first tap only reveals the action overlay; a second tap on
+     a button performs the action. Overlay buttons are pointer-events: none
+     while hidden, so this first tap always lands on the card itself. */
+  const handleCardClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (!coarseRef.current) return;
+    if ((e.target as HTMLElement).closest(".swatch-overlay")) return;
+    e.preventDefault();
+    setTapOpen((o) => !o);
+    e.currentTarget.blur();
+  }, []);
+
   return (
     <div
       ref={revealRef}
@@ -143,8 +174,9 @@ export function GradientCard({ gradient, index }: Props) {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={handleCardClick}
         className={`swatch marks relative w-full aspect-[1/1.15] squircle-element-xl border-r border-b border-muted overflow-hidden transition-all duration-300 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.5)] ${isActive ? "is-active" : ""
-          } ${flash ? "card-flash" : ""}`}
+          } ${flash ? "card-flash" : ""} ${tapOpen ? "is-tap-open" : ""}`}
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Base — same body bg color AuraBackground composites against */}

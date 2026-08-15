@@ -248,11 +248,28 @@ button{
 
 .swatch-overlay {
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.2s ease;
 }
 
-.swatch:hover .swatch-overlay {
+/* Desktop: reveal on a real hover only. Scoping to (hover: hover) prevents
+   the sticky-hover behavior on touch that makes the first tap also land on a
+   freshly revealed button. */
+@media (hover: hover) {
+  .swatch:hover .swatch-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Touch: reveal only after an explicit tap opens the card (2 taps to act).
+   Hidden overlay keeps pointer-events: none so a first tap can never hit an
+   invisible button. */
+.swatch.is-tap-open .swatch-overlay,
+.swatch:focus-within .swatch-overlay,
+.swatch:focus-visible .swatch-overlay {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ── Custom select dropdown ── */
@@ -317,12 +334,6 @@ button{
   }
 }
 
-/* Show the hover overlay on keyboard focus too */
-.swatch:focus-within .swatch-overlay,
-.swatch:focus .swatch-overlay {
-  opacity: 1;
-}
-
 /* Skip rasterization of offscreen gallery cards. Each card is a stack of
    gradient + blend-mode layers; with `content-visibility` the browser only
    paints the ones near the viewport, which is a big win when scrolling the
@@ -331,6 +342,7 @@ button{
 [data-card] {
   content-visibility: auto;
   contain-intrinsic-size: auto 380px;
+  touch-action: manipulation;
 }
 
 /* Flash ring on the active card when returning from a preview */
