@@ -10,9 +10,9 @@ available on GitHub at https://github.com/CristianOlivera1/Aura.
 
 ## Gradient catalog
 
-Total gradients: 203.
+Total gradients: 207.
 
-### Aura (31)
+### Aura (34)
 
 - **Sunrise Drift** (id: `sunrise-drift`): Blue into orange, high key. Theme: light. Mood: vivid.
 - **Ember Glow** (id: `ember-glow`): Coral into deep rose. Theme: light. Mood: warm.
@@ -45,6 +45,9 @@ Total gradients: 203.
 - **Greenflare** (id: `greenflare`): A concentrated emerald flare dissolving into black. Theme: dark. Mood: vivid.
 - **Sage Phantom** (id: `sage-phantom`): Asymmetrical soft sage glow emerging from the bottom right. Theme: dark. Mood: dark.
 - **Abyssal Floor** (id: `abyssal-floor`): Deep cyan glow rising exclusively from the absolute black floor. Theme: dark. Mood: dark.
+- **Vercel Mesh** (id: `vercel-mesh-dust`): Asymmetric edge mesh radiating hyper-tech platinum and deep violet from the corners. Theme: dark. Mood: dark.
+- **Phantom Arc** (id: `phantom-arc`): Deep black void with an expansive electric blue neon arc and an ultra-thin sand rose bottom edge. Theme: dark. Mood: dark.
+- **Vercel Edge** (id: `vercel-edge-glow`): Deep tech aesthetic with a stark silver-white arc fading into a sharp cyberpunk violet edge. Theme: dark. Mood: dark.
 
 ### Mesh (29)
 
@@ -78,7 +81,7 @@ Total gradients: 203.
 - **Copper Patina** (id: `mesh-copper-patina`): Oxidized bronze catching verdigris and rust in equal measure. Theme: dark. Mood: warm.
 - **Starlight Canvas** (id: `mesh-starlight-canvas`): Painter's palette dipped in galaxy dust and constellation ink. Theme: dark. Mood: vivid.
 
-### Nebula (35)
+### Nebula (36)
 
 - **Cosmic Dust** (id: `nebula-cosmic-dust`): Floating violet and cyan orbs in deep space. Theme: dark. Mood: vivid.
 - **Supernova** (id: `nebula-supernova`): Explosive amber and crimson orbs. Theme: light. Mood: warm.
@@ -115,6 +118,7 @@ Total gradients: 203.
 - **Champagne Bubbles** (id: `nebula-champagne-bubbles`): Effervescent gold spheres rising through crystal. Theme: light. Mood: warm.
 - **Blood Aurora** (id: `blood-aurora`): Crimson and gold aurora curtains burning across an absolute night sky. Theme: dark. Mood: dark.
 - **Void Serpent** (id: `void-serpent`): Poisonous green and violet curtains coiling through an absolute void. Theme: dark. Mood: dark.
+- **Vercel Core** (id: `vercel-core`): A stark monochromatic Vercel beam fracturing into a deep cloud indigo ambient glow. Theme: dark. Mood: dark.
 
 ### Prism (16)
 

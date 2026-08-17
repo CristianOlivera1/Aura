@@ -300,12 +300,12 @@ export const GRADIENTS: Gradient[] = [
     desc: "A vibrant transition from deep space blue to an electric sunrise horizon",
     dark: true,
     text: "#ffffff",
-    base: "hsl(240, 100%, 6%)", // El azul ultra oscuro del fondo
+    base: "hsl(240, 100%, 6%)",
     layers: [
       {
         background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
         blendMode: "hard-light",
-        blur: 50,
+        blur: 20,
         opacity: 1,
       },
       {
@@ -336,20 +336,20 @@ export const GRADIENTS: Gradient[] = [
       {
         background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
         blendMode: "hard-light",
-        blur: 40,
+        blur: 35,
         opacity: 1,
       },
       {
         background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 138, 255, 0.9) 40%, rgb(255, 255, 255) 70%, rgb(247, 164, 66) 80%, rgb(233, 66, 247) 100%)",
         blendMode: "soft-light",
-        blur: 40,
+        blur: 10,
         opacity: 1,
       },
       {
         background: "linear-gradient(to top, rgb(0, 0, 31) 0%, rgba(0, 0, 31, 0.85) 8.1%, rgba(0, 0, 31, 0.7) 15.5%, rgba(0, 0, 31, 0.55) 22.5%, rgba(0, 0, 31, 0.4) 29%, rgba(0, 0, 31, 0.25) 35.3%, rgba(0, 0, 31, 0.15) 41.2%, rgba(0, 0, 31, 0) 50%)",
         blendMode: "normal",
-        blur: 0,
-        opacity: 0.5,
+        blur: 100,
+        opacity: 0.1,
       }
     ],
   },
@@ -368,14 +368,14 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,94,58,0.9) 40%, rgb(255,255,255) 70%, rgb(255,159,67) 82%, rgb(236,64,122) 100%)",
         blendMode: "hard-light",
-        blur: 80,
-        opacity: 1,
+        blur: 40,
+        opacity: 0.8,
       },
       {
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(255,94,58,0.9) 40%, rgb(255,255,255) 70%, rgb(255,159,67) 82%, rgb(236,64,122) 100%)",
         blendMode: "soft-light",
-        blur: 80,
+        blur: 0,
         opacity: 1,
       },
       {
@@ -402,15 +402,15 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(56,189,248,0.9) 40%, rgb(255,255,255) 70%, rgb(199,210,254) 82%, rgb(249,168,212) 100%)",
         blendMode: "hard-light",
-        blur: 80,
-        opacity: 1,
+        blur: 15,
+        opacity: 0.55,
       },
       {
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(56,189,248,0.9) 40%, rgb(255,255,255) 70%, rgb(199,210,254) 82%, rgb(249,168,212) 100%)",
         blendMode: "soft-light",
-        blur: 80,
-        opacity: 1,
+        blur: 66,
+        opacity: 0.85,
       },
     ],
   },
@@ -429,21 +429,21 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(34,211,238,0.9) 40%, rgb(255,255,255) 70%, rgb(232,121,249) 82%, rgb(139,92,246) 100%)",
         blendMode: "hard-light",
-        blur: 80,
-        opacity: 1,
+        blur: 20,
+        opacity: 0.8,
       },
       {
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(34,211,238,0.9) 40%, rgb(255,255,255) 70%, rgb(232,121,249) 82%, rgb(139,92,246) 100%)",
         blendMode: "soft-light",
-        blur: 80,
+        blur: 70,
         opacity: 1,
       },
       {
         background:
           "linear-gradient(to top, rgb(8,4,20) 0%, rgba(8,4,20,0.85) 15%, rgba(8,4,20,0.5) 35%, rgba(8,4,20,0.15) 60%, rgba(8,4,20,0) 100%)",
         blendMode: "normal",
-        blur: 0,
+        blur: 15,
         opacity: 0.6,
       },
     ],
@@ -463,15 +463,15 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(220,38,38,0.9) 40%, rgb(255,255,255) 70%, rgb(251,146,60) 82%, rgb(250,204,21) 100%)",
         blendMode: "hard-light",
-        blur: 80,
-        opacity: 1,
+        blur: 25,
+        opacity: 0.6,
       },
       {
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(220,38,38,0.9) 40%, rgb(255,255,255) 70%, rgb(251,146,60) 82%, rgb(250,204,21) 100%)",
         blendMode: "soft-light",
-        blur: 80,
-        opacity: 1,
+        blur: 35,
+        opacity: 0.9,
       },
     ],
   },
@@ -490,7 +490,7 @@ export const GRADIENTS: Gradient[] = [
         background:
           "linear-gradient(rgba(0,0,0,0) 0%, rgba(99,102,241,0.9) 40%, rgb(255,255,255) 70%, rgb(216,180,254) 82%, rgb(244,114,182) 100%)",
         blendMode: "hard-light",
-        blur: 80,
+        blur: 40,
         opacity: 1,
       },
       {
@@ -767,14 +767,12 @@ export const GRADIENTS: Gradient[] = [
     grain: true,
     layers: [
       {
-        // Main light core in the bottom-right corner
         background: "radial-gradient(ellipse 80% 80% at 85% 85%, rgba(135, 165, 155, 0.35) 0%, rgba(80, 110, 105, 0.15) 40%, rgba(0, 0, 0, 0) 70%)",
         blendMode: "screen",
         blur: 50,
         opacity: 1,
       },
       {
-        // A subtle extension of the glow toward the center to give it that "wave" shape
         background: "radial-gradient(ellipse 70% 50% at 65% 75%, rgba(135, 165, 155, 0.12) 0%, rgba(0, 0, 0, 0) 60%)",
         blendMode: "screen",
         blur: 60,
@@ -795,18 +793,77 @@ export const GRADIENTS: Gradient[] = [
     grain: true,
     layers: [
       {
-        // Flattened ellipse concentrated at the base
         background: "radial-gradient(ellipse 120% 70% at 50% 110%, rgba(0, 90, 110, 0.8) 0%, rgba(0, 45, 60, 0.5) 40%, rgba(0, 0, 0, 0) 75%)",
         blendMode: "screen",
         blur: 50,
         opacity: 1,
       },
       {
-        // Bottom linear reinforcement simulating light bouncing off the floor
         background: "linear-gradient(to top, rgba(0, 130, 150, 0.25) 0%, rgba(0, 0, 0, 0) 35%)",
         blendMode: "screen",
         blur: 20,
         opacity: 1,
+      }
+    ],
+  },
+  {
+    id: "phantom-arc",
+    name: "Phantom Arc",
+    category: "aura",
+    mood: "dark",
+    desc: "Deep black void with an expansive electric blue neon arc and an ultra-thin sand rose bottom edge",
+    dark: true,
+    text: "#e0e8ff",
+    base: "#000000",
+    layers: [
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 60%, rgb(12,24,210) 78%, rgba(0,0,0,0) 85%)",
+        blendMode: "screen",
+        blur: 20,
+        opacity: 1,
+      },
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 55%, rgba(12,24,210,0.4) 80%, rgba(0,0,0,0) 100%)",
+        blendMode: "screen",
+        blur: 70,
+        opacity: 0.9,
+      },
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 83.5%, #c8a8a6 84.5%, rgba(0,0,0,0) 85.5%)",
+        blendMode: "lighten",
+        blur: 20,
+        opacity: 0.8,
+      }
+    ],
+  },
+
+  {
+    id: "vercel-edge-glow",
+    name: "Vercel Edge",
+    category: "aura",
+    mood: "dark",
+    desc: "Deep tech aesthetic with a stark silver-white arc fading into a sharp cyberpunk violet edge",
+    dark: true,
+    text: "#ffffff",
+    base: "#000000",
+    layers: [
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 58%, rgb(240,240,245) 76%, rgba(0,0,0,0) 84%)",
+        blendMode: "screen",
+        blur: 25,
+        opacity: 0.9,
+      },
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 50%, rgba(121,42,242,0.35) 78%, rgba(0,0,0,0) 100%)",
+        blendMode: "screen",
+        blur: 80,
+        opacity: 1,
+      },
+      {
+        background: "radial-gradient(ellipse 120% 145% at 50% -50%, rgba(0,0,0,0) 82.5%, #ff007a 83.5%, rgba(0,0,0,0) 84.5%)",
+        blendMode: "lighten",
+        blur: 12,
+        opacity: 0.75,
       }
     ],
   },
@@ -1623,6 +1680,38 @@ export const GRADIENTS: Gradient[] = [
         blur: 30,
         opacity: 0.8,
       },
+    ],
+  },
+
+  {
+    id: "vercel-core",
+    name: "Vercel Core",
+    category: "nebula",
+    mood: "dark",
+    desc: "A stark monochromatic Vercel beam fracturing into a deep cloud indigo ambient glow",
+    dark: true,
+    text: "#ffffff",
+    base: "#000000",
+    grain: true,
+    layers: [
+      {
+        background: "linear-gradient(145deg, transparent 25%, rgba(255,255,255,0.04) 35%, rgba(240,240,245,0.18) 45%, rgba(121,42,242,0.1) 55%, transparent 65%)",
+        blendMode: "screen",
+        blur: 20,
+        opacity: 1,
+      },
+      {
+        background: "radial-gradient(ellipse 85% 25% at 50% 48%, rgba(121,42,242,0.22) 0%, rgba(26,19,92,0.08) 50%, transparent 85%)",
+        blendMode: "screen",
+        blur: 35,
+        opacity: 0.9,
+      },
+      {
+        background: "linear-gradient(145deg, transparent 44.5%, rgba(255,255,255,0.4) 45%, transparent 45.5%)",
+        blendMode: "lighten",
+        blur: 8,
+        opacity: 0.7,
+      }
     ],
   },
 
@@ -5360,8 +5449,8 @@ export const FEATURED_IDS: string[] = [
   "silver-mist",
   "arctic-frost",
   "ember-glow",
-  "deep-lagoon",
-  "eclipse-bloom",
+  "phantom-arc",
+  "vercel-edge-glow",
   "blood-aurora",
-  "prism-spectral-edge"
+  "prism-spectral-edge",
 ];
